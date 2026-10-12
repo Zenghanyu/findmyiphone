@@ -1,0 +1,48 @@
+#!/bin/zsh
+set -euo pipefail
+export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
+cd "${0:A:h}"
+
+if [[ ! -d "$DEVELOPER_DIR" ]]; then
+  print '请先将 Xcode 安装到 /Applications。'
+  exit 1
+fi
+
+runtime_id=com.apple.CoreSimulator.SimRuntime.iOS-27-0
+if ! xcrun simctl list runtimes | grep -q "$runtime_id"; then
+  print '请先在 Xcode → Settings → Components 安装 iOS 27.0 模拟器。'
+  exit 1
+fi
+
+device_id=$(xcrun simctl list devices available -j | /usr/bin/python3 -c 'import json,sys; devices=json.load(sys.stdin)["devices"].get("com.apple.CoreSimulator.SimRuntime.iOS-27-0", []); print(next((d["udid"] for d in devices if d["name"] == "EasyFind Demo"), ""))')
+if [[ -z "$device_id" ]]; then
+  device_id=$(xcrun simctl create 'EasyFind Demo' com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro "$runtime_id")
+fi
+device_state=$(xcrun simctl list devices available -j | /usr/bin/python3 -c 'import json,sys; ident=sys.argv[1]; print(next(d["state"] for ds in json.load(sys.stdin)["devices"].values() for d in ds if d["udid"] == ident))' "$device_id")
+if [[ "$device_state" != Booted ]]; then
+  xcrun simctl boot "$device_id"
+fi
+if [[ -d "$DEVELOPER_DIR/Applications/Simulator.app" ]]; then
+  open -a "$DEVELOPER_DIR/Applications/Simulator.app" --args -CurrentDeviceUDID "$device_id"
+else
+  open -a "$DEVELOPER_DIR/../Applications/DeviceHub.app"
+fi
+xcrun simctl bootstatus "$device_id" -b
+
+build_dir="$HOME/Library/Developer/Xcode/DerivedData/EasyFind-LocalDemo"
+mkdir -p "${build_dir:h}"
+print '正在编译 EasyFind…'
+xcodebuild -project ios/EasyFind/EasyFind.xcodeproj -scheme EasyFind \
+  -configuration Debug -sdk iphonesimulator \
+  -destination "platform=iOS Simulator,id=$device_id" \
+  -derivedDataPath "$build_dir" CODE_SIGNING_ALLOWED=NO build \
+  > "$build_dir-build.log" 2>&1 || {
+    tail -60 "$build_dir-build.log"
+    exit 1
+  }
+demo_app="$build_dir/Build/Products/Debug-iphonesimulator/EasyFind.app"
+bundle_id=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$demo_app/Info.plist")
+xcrun simctl install "$device_id" "$demo_app"
+xcrun simctl launch --terminate-running-process "$device_id" "$bundle_id" -uiMock
+print '已启动模拟演示：点击“扫描标签”，再选择标签查看测距和响铃界面。'
+print '模拟器数据为演示数据，真实 UWB 测距需要 iPhone 与配套标签。'

@@ -1,0 +1,59 @@
+name: EasyFind
+options:
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: "HQPPJN9G8T"
+targets:
+  # ── 客户 App：UI 侧全部源码随工程交付，SDK 以二进制库引入 ──
+  EasyFind:
+    type: application
+    platform: iOS
+    sources:
+      - Sources
+      - Assets.xcassets
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.easyfind.prototype.hqppjn9g8t
+        MARKETING_VERSION: "1.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        INFOPLIST_KEY_CFBundleDisplayName: EasyFind
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Info.plist
+        CODE_SIGN_ENTITLEMENTS: EasyFind.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        OTHER_LDFLAGS: "$(inherited)"
+    dependencies:
+      - framework: ../FindMyTagKit.xcframework
+        embed: true
+      - sdk: CoreBluetooth.framework
+      - sdk: NearbyInteraction.framework
+      - sdk: ARKit.framework
+      - sdk: RealityKit.framework
+  EasyFindUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - SourcesUITests
+    dependencies:
+      - target: EasyFind
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.easyfind.prototype.hqppjn9g8t.uitests
+        TEST_TARGET_NAME: EasyFind
+        GENERATE_INFOPLIST_FILE: YES
+        TARGETED_DEVICE_FAMILY: "1"
+schemes:
+  EasyFind:
+    build:
+      targets:
+        EasyFind: all
+    test:
+      targets:
+        - EasyFindUITests

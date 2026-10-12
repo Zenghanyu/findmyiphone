@@ -1,0 +1,625 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00610B170E0C984634DBDC05 /* TagResultsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5017F1A1D7CAE4C5E20AC016 /* TagResultsPanelView.swift */; };
+		04140A7F052F513C7026050D /* NearbyInteraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8BE9597DB43E17234B1E379 /* NearbyInteraction.framework */; };
+		0C11E098BBAD56B017A63FB5 /* SelfieStickUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FA9E583ED0ABC7DB994E9C /* SelfieStickUITests.swift */; };
+		0FA49DB090B3EF4D1014B431 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C6FFE90D39CA454DCCFAF /* SceneDelegate.swift */; };
+		1180E7AFE084D5054FD6286C /* SignalFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A98CE9E8461409A67DCE254 /* SignalFilters.swift */; };
+		123DD42E3FECFCD513DCA2CE /* EasyFindTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3582F4668547718AAB0234 /* EasyFindTabBarController.swift */; };
+		1FF3431406058F53CBC85CFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9247E2C9ED5D16C6E207C446 /* AppDelegate.swift */; };
+		20C43E831EFB0207EA2732CC /* EasyFindHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23990D402F492DF459674AD /* EasyFindHomeViewController.swift */; };
+		26E91978AB74C087D2F9C444 /* PreciseFindingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837C79435BAB6656B0EF5D36 /* PreciseFindingState.swift */; };
+		3355BF8A3AF7A65AF6AFE47C /* TagRangingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FE4A01FA0FCC692DEEB412 /* TagRangingService.swift */; };
+		3EA10791757DF8884120BF38 /* SelfieStickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C289C6373B032F3F4A8CB06 /* SelfieStickViewController.swift */; };
+		466F63A1E3CE36DCBE43EAE3 /* WorldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BB8A909718B52332BE5216 /* WorldView.swift */; };
+		47336D9C4069271DFFBA93DB /* TagScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152CFAEF12965A32658C999 /* TagScanner.swift */; };
+		493ECB352B861749FFD268A3 /* SelfieStickDemoTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66982BF4C9E0180C85B32EC6 /* SelfieStickDemoTransport.swift */; };
+		7358F3A82946DA062EB6C4E7 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C62D72883F46C33266E8BE /* CoreBluetooth.framework */; };
+		7456C949245DA249E37CFBA6 /* ParticleFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C370B26EF855D60B060E9A9B /* ParticleFieldView.swift */; };
+		7487597AD69A1E2CB0673721 /* CoreBluetoothTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E8BA2A4A84E4DC837F1C45 /* CoreBluetoothTransport.swift */; };
+		7762D3AD83494EFD6EE0CAE2 /* EasyFindUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E143615418090A5C7BF9FB6F /* EasyFindUITests.swift */; };
+		7F36BCA73A222DE696100518 /* BleKeepalivePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868BA0B0C544EC2A30EE9E9D /* BleKeepalivePolicy.swift */; };
+		8472B18DBA5EAF105583A98D /* FindMyTagKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AE39BE7591BDEF458C01F155 /* FindMyTagKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		921446DCA5B888F8CD0C4D13 /* SelfieStickBluetoothTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF553680B784AE645B8B354 /* SelfieStickBluetoothTransport.swift */; };
+		97456E9248D07203751739BF /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EDAF3C4C29ECD4F510A9D3 /* PermissionManager.swift */; };
+		9C4B37934BE6D4788AB6E54C /* SelfieStickService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5854F8E3C2B280BDF11344D /* SelfieStickService.swift */; };
+		AAB5F4673AB4727E11C8787A /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E92E0A14A83B185250AE8B /* ARKit.framework */; };
+		C51BDB3A1BCDAC5B630245C5 /* FindMyTagKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE39BE7591BDEF458C01F155 /* FindMyTagKit.xcframework */; };
+		C70128CA408D648AFD694ABC /* MotoTagRangingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8C50833AA898815AB048A2 /* MotoTagRangingView.swift */; };
+		E0A1BF619C16D363BDA6C32A /* MockMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E23C91545FFADF3641A38F /* MockMode.swift */; };
+		F4262DBBCC90D75966A53232 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8A25076535430C3534A5021 /* Assets.xcassets */; };
+		FABA03DFD6D5FA0F82FFEFB3 /* RealityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188E2FFDAAB6B86986BAE67D /* RealityKit.framework */; };
+		FF1FBC52217094DBE575CD11 /* SelfieStickProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3AF02D981863F7CDE6B542 /* SelfieStickProtocol.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F8FCC4E4A022519F6F08C21C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3AD3F0A0AAD8C6F2DBBFA3A2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F11168A0FBDE4A4CAB5CAA84;
+			remoteInfo = EasyFind;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2DFD715032F3EBC6E6C1BF2C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8472B18DBA5EAF105583A98D /* FindMyTagKit.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		01FE4A01FA0FCC692DEEB412 /* TagRangingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRangingService.swift; sourceTree = "<group>"; };
+		07E8BA2A4A84E4DC837F1C45 /* CoreBluetoothTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTransport.swift; sourceTree = "<group>"; };
+		07E92E0A14A83B185250AE8B /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
+		0C289C6373B032F3F4A8CB06 /* SelfieStickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieStickViewController.swift; sourceTree = "<group>"; };
+		188E2FFDAAB6B86986BAE67D /* RealityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealityKit.framework; path = System/Library/Frameworks/RealityKit.framework; sourceTree = SDKROOT; };
+		1A8C50833AA898815AB048A2 /* MotoTagRangingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotoTagRangingView.swift; sourceTree = "<group>"; };
+		4A98CE9E8461409A67DCE254 /* SignalFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalFilters.swift; sourceTree = "<group>"; };
+		4C2447B7DC6A62CAF49F7F1D /* EasyFindUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyFindUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5017F1A1D7CAE4C5E20AC016 /* TagResultsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagResultsPanelView.swift; sourceTree = "<group>"; };
+		66982BF4C9E0180C85B32EC6 /* SelfieStickDemoTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieStickDemoTransport.swift; sourceTree = "<group>"; };
+		68A8A2CA9B138ABF8C5ECB1B /* EasyFind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyFind.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E3AF02D981863F7CDE6B542 /* SelfieStickProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieStickProtocol.swift; sourceTree = "<group>"; };
+		8152CFAEF12965A32658C999 /* TagScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagScanner.swift; sourceTree = "<group>"; };
+		82E23C91545FFADF3641A38F /* MockMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMode.swift; sourceTree = "<group>"; };
+		837C79435BAB6656B0EF5D36 /* PreciseFindingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreciseFindingState.swift; sourceTree = "<group>"; };
+		868BA0B0C544EC2A30EE9E9D /* BleKeepalivePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleKeepalivePolicy.swift; sourceTree = "<group>"; };
+		9247E2C9ED5D16C6E207C446 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AE39BE7591BDEF458C01F155 /* FindMyTagKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FindMyTagKit.xcframework; path = ../FindMyTagKit.xcframework; sourceTree = "<group>"; };
+		B8EDAF3C4C29ECD4F510A9D3 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		C1FA9E583ED0ABC7DB994E9C /* SelfieStickUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieStickUITests.swift; sourceTree = "<group>"; };
+		C370B26EF855D60B060E9A9B /* ParticleFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleFieldView.swift; sourceTree = "<group>"; };
+		C3BB8A909718B52332BE5216 /* WorldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldView.swift; sourceTree = "<group>"; };
+		C8BE9597DB43E17234B1E379 /* NearbyInteraction.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NearbyInteraction.framework; path = System/Library/Frameworks/NearbyInteraction.framework; sourceTree = SDKROOT; };
+		CF0C6FFE90D39CA454DCCFAF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		D1C62D72883F46C33266E8BE /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		D23990D402F492DF459674AD /* EasyFindHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyFindHomeViewController.swift; sourceTree = "<group>"; };
+		E143615418090A5C7BF9FB6F /* EasyFindUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyFindUITests.swift; sourceTree = "<group>"; };
+		EAF553680B784AE645B8B354 /* SelfieStickBluetoothTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieStickBluetoothTransport.swift; sourceTree = "<group>"; };
+		F5854F8E3C2B280BDF11344D /* SelfieStickService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieStickService.swift; sourceTree = "<group>"; };
+		F8A25076535430C3534A5021 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FF3582F4668547718AAB0234 /* EasyFindTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyFindTabBarController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CF1C53AC7B53E111588A43AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C51BDB3A1BCDAC5B630245C5 /* FindMyTagKit.xcframework in Frameworks */,
+				7358F3A82946DA062EB6C4E7 /* CoreBluetooth.framework in Frameworks */,
+				04140A7F052F513C7026050D /* NearbyInteraction.framework in Frameworks */,
+				AAB5F4673AB4727E11C8787A /* ARKit.framework in Frameworks */,
+				FABA03DFD6D5FA0F82FFEFB3 /* RealityKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2F9154FAA93B3C9ADCE5D01C /* SelfieStick */ = {
+			isa = PBXGroup;
+			children = (
+				EAF553680B784AE645B8B354 /* SelfieStickBluetoothTransport.swift */,
+				66982BF4C9E0180C85B32EC6 /* SelfieStickDemoTransport.swift */,
+				7E3AF02D981863F7CDE6B542 /* SelfieStickProtocol.swift */,
+				F5854F8E3C2B280BDF11344D /* SelfieStickService.swift */,
+				0C289C6373B032F3F4A8CB06 /* SelfieStickViewController.swift */,
+			);
+			path = SelfieStick;
+			sourceTree = "<group>";
+		};
+		4FC10F41CD22160CC84B44CE /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				D23990D402F492DF459674AD /* EasyFindHomeViewController.swift */,
+				5017F1A1D7CAE4C5E20AC016 /* TagResultsPanelView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		5800E72BB1E24398D3525D4E /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				82E23C91545FFADF3641A38F /* MockMode.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		5E1940276DD71F30B44A5D46 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				07E92E0A14A83B185250AE8B /* ARKit.framework */,
+				D1C62D72883F46C33266E8BE /* CoreBluetooth.framework */,
+				AE39BE7591BDEF458C01F155 /* FindMyTagKit.xcframework */,
+				C8BE9597DB43E17234B1E379 /* NearbyInteraction.framework */,
+				188E2FFDAAB6B86986BAE67D /* RealityKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		624DB08266E917C334BF060E /* App */ = {
+			isa = PBXGroup;
+			children = (
+				FF3582F4668547718AAB0234 /* EasyFindTabBarController.swift */,
+				9247E2C9ED5D16C6E207C446 /* AppDelegate.swift */,
+				CF0C6FFE90D39CA454DCCFAF /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		728C79E61325A669B3453610 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				624DB08266E917C334BF060E /* App */,
+				2F9154FAA93B3C9ADCE5D01C /* SelfieStick */,
+				4FC10F41CD22160CC84B44CE /* Home */,
+				EEB20B936671179C42CCF688 /* Ranging */,
+				B6B1C8FCA3C600B90C13A6C9 /* Services */,
+				5800E72BB1E24398D3525D4E /* Support */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		748B7CE119C65B6D69333EC4 /* SourcesUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E143615418090A5C7BF9FB6F /* EasyFindUITests.swift */,
+				C1FA9E583ED0ABC7DB994E9C /* SelfieStickUITests.swift */,
+			);
+			path = SourcesUITests;
+			sourceTree = "<group>";
+		};
+		B6B1C8FCA3C600B90C13A6C9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				868BA0B0C544EC2A30EE9E9D /* BleKeepalivePolicy.swift */,
+				07E8BA2A4A84E4DC837F1C45 /* CoreBluetoothTransport.swift */,
+				B8EDAF3C4C29ECD4F510A9D3 /* PermissionManager.swift */,
+				01FE4A01FA0FCC692DEEB412 /* TagRangingService.swift */,
+				8152CFAEF12965A32658C999 /* TagScanner.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C8191F27059D1C82EEC6D22A = {
+			isa = PBXGroup;
+			children = (
+				F8A25076535430C3534A5021 /* Assets.xcassets */,
+				728C79E61325A669B3453610 /* Sources */,
+				748B7CE119C65B6D69333EC4 /* SourcesUITests */,
+				5E1940276DD71F30B44A5D46 /* Frameworks */,
+				ECB07F589C68DC16491C8966 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		ECB07F589C68DC16491C8966 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				68A8A2CA9B138ABF8C5ECB1B /* EasyFind.app */,
+				4C2447B7DC6A62CAF49F7F1D /* EasyFindUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EEB20B936671179C42CCF688 /* Ranging */ = {
+			isa = PBXGroup;
+			children = (
+				1A8C50833AA898815AB048A2 /* MotoTagRangingView.swift */,
+				C370B26EF855D60B060E9A9B /* ParticleFieldView.swift */,
+				837C79435BAB6656B0EF5D36 /* PreciseFindingState.swift */,
+				4A98CE9E8461409A67DCE254 /* SignalFilters.swift */,
+				C3BB8A909718B52332BE5216 /* WorldView.swift */,
+			);
+			path = Ranging;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		65FDCF17038FFC46DEB1F8AF /* EasyFindUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 25E9C6073AC576EFD76588A8 /* Build configuration list for PBXNativeTarget "EasyFindUITests" */;
+			buildPhases = (
+				FBAB59C2C587B6F005973027 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				779F09DF5945E5BE79381CF0 /* PBXTargetDependency */,
+			);
+			name = EasyFindUITests;
+			packageProductDependencies = (
+			);
+			productName = EasyFindUITests;
+			productReference = 4C2447B7DC6A62CAF49F7F1D /* EasyFindUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		F11168A0FBDE4A4CAB5CAA84 /* EasyFind */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18C27DA4E3DA089F5CDE036F /* Build configuration list for PBXNativeTarget "EasyFind" */;
+			buildPhases = (
+				6D70AEDA6F685953043C0ADC /* Sources */,
+				CF59000F65856E971D81CD8E /* Resources */,
+				CF1C53AC7B53E111588A43AB /* Frameworks */,
+				2DFD715032F3EBC6E6C1BF2C /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EasyFind;
+			packageProductDependencies = (
+			);
+			productName = EasyFind;
+			productReference = 68A8A2CA9B138ABF8C5ECB1B /* EasyFind.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3AD3F0A0AAD8C6F2DBBFA3A2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					65FDCF17038FFC46DEB1F8AF = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+						TestTargetID = F11168A0FBDE4A4CAB5CAA84;
+					};
+					F11168A0FBDE4A4CAB5CAA84 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 46993E2632C7A191BE7745D6 /* Build configuration list for PBXProject "EasyFind" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = C8191F27059D1C82EEC6D22A;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = ECB07F589C68DC16491C8966 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F11168A0FBDE4A4CAB5CAA84 /* EasyFind */,
+				65FDCF17038FFC46DEB1F8AF /* EasyFindUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CF59000F65856E971D81CD8E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4262DBBCC90D75966A53232 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6D70AEDA6F685953043C0ADC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				921446DCA5B888F8CD0C4D13 /* SelfieStickBluetoothTransport.swift in Sources */,
+				493ECB352B861749FFD268A3 /* SelfieStickDemoTransport.swift in Sources */,
+				FF1FBC52217094DBE575CD11 /* SelfieStickProtocol.swift in Sources */,
+				9C4B37934BE6D4788AB6E54C /* SelfieStickService.swift in Sources */,
+				3EA10791757DF8884120BF38 /* SelfieStickViewController.swift in Sources */,
+				123DD42E3FECFCD513DCA2CE /* EasyFindTabBarController.swift in Sources */,
+				1FF3431406058F53CBC85CFE /* AppDelegate.swift in Sources */,
+				7F36BCA73A222DE696100518 /* BleKeepalivePolicy.swift in Sources */,
+				7487597AD69A1E2CB0673721 /* CoreBluetoothTransport.swift in Sources */,
+				20C43E831EFB0207EA2732CC /* EasyFindHomeViewController.swift in Sources */,
+				E0A1BF619C16D363BDA6C32A /* MockMode.swift in Sources */,
+				C70128CA408D648AFD694ABC /* MotoTagRangingView.swift in Sources */,
+				7456C949245DA249E37CFBA6 /* ParticleFieldView.swift in Sources */,
+				97456E9248D07203751739BF /* PermissionManager.swift in Sources */,
+				26E91978AB74C087D2F9C444 /* PreciseFindingState.swift in Sources */,
+				0FA49DB090B3EF4D1014B431 /* SceneDelegate.swift in Sources */,
+				1180E7AFE084D5054FD6286C /* SignalFilters.swift in Sources */,
+				3355BF8A3AF7A65AF6AFE47C /* TagRangingService.swift in Sources */,
+				00610B170E0C984634DBDC05 /* TagResultsPanelView.swift in Sources */,
+				47336D9C4069271DFFBA93DB /* TagScanner.swift in Sources */,
+				466F63A1E3CE36DCBE43EAE3 /* WorldView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FBAB59C2C587B6F005973027 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7762D3AD83494EFD6EE0CAE2 /* EasyFindUITests.swift in Sources */,
+				0C11E098BBAD56B017A63FB5 /* SelfieStickUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		779F09DF5945E5BE79381CF0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F11168A0FBDE4A4CAB5CAA84 /* EasyFind */;
+			targetProxy = F8FCC4E4A022519F6F08C21C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		32EF44C0EBE6D8DBF00E3E4F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EasyFind.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HQPPJN9G8T;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"..\"",
+				);
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EasyFind;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1.0;
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.easyfind.prototype.hqppjn9g8t;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		8BD3AB88896309936E47C554 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.easyfind.prototype.hqppjn9g8t.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = EasyFind;
+			};
+			name = Release;
+		};
+		AA85740FD406EC336EC516C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EasyFind.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HQPPJN9G8T;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"..\"",
+				);
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EasyFind;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1.0;
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.easyfind.prototype.hqppjn9g8t;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		B2BADFCE72A19FE712965CB1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = HQPPJN9G8T;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		B93F2F0B1875391E0C2EA017 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = HQPPJN9G8T;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		BC07E01988BF5571554AD676 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.easyfind.prototype.hqppjn9g8t.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = EasyFind;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		18C27DA4E3DA089F5CDE036F /* Build configuration list for PBXNativeTarget "EasyFind" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA85740FD406EC336EC516C4 /* Debug */,
+				32EF44C0EBE6D8DBF00E3E4F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		25E9C6073AC576EFD76588A8 /* Build configuration list for PBXNativeTarget "EasyFindUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC07E01988BF5571554AD676 /* Debug */,
+				8BD3AB88896309936E47C554 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		46993E2632C7A191BE7745D6 /* Build configuration list for PBXProject "EasyFind" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B93F2F0B1875391E0C2EA017 /* Debug */,
+				B2BADFCE72A19FE712965CB1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3AD3F0A0AAD8C6F2DBBFA3A2 /* Project object */;
+}

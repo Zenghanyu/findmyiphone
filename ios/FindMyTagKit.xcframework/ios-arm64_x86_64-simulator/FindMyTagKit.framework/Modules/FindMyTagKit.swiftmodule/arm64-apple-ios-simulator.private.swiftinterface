@@ -1,0 +1,164 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.4 effective-5.10 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)
+// swift-module-flags: -target arm64-apple-ios16.0-simulator -enable-objc-interop -enable-library-evolution -language-mode 5 -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name FindMyTagKit
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.4
+import ARKit
+import CommonCrypto
+import CoreBluetooth
+import Foundation
+import NearbyInteraction
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+import os.log
+import os
+import simd
+@_Concurrency::MainActor final public class FindMyTagSDK {
+  public struct Config {
+    public var enableARFusion: Swift::Bool
+    public var enableCameraAssistance: Swift::Bool
+    public var externalARSession: ARKit::ARSession?
+    public var watchdogConfig: FindMyTagKit::WatchdogConfig
+    public var enableChipAuthentication: Swift::Bool
+    public static let integrationTestAuthKey: Foundation::Data
+    public init(enableARFusion: Swift::Bool = false, enableCameraAssistance: Swift::Bool = true, externalARSession: ARKit::ARSession? = nil, watchdogConfig: FindMyTagKit::WatchdogConfig = .default, enableChipAuthentication: Swift::Bool = true)
+  }
+  @_Concurrency::MainActor public init(config: FindMyTagKit::FindMyTagSDK.FindMyTagKit::Config = Config())
+  @_Concurrency::MainActor final public func createSession(transport: any FindMyTagKit::TransportHandle) -> FindMyTagKit::RangingSession
+  @_Concurrency::MainActor final public func release()
+  @objc deinit
+}
+public enum FusionState : Swift::Equatable, Swift::CaseIterable {
+  case ok
+  case badState
+  case poorLighting
+  case excessiveMotion
+  case insufficientFeatures
+  case cameraUnavailable
+  case sensorPermissionDenied
+  case estimateIsBimodal
+  case unknown
+  public var estimateLevel: Swift::Int {
+    get
+  }
+  public static func == (a: FindMyTagKit::FusionState, b: FindMyTagKit::FusionState) -> Swift::Bool
+  public typealias AllCases = [FindMyTagKit::FusionState]
+  nonisolated public static var allCases: [FindMyTagKit::FusionState] {
+    get
+  }
+  public func hash(into hasher: inout Swift::Hasher)
+  public var hashValue: Swift::Int {
+    get
+  }
+}
+public struct RangingMeasurement {
+  public let distance: Swift::Float
+  public let azimuth: Swift::Float?
+  public let elevation: Swift::Float?
+  public let rawUwbDistance: Swift::Float
+  public let timestamp: Foundation::TimeInterval
+  public let isConverged: Swift::Bool
+  public let estimateLevel: Swift::Int
+  public let fusedRangeM: Swift::Double?
+  public let fusedBearingRad: Swift::Double?
+  public let rangeErrorStdDevM: Swift::Double?
+  public let bearingErrorStdDevRad: Swift::Double?
+  public let beaconPositionX: Swift::Double?
+  public let beaconPositionY: Swift::Double?
+  public let beaconPositionErrorStdDevM: Swift::Double?
+  public let isBimodal: Swift::Bool
+  public init(distance: Swift::Float, azimuth: Swift::Float?, elevation: Swift::Float?)
+}
+@_hasMissingDesignatedInitializers @_Concurrency::MainActor final public class RangingSession {
+  @_Concurrency::MainActor final public var rangingHandler: ((FindMyTagKit::RangingMeasurement) -> Swift::Void)?
+  @_Concurrency::MainActor final public var stateHandler: ((FindMyTagKit::SessionState) -> Swift::Void)?
+  @_Concurrency::MainActor final public var debugLogHandler: ((Swift::String) -> Swift::Void)?
+  @_Concurrency::MainActor final public func startRanging()
+  @_Concurrency::MainActor final public func stopRanging()
+  @_Concurrency::MainActor final public func close()
+  @_Concurrency::MainActor final public func playSound() throws
+  @_Concurrency::MainActor final public func stopSound() throws
+  @_Concurrency::MainActor final public func requestBattery(completion: @escaping (Swift::Result<Swift::Int, any Swift::Error>) -> Swift::Void)
+  @_Concurrency::MainActor final public func pause()
+  @_Concurrency::MainActor final public func resume()
+  @_Concurrency::MainActor final public func replaceTransport(_ newTransport: any FindMyTagKit::TransportHandle)
+  @objc deinit
+}
+public enum SessionState : Swift::Equatable {
+  case idle
+  case connecting
+  case oobExchange(Swift::String)
+  case ranging
+  case recovering(FindMyTagKit::SessionStopReason)
+  case suspended
+  case transportLost
+  case error(FindMyTagKit::SessionStopReason)
+  public static func == (a: FindMyTagKit::SessionState, b: FindMyTagKit::SessionState) -> Swift::Bool
+}
+public enum SessionStopReason : Swift::Int, Swift::Equatable, Swift::CaseIterable {
+  case internalError
+  case failedToStartOob
+  case failedToStartIncompatibleDevices
+  case failedToStartUwbDisabled
+  case failedToStartCsDisabled
+  case noRangesTimeout
+  case rangingDriftTimeout
+  case requested
+  case authenticationFailed
+  public var shouldRetry: Swift::Bool {
+    get
+  }
+  public init?(rawValue: Swift::Int)
+  public typealias AllCases = [FindMyTagKit::SessionStopReason]
+  public typealias RawValue = Swift::Int
+  nonisolated public static var allCases: [FindMyTagKit::SessionStopReason] {
+    get
+  }
+  public var rawValue: Swift::Int {
+    get
+  }
+}
+public protocol TransportHandle : AnyObject {
+  func sendData(_ data: Foundation::Data)
+  func registerReceiveCallback(queue: Dispatch::DispatchQueue, callback: any FindMyTagKit::ReceiveCallback)
+  func close()
+  var bluetoothPeerIdentifier: Foundation::UUID? { get }
+  var maxWritePayloadLength: Swift::Int { get }
+}
+extension FindMyTagKit::TransportHandle {
+  public var bluetoothPeerIdentifier: Foundation::UUID? {
+    get
+  }
+  public var maxWritePayloadLength: Swift::Int {
+    get
+  }
+}
+public protocol ReceiveCallback : AnyObject {
+  func onReceiveData(_ data: Foundation::Data)
+  func onSendFailed(reason: (any Swift::Error)?)
+  func onClose()
+}
+final public class ReceiveCallbackAdapter : FindMyTagKit::ReceiveCallback {
+  final public var onReceive: ((Foundation::Data) -> Swift::Void)?
+  final public var onFailed: (((any Swift::Error)?) -> Swift::Void)?
+  final public var onClosed: (() -> Swift::Void)?
+  public init()
+  final public func onReceiveData(_ data: Foundation::Data)
+  final public func onSendFailed(reason: (any Swift::Error)?)
+  final public func onClose()
+  @objc deinit
+}
+public struct WatchdogConfig : Swift::Equatable {
+  public let driftTimeout: Swift::Duration
+  public let initTimeout: Swift::Duration
+  public let noUpdateTimeout: Swift::Duration
+  public init(driftTimeout: Swift::Duration = .seconds(15), initTimeout: Swift::Duration = .seconds(3), noUpdateTimeout: Swift::Duration = .seconds(6))
+  public static let `default`: FindMyTagKit::WatchdogConfig
+  public static func == (a: FindMyTagKit::WatchdogConfig, b: FindMyTagKit::WatchdogConfig) -> Swift::Bool
+}
+extension FindMyTagKit::FindMyTagSDK : Swift::Sendable {}
+extension FindMyTagKit::FusionState : Swift::Hashable {}
+extension FindMyTagKit::RangingSession : Swift::Sendable {}
+extension FindMyTagKit::SessionStopReason : Swift::Hashable {}
+extension FindMyTagKit::SessionStopReason : Swift::RawRepresentable {}

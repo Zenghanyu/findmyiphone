@@ -1,0 +1,41 @@
+# macOS and editor state
+.DS_Store
+._*
+.idea/
+.vscode/
+*.swp
+
+# Xcode user state and build products (keep the bundled SDK)
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+.build/
+*.xcarchive
+*.xcresult
+*.ipa
+*.dSYM/
+
+# PlatformIO dependencies and generated firmware
+.pio/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Local diagnostics, signing credentials, and full device backups
+work/
+outputs/
+*.log
+.env
+.env.*
+!.env.example
+*.p12
+*.p8
+*.mobileprovision
+*.provisionprofile
+*.key
+*.pem
+LocalSigning.xcconfig
+original-full-flash.bin
+*-backup/
