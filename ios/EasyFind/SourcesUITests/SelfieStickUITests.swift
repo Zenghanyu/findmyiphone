@@ -143,6 +143,45 @@ final class SelfieStickUITests: XCTestCase {
         XCTAssertEqual(sound.value as? String, "关闭")
     }
 
+    func testLostFindAcknowledgementDoesNotRingAgainAfterStop() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-uiMock", "-selfieDemo", "-phoneFindAuthorized", "-featureTestControls",
+                               "-selfieReset", "-selfieDropFirstFindAck"]
+        app.launch()
+        open("features.findPhone", in: app)
+        let press = app.buttons["selfie.demoFindPhone"]
+        reveal(press, in: app, up: true)
+        press.tap()
+        waitForText("手机正在提醒", element: app.staticTexts["selfie.phoneFindStatus"])
+        let stop = app.buttons["selfie.phoneFindAction"]
+        reveal(stop, in: app, up: false)
+        stop.tap()
+        waitForText("已找到手机", element: app.staticTexts["selfie.phoneFindStatus"])
+        // Explicitly replay the same physical request after stop; automation
+        // speed must not determine whether the 2-second retry came before stop.
+        let repeatRequest = app.buttons["selfie.demoRepeatFindPhone"]
+        reveal(repeatRequest, in: app, up: true)
+        repeatRequest.tap()
+        let rerang = XCTNSPredicateExpectation(predicate: NSPredicate(format: "label CONTAINS %@", "手机正在提醒"),
+                                               object: app.staticTexts["selfie.phoneFindStatus"])
+        XCTAssertEqual(XCTWaiter.wait(for: [rerang], timeout: 4), .timedOut)
+        XCTAssertFalse(stop.isEnabled)
+    }
+
+    func testConfigurationReadFailureKeepsPhoneFindListening() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-uiMock", "-selfieDemo", "-phoneFindAuthorized", "-featureTestControls",
+                               "-selfieReset", "-selfieConfigReadFailure"]
+        app.launch()
+        XCTAssertTrue(app.buttons["features.findPhone"].waitForExistence(timeout: 5))
+        app.buttons["features.findPhone"].tap()
+        waitForText("未连接", element: app.staticTexts["selfie.connectionStatus"])
+        let press = app.buttons["selfie.demoFindPhone"]
+        reveal(press, in: app, up: true)
+        press.tap()
+        waitForText("手机正在提醒", element: app.staticTexts["selfie.phoneFindStatus"])
+    }
+
     func testUnauthorizedDesignDisablesSoundAndSave() {
         let app = launch(authorized: false, controls: false)
         open("features.findPhone", in: app)

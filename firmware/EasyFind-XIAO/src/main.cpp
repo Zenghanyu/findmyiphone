@@ -2,8 +2,10 @@
 #include <NimBLEDevice.h>
 #include <NimBLEHIDDevice.h>
 #include <Preferences.h>
+#include <esp_system.h>
 #include <atomic>
 #include "remote_protocol.h"
+#include "find_delivery.h"
 
 namespace {
 constexpr char kName[] = "EasyFind Remote";
@@ -31,16 +33,30 @@ bool hasCached = false;
 Command cached{};
 uint8_t cachedReply[20];
 size_t cachedReplyLength = 0;
+remote::FindDelivery findDelivery;
+uint32_t observedGeneration = 0;
 
+void observeConnectionGeneration() {
+    const uint32_t current = generation;
+    if (current == observedGeneration) return;
+    observedGeneration = current;
+    findDelivery.connectionChanged();
+    hasCached = false;
+    Serial.printf("ble.generation=%lu pending_find=%u\n", static_cast<unsigned long>(observedGeneration), findDelivery.pending());
+}
 bool hidReady() { return connected && encrypted && hidSubscribed; }
 void hexLog(const char* prefix, const uint8_t* bytes, size_t size) {
     Serial.print(prefix);
     for (size_t i = 0; i < size; ++i) Serial.printf("%02X", bytes[i]);
     Serial.println();
 }
-void notify(const uint8_t* bytes, size_t size) {
+bool notify(const uint8_t* bytes, size_t size) {
     response->setValue(bytes, size);
-    if (connected && encrypted && responseSubscribed) response->notify();
+    if (!connected || !encrypted || !responseSubscribed) return false;
+    response->notify();
+    // Submission is not evidence the App handled this notification. Reliable find
+    // requests remain pending until their application-level ACK is received.
+    return true;
 }
 void event(uint8_t type, uint8_t left = 0) {
     uint8_t bytes[9], payload[] = {type, left};
@@ -49,9 +65,11 @@ void event(uint8_t type, uint8_t left = 0) {
     hexLog("event=", bytes, size);
 }
 void status() {
-    Serial.printf("remote.status version=%s name=%s delay=%u storage=%u connected=%u encrypted=%u hid_subscribed=%u app_subscribed=%u counting=%u remaining=%u\n",
+    Serial.printf("remote.status version=%s name=%s delay=%u storage=%u connected=%u encrypted=%u hid_subscribed=%u app_subscribed=%u counting=%u remaining=%u reliable_find=%u find_pending=%u find_id=%016llX find_remaining=%u find_attempts=%lu\n",
         FIRMWARE_VERSION, kName, savedDelay, storageReady, bool(connected), bool(encrypted), bool(hidSubscribed), bool(responseSubscribed), counting,
-        counting ? remote::remaining(millis(), deadline) : 0);
+        counting ? remote::remaining(millis(), deadline) : 0, findDelivery.reliable(), findDelivery.pending(),
+        static_cast<unsigned long long>(findDelivery.id()), findDelivery.remainingSeconds(millis()),
+        static_cast<unsigned long>(findDelivery.attempts()));
 }
 bool persist(uint8_t value) {
     if (!storageReady) return false;
@@ -65,14 +83,35 @@ void process(const Command& command, bool serialOnly) {
     if (!remote::decode(command.bytes, command.size, request)) {
         Serial.println("command.rejected=invalid_frame"); return;
     }
-    if (!serialOnly && (command.generation != generation || !encrypted || !responseSubscribed)) return;
+    if (!serialOnly) {
+        observeConnectionGeneration();
+        if (command.generation != observedGeneration || command.generation != generation || !encrypted || !responseSubscribed) return;
+    }
+    const uint8_t validation = remote::validate(request, counting);
+    if (request.opcode == 3 || request.opcode == 4) {
+        // Fire-and-forget protocol commands have ATT confirmation only. Serial
+        // frames may inspect validation, but must not ACK/enable a real BLE request.
+        if (serialOnly || validation) {
+            Serial.printf("find.control_ignored serial=%u opcode=%u validation=%u\n", serialOnly, request.opcode, validation);
+            return;
+        }
+        if (request.opcode == 4) {
+            findDelivery.enableReliable();
+            Serial.println("find.reliable=enabled");
+        } else {
+            const bool accepted = findDelivery.acknowledge(millis(), request.findID, request.findStatus);
+            Serial.printf("find.ack id=%016llX status=%u accepted=%u\n",
+                static_cast<unsigned long long>(request.findID), request.findStatus, accepted);
+        }
+        return;
+    }
     if (!serialOnly && hasCached && cached.generation == command.generation && cached.bytes[4] == command.bytes[4] && cached.bytes[5] == command.bytes[5]) {
         if (cached.size == command.size && memcmp(cached.bytes, command.bytes, command.size) == 0) {
             notify(cachedReply, cachedReplyLength); return;
         }
         Serial.println("command.rejected=sequence_reused"); return;
     }
-    uint8_t result = remote::validate(request, counting);
+    uint8_t result = validation;
     if (!result && !storageReady) result = 3;
     if (request.opcode == 2 && !result && !persist(request.delay)) result = 3;
     const uint8_t payload[] = {result, savedDelay, remote::kMaxDelay, remote::kCapabilities};
@@ -82,6 +121,7 @@ void process(const Command& command, bool serialOnly) {
     if (!serialOnly) {
         notify(reply, length);
         cached = command; memcpy(cachedReply, reply, length); cachedReplyLength = length; hasCached = true;
+        if (request.opcode == 1 && !validation) findDelivery.configurationRead(millis());
     }
 }
 void cancel() {
@@ -108,10 +148,35 @@ void shortPress() {
 }
 void longPress() {
     cancel();
-    if (!connected || !encrypted || !responseSubscribed) {
-        Serial.println("button.long=ignored_app_not_subscribed"); return;
+    uint64_t id = (uint64_t(esp_random()) << 32) | esp_random();
+    if (!id) id = 1;
+    const bool created = findDelivery.request(millis(), id);
+    Serial.printf("find.request id=%016llX created=%u pending=%u remaining=%u\n",
+        static_cast<unsigned long long>(findDelivery.id()), created, findDelivery.pending(), findDelivery.remainingSeconds(millis()));
+}
+void pollFindDelivery() {
+    observeConnectionGeneration();
+    const uint32_t now = millis();
+    if (findDelivery.expire(now)) {
+        Serial.printf("find.expired id=%016llX\n", static_cast<unsigned long long>(findDelivery.id()));
+        return;
     }
-    event(5);
+    const auto kind = findDelivery.due(now, connected && encrypted && responseSubscribed);
+    if (kind == remote::FindDeliveryKind::none) return;
+    if (observedGeneration != generation) return;
+    uint8_t bytes[20], payload[11] = {5, 0};
+    const bool reliable = kind == remote::FindDeliveryKind::reliable;
+    if (reliable) {
+        remote::write64(findDelivery.id(), payload + 2);
+        payload[10] = findDelivery.remainingSeconds(now);
+    }
+    const auto size = remote::frame(0xe0, 0, payload, reliable ? 11 : 2, bytes);
+    const bool submitted = notify(bytes, size);
+    findDelivery.attempted(now, kind, submitted);
+    Serial.printf("find.delivery id=%016llX reliable=%u submitted=%u remaining=%u attempt=%lu\n",
+        static_cast<unsigned long long>(findDelivery.id()), reliable, submitted,
+        findDelivery.remainingSeconds(now), static_cast<unsigned long>(findDelivery.attempts()));
+    hexLog("event=", bytes, size);
 }
 class ServerCallbacks : public NimBLEServerCallbacks {
     void onConnect(NimBLEServer*) override {
@@ -241,6 +306,7 @@ void setup() {
 }
 void loop() {
     if (!commandQueue) { delay(100); return; }
+    observeConnectionGeneration();
     if (linkLost.exchange(false)) {
         counting = false; keyDown = false; hasCached = false;
         const uint8_t released = 0; inputReport->setValue(&released, 1);
@@ -249,6 +315,7 @@ void loop() {
     if (xQueueReceive(commandQueue, &command, 0) == pdTRUE) process(command, false);
     serialCommands();
     pollButton();
+    pollFindDelivery();
     if (keyDown && int32_t(millis() - releaseAt) >= 0) {
         const uint8_t released = 0;
         inputReport->setValue(&released, 1);

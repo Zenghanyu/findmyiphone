@@ -49,6 +49,8 @@ final class SelfieStickService {
     private var sequence = UInt16.random(in: 1...UInt16.max)
     private var pending: SelfieStickProtocol.Request?
     private var timeout: Timer?
+    @MainActor private lazy var phoneFindDelivery = PhoneFindDelivery(store: .applicationStore())
+    private var lastPhoneFindRequestID: UInt64?
 
     init() {
         PhoneFindDiagnostics.record("service.start")
@@ -178,6 +180,12 @@ final class SelfieStickService {
         }
     }
 
+    func repeatDemoFindPhoneRequest() {
+        #if targetEnvironment(simulator)
+        (transport as? SelfieStickDemoTransport)?.repeatLastFindPhoneRequest()
+        #endif
+    }
+
     func refreshPhoneFindAuthorization() {
         #if targetEnvironment(simulator)
         if isDemo && ProcessInfo.processInfo.arguments.contains("-phoneFindAuthorized") {
@@ -250,6 +258,9 @@ final class SelfieStickService {
             self.phase = .reading
             self.message = nil
             self.messageIsError = false
+            // Opt in before READ_CONFIG. Old firmware ignores 04; new firmware
+            // waits for this ordering before releasing any cached button press.
+            self.sendControl(.init(opcode: .enableReliablePhoneFind, sequence: self.nextSequence(), payload: []))
             self.sendRequest(kind: .read)
         }
         transport.onFrame = { [weak self] data in self?.receive(data) }
@@ -257,19 +268,18 @@ final class SelfieStickService {
         transport.onDisconnected = { [weak self] in
             guard let self else { return }
             self.clearPending()
+            self.device = nil
             self.configuration = nil
             self.countdownRemaining = nil
             self.phase = .waiting
-            self.message = "自拍杆已从系统蓝牙断开，请在系统设置中重新连接"
+            self.message = "设备暂时断开，正在等待自动重连"
             self.messageIsError = false
             self.onChange?()
         }
     }
 
     private func sendRequest(kind: SelfieStickProtocol.Request.Kind) {
-        sequence = sequence &+ 1
-        if sequence == 0 { sequence = 1 }
-        let request = SelfieStickProtocol.Request(sequence: sequence, kind: kind)
+        let request = SelfieStickProtocol.Request(sequence: nextSequence(), kind: kind)
         pending = request
         timeout?.invalidate()
         timeout = Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { [weak self] _ in
@@ -280,10 +290,25 @@ final class SelfieStickService {
         catch { fail(error.localizedDescription) }
     }
 
+    private func nextSequence() -> UInt16 {
+        sequence = sequence &+ 1
+        if sequence == 0 { sequence = 1 }
+        return sequence
+    }
+
+    private func sendControl(_ frame: SelfieStickProtocol.Frame) {
+        guard let data = try? frame.encoded() else { return }
+        transport.send(data)
+    }
+
     private func receive(_ data: Data) {
         do {
             let frame = try SelfieStickProtocol.Frame.decode(data)
             if frame.opcode == .event {
+                if let request = SelfieStickProtocol.PhoneFindRequest.decode(frame) {
+                    receiveReliablePhoneFind(request)
+                    return
+                }
                 guard frame.sequence == 0, frame.payload.count == 2,
                       frame.payload[1] <= SelfieStickProtocol.maximumDelay,
                       let event = SelfieStickProtocol.Event(rawValue: frame.payload[0]) else { return }
@@ -298,27 +323,7 @@ final class SelfieStickService {
                     countdownRemaining = nil
                     demoResult = isDemo ? "倒计时已取消（模拟）" : "倒计时已取消"
                 case .phoneFindRequested:
-                    PhoneFindDiagnostics.record("find.received appState=\(UIApplication.shared.applicationState.rawValue) sound=\(phoneFindSoundEnabled)")
-                    phoneFindCount += 1
-                    lastPhoneFindAt = Date()
-                    message = "已收到自拍杆的找手机请求"
-                    messageIsError = false
-                    phoneFindError = nil
-                    #if targetEnvironment(simulator)
-                    let silentTest = ProcessInfo.processInfo.arguments.contains("-featureTestControls")
-                    #else
-                    let silentTest = false
-                    #endif
-                    if usesSystemAlarm && !phoneFindSoundEnabled {
-                        message = "已收到找手机请求，响铃已关闭"
-                    } else if silentTest {
-                        isPhoneFindAlerting = phoneFindAuthorized
-                    } else if #available(iOS 26.0, *) {
-                        Task { @MainActor in await PhoneFindAlarmController.shared.ring() }
-                    } else {
-                        isPhoneFindAlerting = phoneFindAuthorized
-                        PhoneFindNotifier.shared.trigger(soundEnabled: phoneFindSoundEnabled)
-                    }
+                    Task { @MainActor [weak self] in _ = await self?.submitPhoneFind(requestID: nil) }
                 }
                 onChange?()
                 return
@@ -339,6 +344,11 @@ final class SelfieStickService {
             }
             onChange?()
         } catch let error as SelfieStickProtocol.ProtocolError {
+            // Malformed/unknown notifications do not disable background BLE.
+            guard error != .invalidFrame, error != .unsupportedVersion else {
+                PhoneFindDiagnostics.record("ble.ignoredFrame error=\(error)")
+                return
+            }
             if case .deviceRejected = error, phase == .ready, isSaving {
                 clearPending()
                 message = error.localizedDescription
@@ -350,6 +360,61 @@ final class SelfieStickService {
         } catch {
             fail(error.localizedDescription)
         }
+    }
+
+    private func receiveReliablePhoneFind(_ request: SelfieStickProtocol.PhoneFindRequest) {
+        let source = device?.identifier
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            let result = await self.phoneFindDelivery.receive(request, submit: {
+                await self.submitPhoneFind(requestID: request.id)
+            }, acknowledge: { disposition in
+                // A late system response must not be sent to a different device.
+                guard let source, self.device?.identifier == source else { return }
+                self.sendControl(request.acknowledgement(sequence: self.nextSequence(), disposition: disposition))
+                PhoneFindDiagnostics.record("find.ack disposition=\(disposition.rawValue)")
+            })
+            PhoneFindDiagnostics.record("find.delivery=\(result)")
+        }
+    }
+
+    @MainActor
+    private func submitPhoneFind(requestID: UInt64?) async -> SelfieStickProtocol.PhoneFindDisposition? {
+        if requestID == nil || lastPhoneFindRequestID != requestID {
+            phoneFindCount += 1
+            lastPhoneFindAt = Date()
+            lastPhoneFindRequestID = requestID
+        }
+        PhoneFindDiagnostics.record("find.received appState=\(UIApplication.shared.applicationState.rawValue) sound=\(phoneFindSoundEnabled)")
+        message = "已收到设备的找手机请求"
+        messageIsError = false
+        phoneFindError = nil
+        defer { onChange?() }
+        guard phoneFindSoundEnabled else {
+            message = "已收到找手机请求，响铃已关闭"
+            return .disabled
+        }
+        #if targetEnvironment(simulator)
+        if ProcessInfo.processInfo.arguments.contains("-featureTestControls") {
+            isPhoneFindAlerting = phoneFindAuthorized
+            return phoneFindAuthorized ? .accepted : .unauthorized
+        }
+        #endif
+        if #available(iOS 26.0, *) {
+            guard AlarmManager.shared.authorizationState == .authorized else {
+                phoneFindAuthorized = false
+                phoneFindError = "请先允许系统闹钟，再使用设备找手机"
+                return .unauthorized
+            }
+            return await PhoneFindAlarmController.shared.ring() ? .accepted : nil
+        }
+        let settings = await UNUserNotificationCenter.current().notificationSettings()
+        let authorized = settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional
+        phoneFindAuthorized = authorized
+        guard authorized else { return .unauthorized }
+        let accepted = await PhoneFindNotifier.shared.trigger(soundEnabled: true)
+        if accepted { isPhoneFindAlerting = true; return .accepted }
+        return nil
     }
 
     private func clearPending() {
@@ -366,7 +431,8 @@ final class SelfieStickService {
         phase = .failed
         message = text
         messageIsError = true
-        transport.disconnect()
+        // A configuration timeout/error must not cancel the subscription or the
+        // system-owned pending reconnect. Transport repairs its own link errors.
         onChange?()
     }
 }
@@ -415,24 +481,24 @@ final class PhoneFindAlarmController {
         onChange?(pending, ringing, failure)
     }
 
-    func ring() async {
+    func ring() async -> Bool {
         guard manager.authorizationState == .authorized else {
             failure = "请先允许系统闹钟，再使用设备找手机"
             PhoneFindDiagnostics.record("alarm.rejected unauthorized")
             refresh()
-            return
+            return false
         }
         // Repeated button presses must not create a queue of future alarms.
-        guard !scheduling else { return }
+        guard !scheduling else { return false }
         do {
             if try manager.alarms.contains(where: { $0.id == id }) {
                 refresh()
-                return
+                return true
             }
         } catch {
             failure = "无法读取系统闹钟，请重试"
             refresh()
-            return
+            return false
         }
         failure = nil
         scheduling = true
@@ -477,15 +543,18 @@ final class PhoneFindAlarmController {
             if generation != requestGeneration {
                 // Stop may happen while awaiting the system. Remove the late
                 // result so an already-stopped request cannot ring afterwards.
-                try manager.cancel(id: id)
+                try? manager.cancel(id: id)
                 PhoneFindDiagnostics.record("alarm.cancelledLateSchedule")
+                return true // Explicit user stop consumes the request as well.
             } else {
                 PhoneFindDiagnostics.record("alarm.accepted state=\(alarm.state)")
                 publish([alarm])
+                return true
             }
         } catch {
             failure = "系统闹钟未能启动：\(error.localizedDescription)"
             PhoneFindDiagnostics.record("alarm.scheduleError=\(error.localizedDescription)")
+            return false
         }
     }
 
@@ -524,17 +593,29 @@ final class PhoneFindNotifier {
         }
     }
 
-    func trigger(soundEnabled: Bool) {
+    @MainActor
+    func trigger(soundEnabled: Bool) async -> Bool {
+        await withCheckedContinuation { continuation in
+            trigger(soundEnabled: soundEnabled) { continuation.resume(returning: $0) }
+        }
+    }
+
+    private func trigger(soundEnabled: Bool, completion: @escaping (Bool) -> Void) {
         stop()
         PhoneFindDiagnostics.record("notifier.trigger appState=\(UIApplication.shared.applicationState.rawValue)")
         if UIApplication.shared.applicationState == .active {
             if soundEnabled {
                 // 前台使用可停止的音频播放器；不增加持续后台音频权限。
-                try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
-                player = try? AVAudioPlayer(data: Self.reminderSound())
-                player?.numberOfLoops = -1
-                player?.play()
-                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
+                    player = try AVAudioPlayer(data: Self.reminderSound())
+                    player?.numberOfLoops = -1
+                    let accepted = player?.play() == true
+                    if accepted { AudioServicesPlaySystemSound(kSystemSoundID_Vibrate) }
+                    completion(accepted)
+                } catch { completion(false) }
+            } else {
+                completion(true)
             }
         } else {
             let content = UNMutableNotificationContent()
@@ -560,7 +641,10 @@ final class PhoneFindNotifier {
             }
             UNUserNotificationCenter.current().add(request) { error in
                 PhoneFindDiagnostics.record("notification.submitted error=\(error?.localizedDescription ?? "none")")
-                DispatchQueue.main.async { finish() }
+                DispatchQueue.main.async {
+                    finish()
+                    completion(error == nil)
+                }
             }
         }
     }
