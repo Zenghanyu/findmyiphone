@@ -44,5 +44,35 @@ int main() {
     assert(remote::remaining(4001,4000)==0);
     assert(remote::remaining(0xfffffff0u,0x00000ba8u)==3);
     assert(remote::remaining(0x00000ba9u,0x00000ba8u)==0);
-    puts("PASS: golden frames, delay bounds, malformed requests, busy state and timer wrap");
+    assert(remote::kCapabilities == 0x1f);
+    uint8_t enable[] = {0x53,0x46,1,4,1,0,0};
+    assert(remote::decode(enable,sizeof(enable),request));
+    assert(remote::validate(request,true)==0); // Find control is independent of shutter busy state.
+    uint8_t ack[] = {0x53,0x46,1,3,2,0,9,0x88,0x77,0x66,0x55,0x44,0x33,0x22,0x11,0};
+    assert(remote::decode(ack,sizeof(ack),request));
+    assert(request.findID==0x1122334455667788ULL && request.findStatus==0);
+    assert(remote::validate(request,true)==0);
+    for (uint8_t status = 0; status <= 3; ++status) {
+        ack[15]=status;
+        assert(remote::decode(ack,sizeof(ack),request));
+        assert(remote::validate(request,false)==(status<=2 ? 0 : 1));
+    }
+    ack[15]=0;
+    memset(ack+7,0,8);
+    assert(remote::decode(ack,sizeof(ack),request));
+    assert(remote::validate(request,false)==1);
+    ack[6]=8;
+    assert(remote::decode(ack,sizeof(ack)-1,request));
+    assert(remote::validate(request,false)==1);
+    enable[6]=1;
+    uint8_t invalidEnable[]={0x53,0x46,1,4,1,0,1,1};
+    assert(remote::decode(invalidEnable,sizeof(invalidEnable),request));
+    assert(remote::validate(request,false)==1);
+    uint8_t findPayload[11]={5,0};
+    remote::write64(0x1122334455667788ULL,findPayload+2);
+    findPayload[10]=30;
+    uint8_t reliableExpected[]={0x53,0x46,1,0xe0,0,0,11,5,0,0x88,0x77,0x66,0x55,0x44,0x33,0x22,0x11,30};
+    assert(remote::frame(0xe0,0,findPayload,11,reply)==sizeof(reliableExpected));
+    assert(!memcmp(reply,reliableExpected,sizeof(reliableExpected)));
+    puts("PASS: golden frames, delay bounds, find control, malformed requests, busy state and timer wrap");
 }

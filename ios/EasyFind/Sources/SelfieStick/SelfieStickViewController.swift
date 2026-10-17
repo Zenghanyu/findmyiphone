@@ -434,7 +434,7 @@ private final class FindPhoneViewController: FeatureDetailViewController {
         sound.addArrangedSubview(soundButton)
         content.addArrangedSubview(sound)
         notes(service.usesSystemAlarm
-              ? "1  首次允许系统闹钟，并保存响铃设置。\n2  保持蓝牙连接，长按设备按钮，约 2 秒后响铃。\n3  锁屏也可响铃，在锁屏上停止即可。请勿上划关闭 App。"
+              ? "1  首次允许系统闹钟，并保存响铃设置。\n2  连接正常时，长按设备按钮，约 2 秒后响铃。\n3  日常无需打开 App；请保持蓝牙开启，在锁屏上停止响铃。上划关闭 App 后需重新打开。"
               : "1  保持设备与手机连接。\n2  按下设备按钮，手机将开始响铃。\n3  根据提示音，快速定位手机位置。")
         feedback.accessibilityIdentifier = "phoneFind.saveMessage"
         feedback.isHidden = true
@@ -447,6 +447,10 @@ private final class FindPhoneViewController: FeatureDetailViewController {
             simulate.accessibilityIdentifier = "selfie.demoFindPhone"
             simulate.addAction(UIAction { [weak self] _ in self?.service.pressDemoFindPhone() }, for: .touchUpInside)
             content.addArrangedSubview(simulate)
+            let repeatRequest = FeatureStyle.button("模拟重发上次找手机请求", primary: false)
+            repeatRequest.accessibilityIdentifier = "selfie.demoRepeatFindPhone"
+            repeatRequest.addAction(UIAction { [weak self] _ in self?.service.repeatDemoFindPhoneRequest() }, for: .touchUpInside)
+            content.addArrangedSubview(repeatRequest)
         }
         #endif
         refresh()

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1D3D83B9E274DE5B9B00101 /* PhoneFindDelivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D3D83B9E274DE5B9B00102 /* PhoneFindDelivery.swift */; };
 		00610B170E0C984634DBDC05 /* TagResultsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5017F1A1D7CAE4C5E20AC016 /* TagResultsPanelView.swift */; };
 		04140A7F052F513C7026050D /* NearbyInteraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8BE9597DB43E17234B1E379 /* NearbyInteraction.framework */; };
 		0C11E098BBAD56B017A63FB5 /* SelfieStickUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FA9E583ED0ABC7DB994E9C /* SelfieStickUITests.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A1D3D83B9E274DE5B9B00102 /* PhoneFindDelivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneFindDelivery.swift; sourceTree = "<group>"; };
 		01FE4A01FA0FCC692DEEB412 /* TagRangingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRangingService.swift; sourceTree = "<group>"; };
 		07E8BA2A4A84E4DC837F1C45 /* CoreBluetoothTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTransport.swift; sourceTree = "<group>"; };
 		07E92E0A14A83B185250AE8B /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
@@ -119,6 +121,7 @@
 				EAF553680B784AE645B8B354 /* SelfieStickBluetoothTransport.swift */,
 				66982BF4C9E0180C85B32EC6 /* SelfieStickDemoTransport.swift */,
 				7E3AF02D981863F7CDE6B542 /* SelfieStickProtocol.swift */,
+				A1D3D83B9E274DE5B9B00102 /* PhoneFindDelivery.swift */,
 				F5854F8E3C2B280BDF11344D /* SelfieStickService.swift */,
 				0C289C6373B032F3F4A8CB06 /* SelfieStickViewController.swift */,
 			);
@@ -329,6 +332,7 @@
 				921446DCA5B888F8CD0C4D13 /* SelfieStickBluetoothTransport.swift in Sources */,
 				493ECB352B861749FFD268A3 /* SelfieStickDemoTransport.swift in Sources */,
 				FF1FBC52217094DBE575CD11 /* SelfieStickProtocol.swift in Sources */,
+				A1D3D83B9E274DE5B9B00101 /* PhoneFindDelivery.swift in Sources */,
 				9C4B37934BE6D4788AB6E54C /* SelfieStickService.swift in Sources */,
 				3EA10791757DF8884120BF38 /* SelfieStickViewController.swift in Sources */,
 				123DD42E3FECFCD513DCA2CE /* EasyFindTabBarController.swift in Sources */,
@@ -385,7 +389,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EasyFind;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -403,7 +407,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -431,7 +435,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EasyFind;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -576,7 +580,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
