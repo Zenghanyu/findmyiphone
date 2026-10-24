@@ -1,0 +1,6 @@
+framework module XTDitherBleProtocol {
+  umbrella header "XTDitherBleProtocol.h"
+  export *
+
+  module * { export * }
+}

@@ -1,0 +1,110 @@
+[
+  {
+    "test": "python_native_97x83_to_29x31",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_80x64_to_20x16",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_1x43_to_1x13",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_43x1_to_13x1",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_47x29_to_1x1",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_1x1_to_1x1",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_7x9_to_13x17",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_33x35_to_33x35",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_17x31_to_23x11",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "disabled_adaptation_equals_exact_fractional_area_oracle",
+    "passed": true
+  },
+  {
+    "test": "rare_detail_is_weighted_before_reduction",
+    "passed": true,
+    "area_value": 226,
+    "dpid_value": 104
+  },
+  {
+    "test": "uniform_regions_and_pure_colours_unchanged",
+    "passed": true
+  },
+  {
+    "test": "two_unit_neutral_noise_not_amplified",
+    "passed": true
+  },
+  {
+    "test": "balanced_checkerboard_antialiasing",
+    "passed": true
+  },
+  {
+    "test": "no_new_colour_extrema_outside_source_footprint",
+    "passed": true
+  },
+  {
+    "test": "bad_parameters_null_and_short_stride_rejected",
+    "passed": true
+  },
+  {
+    "test": "full_dpid_six_colour_pipeline_astronaut",
+    "passed": true,
+    "pixel_agreement": 1.0
+  },
+  {
+    "test": "full_dpid_six_colour_pipeline_chelsea",
+    "passed": true,
+    "pixel_agreement": 1.0
+  },
+  {
+    "test": "full_dpid_six_colour_pipeline_coffee",
+    "passed": true,
+    "pixel_agreement": 1.0
+  },
+  {
+    "test": "full_dpid_six_colour_pipeline_motorcycle_left",
+    "passed": true,
+    "pixel_agreement": 1.0
+  },
+  {
+    "test": "subpixel_dark_line_survives_final_six_colour_conversion",
+    "passed": true,
+    "lanczos_black_pixels_per_row": 0.4375,
+    "dpid_black_pixels_per_row": 0.8541666666666666,
+    "note": "0.25px white-background line; increased ink coverage may thicken features"
+  },
+  {
+    "test": "12mp_desktop_sampling_timing",
+    "passed": true,
+    "seconds": 0.8612831000064034,
+    "note": "Windows desktop; includes test buffer copies, not iPhone performance"
+  }
+]

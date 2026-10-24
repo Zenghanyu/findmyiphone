@@ -1,0 +1,258 @@
+[
+  {
+    "id": "1025",
+    "author": "Matthew Wiebe",
+    "width": 4951,
+    "height": 3301,
+    "url": "https://unsplash.com/photos/U5rMrSI7Pn4",
+    "download_url": "https://picsum.photos/id/1025/4951/3301",
+    "file": "picsum_1025.jpg",
+    "sha256": "fc587a30b480e7d9b3c945eb1c888ca51ef71760b8b201971aaad1994eeba00d",
+    "resolved_download_url": "https://fastly.picsum.photos/id/1025/4951/3301.jpg?hmac=_aGh5AtoOChip_iaMo8ZvvytfEojcgqbCH7dzaz-H8Y",
+    "downloaded_utc": "2026-10-23T12:12:49Z",
+    "source_note": "Lorem Picsum delivery at catalog native dimensions; upstream JPEG recompression cannot be excluded. Author and Unsplash source from Picsum API; no additional license verification.",
+    "color_handling": "no ICC; assumed sRGB",
+    "crop_box": [
+      825,
+      0,
+      4126,
+      3301
+    ],
+    "output_size": [
+      240,
+      240
+    ],
+    "diagnostics": {
+      "lanczos": {
+        "black_fraction": 0.46166666666666667
+      },
+      "dpid": {
+        "black_fraction": 0.46784722222222225
+      }
+    }
+  },
+  {
+    "id": "1005",
+    "author": "Matthew Wiebe",
+    "width": 5000,
+    "height": 3333,
+    "url": "https://unsplash.com/photos/tBtuxtLvAZs",
+    "download_url": "https://picsum.photos/id/1005/5000/3333",
+    "file": "picsum_1005.jpg",
+    "sha256": "c343a585a9a5a1bbbf3adec525cd3f5712a2763a88aff1eac90ee37301b3e982",
+    "resolved_download_url": "https://fastly.picsum.photos/id/1005/5000/3333.jpg?hmac=JXb2KOI3U_7Flr6laf8nKH2ts9dDg1rs25IuQIXpYIA",
+    "downloaded_utc": "2026-10-23T12:13:21Z",
+    "source_note": "Lorem Picsum delivery at catalog native dimensions; upstream JPEG recompression cannot be excluded. Author and Unsplash source from Picsum API; no additional license verification.",
+    "color_handling": "no ICC; assumed sRGB",
+    "crop_box": [
+      833,
+      0,
+      4166,
+      3333
+    ],
+    "output_size": [
+      240,
+      240
+    ],
+    "diagnostics": {
+      "lanczos": {
+        "black_fraction": 0.30331597222222223
+      },
+      "dpid": {
+        "black_fraction": 0.3017361111111111
+      }
+    }
+  },
+  {
+    "id": "1011",
+    "author": "Roberto Nickson",
+    "width": 5000,
+    "height": 3333,
+    "url": "https://unsplash.com/photos/7BjmDICVloE",
+    "download_url": "https://picsum.photos/id/1011/5000/3333",
+    "file": "picsum_1011.jpg",
+    "sha256": "b30294eff0335b49d4e159f78cceb95d15176560adbd02cf35df4fd87cee3128",
+    "resolved_download_url": "https://fastly.picsum.photos/id/1011/5000/3333.jpg?hmac=N0TqVY7tgK_I8-1SyTBP1BRo0KlV1yPgpmEAvteQkWQ",
+    "downloaded_utc": "2026-10-23T12:12:34Z",
+    "source_note": "Lorem Picsum delivery at catalog native dimensions; upstream JPEG recompression cannot be excluded. Author and Unsplash source from Picsum API; no additional license verification.",
+    "color_handling": "no ICC; assumed sRGB",
+    "crop_box": [
+      833,
+      0,
+      4166,
+      3333
+    ],
+    "output_size": [
+      240,
+      240
+    ],
+    "diagnostics": {
+      "lanczos": {
+        "black_fraction": 0.461875
+      },
+      "dpid": {
+        "black_fraction": 0.46131944444444445
+      }
+    }
+  },
+  {
+    "id": "1015",
+    "author": "Alexey Topolyanskiy",
+    "width": 5000,
+    "height": 3333,
+    "url": "https://unsplash.com/photos/-oWyJoSqBRM",
+    "download_url": "https://picsum.photos/id/1015/5000/3333",
+    "file": "picsum_1015.jpg",
+    "sha256": "e8e2afb87af3be36db8e3a9cd3c821b752c0a181d74a9452312a40dbb8916f27",
+    "resolved_download_url": "https://fastly.picsum.photos/id/1015/5000/3333.jpg?hmac=YiHIqvsVlhZoViBg5mG13IvI50oqAmgy79NY-PP_DEw",
+    "downloaded_utc": "2026-10-23T12:13:05Z",
+    "source_note": "Lorem Picsum delivery at catalog native dimensions; upstream JPEG recompression cannot be excluded. Author and Unsplash source from Picsum API; no additional license verification.",
+    "color_handling": "no ICC; assumed sRGB",
+    "crop_box": [
+      833,
+      0,
+      4166,
+      3333
+    ],
+    "output_size": [
+      240,
+      240
+    ],
+    "diagnostics": {
+      "lanczos": {
+        "black_fraction": 0.20741319444444445
+      },
+      "dpid": {
+        "black_fraction": 0.20618055555555556
+      }
+    }
+  },
+  {
+    "id": "1039",
+    "author": "Andrew Coelho",
+    "width": 5000,
+    "height": 3337,
+    "url": "https://unsplash.com/photos/VB-w_3dnyvI",
+    "download_url": "https://picsum.photos/id/1039/5000/3337",
+    "file": "picsum_1039.jpg",
+    "sha256": "d1ad5276644aa5932584ebe6f861b34fefd1dbbc7a5651cc44ce767995f87514",
+    "resolved_download_url": "https://fastly.picsum.photos/id/1039/5000/3337.jpg?hmac=I1VD9wYOXbow6JODDCygKF4DXd5-Zgl1UONXlOjFkN8",
+    "downloaded_utc": "2026-10-23T12:14:57Z",
+    "source_note": "Lorem Picsum delivery at catalog native dimensions; upstream JPEG recompression cannot be excluded. Author and Unsplash source from Picsum API; no additional license verification.",
+    "color_handling": "no ICC; assumed sRGB",
+    "crop_box": [
+      831,
+      0,
+      4168,
+      3337
+    ],
+    "output_size": [
+      240,
+      240
+    ],
+    "diagnostics": {
+      "lanczos": {
+        "black_fraction": 0.5461979166666666
+      },
+      "dpid": {
+        "black_fraction": 0.5478993055555555
+      }
+    }
+  },
+  {
+    "id": "1043",
+    "author": "Christian Joudrey",
+    "width": 5000,
+    "height": 3333,
+    "url": "https://unsplash.com/photos/mWRR1xj95hg",
+    "download_url": "https://picsum.photos/id/1043/5000/3333",
+    "file": "picsum_1043.jpg",
+    "sha256": "1e931ee0d6f6e83d8665a425201dbbbfcac8ae202da51c0aafdeea98a9139b5e",
+    "resolved_download_url": "https://fastly.picsum.photos/id/1043/5000/3333.jpg?hmac=X-TXF9P4ZEfcVvW2w17dtrXQLkTNl5UhX0TKF48S9XQ",
+    "downloaded_utc": "2026-10-23T12:16:32Z",
+    "source_note": "Lorem Picsum delivery at catalog native dimensions; upstream JPEG recompression cannot be excluded. Author and Unsplash source from Picsum API; no additional license verification.",
+    "color_handling": "no ICC; assumed sRGB",
+    "crop_box": [
+      833,
+      0,
+      4166,
+      3333
+    ],
+    "output_size": [
+      240,
+      240
+    ],
+    "diagnostics": {
+      "lanczos": {
+        "black_fraction": 0.4509548611111111
+      },
+      "dpid": {
+        "black_fraction": 0.45
+      }
+    }
+  },
+  {
+    "id": "106",
+    "author": "Arvee Marie",
+    "width": 2592,
+    "height": 1728,
+    "url": "https://unsplash.com/photos/YnfGtpt2gf4",
+    "download_url": "https://picsum.photos/id/106/2592/1728",
+    "file": "picsum_106.jpg",
+    "sha256": "46cf783215d3083cb741b693b75fd2e0954a7014b67ce22e2e09a0633100250b",
+    "resolved_download_url": "https://fastly.picsum.photos/id/106/2592/1728.jpg?hmac=E1-3Hac5ffuCVwYwexdHImxbMFRsv83exZ2EhlYxkgY",
+    "downloaded_utc": "2026-10-23T12:13:37Z",
+    "source_note": "Lorem Picsum delivery at catalog native dimensions; upstream JPEG recompression cannot be excluded. Author and Unsplash source from Picsum API; no additional license verification.",
+    "color_handling": "no ICC; assumed sRGB",
+    "crop_box": [
+      432,
+      0,
+      2160,
+      1728
+    ],
+    "output_size": [
+      240,
+      240
+    ],
+    "diagnostics": {
+      "lanczos": {
+        "black_fraction": 0.21286458333333333
+      },
+      "dpid": {
+        "black_fraction": 0.2128298611111111
+      }
+    }
+  },
+  {
+    "id": "164",
+    "author": "Linh Nguyen",
+    "width": 1200,
+    "height": 800,
+    "url": "https://unsplash.com/photos/agkblvPff5U",
+    "download_url": "https://picsum.photos/id/164/1200/800",
+    "file": "picsum_164.jpg",
+    "sha256": "5621a6762e6506e2cf89a4ecf6d61fd0cb452ed452581e048adeedf056756439",
+    "resolved_download_url": "https://fastly.picsum.photos/id/164/1200/800.jpg?hmac=wkqGUkaeW3kiAsHq_VwxSWWossIMAwFV4eUfFzuDkew",
+    "downloaded_utc": "2026-10-23T12:13:42Z",
+    "source_note": "Lorem Picsum delivery at catalog native dimensions; upstream JPEG recompression cannot be excluded. Author and Unsplash source from Picsum API; no additional license verification.",
+    "color_handling": "no ICC; assumed sRGB",
+    "crop_box": [
+      200,
+      0,
+      1000,
+      800
+    ],
+    "output_size": [
+      240,
+      240
+    ],
+    "diagnostics": {
+      "lanczos": {
+        "black_fraction": 0.22892361111111112
+      },
+      "dpid": {
+        "black_fraction": 0.22630208333333332
+      }
+    }
+  }
+]

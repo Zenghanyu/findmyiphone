@@ -1,0 +1,342 @@
+[
+  {
+    "image": "astronaut",
+    "source_size": [
+      512,
+      512
+    ],
+    "target": 200,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 30.1845
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 32.6596
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 33.4246
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 33.1623
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 34.8175
+      }
+    },
+    "max_detail_adjustment": 8
+  },
+  {
+    "image": "astronaut",
+    "source_size": [
+      512,
+      512
+    ],
+    "target": 400,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 26.616
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 29.2644
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 30.1235
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 29.7357
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 31.0839
+      }
+    },
+    "max_detail_adjustment": 8
+  },
+  {
+    "image": "chelsea",
+    "source_size": [
+      300,
+      300
+    ],
+    "target": 200,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 16.7681
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 18.7668
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 19.5181
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 19.3183
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 20.55
+      }
+    },
+    "max_detail_adjustment": 8
+  },
+  {
+    "image": "chelsea",
+    "source_size": [
+      300,
+      300
+    ],
+    "target": 400,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 14.1137
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 16.7506
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 17.9939
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 17.3879
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 17.3879
+      }
+    },
+    "max_detail_adjustment": 0
+  },
+  {
+    "image": "coffee",
+    "source_size": [
+      400,
+      400
+    ],
+    "target": 200,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 26.5996
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 29.2118
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 30.0665
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 29.8198
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 31.1094
+      }
+    },
+    "max_detail_adjustment": 8
+  },
+  {
+    "image": "coffee",
+    "source_size": [
+      400,
+      400
+    ],
+    "target": 400,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 24.4701
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 27.9622
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 29.2375
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 29.1016
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 29.1016
+      }
+    },
+    "max_detail_adjustment": 0
+  },
+  {
+    "image": "motorcycle_left",
+    "source_size": [
+      500,
+      500
+    ],
+    "target": 200,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 26.9501
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 29.8961
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 30.9541
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 30.5335
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 32.3858
+      }
+    },
+    "max_detail_adjustment": 8
+  },
+  {
+    "image": "motorcycle_left",
+    "source_size": [
+      500,
+      500
+    ],
+    "target": 400,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 25.0483
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 28.4948
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 29.8147
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 29.1834
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 30.964
+      }
+    },
+    "max_detail_adjustment": 8
+  },
+  {
+    "image": "thin_lines",
+    "source_size": [
+      1600,
+      1600
+    ],
+    "target": 200,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 31.6371
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 36.0747
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 38.2771
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 36.4756
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 37.4252
+      }
+    },
+    "max_detail_adjustment": 8
+  },
+  {
+    "image": "thin_lines",
+    "source_size": [
+      1600,
+      1600
+    ],
+    "target": 400,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 40.3509
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 46.172
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 48.5112
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 46.032
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 46.9928
+      }
+    },
+    "max_detail_adjustment": 8
+  }
+]

@@ -1,0 +1,8 @@
+# Preserve the supplied iOS source/SDK bytes so package hashes survive checkout.
+*.md text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+ios/** -text

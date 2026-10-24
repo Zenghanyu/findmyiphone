@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-24",
+  "platform": "Windows desktop",
+  "test_groups": {
+    "results/native_tests.json": 21,
+    "results/hink240/native_tests.json": 16,
+    "results/dpid240/native_tests.json": 22,
+    "results/web_photos/verification.json": 8
+  },
+  "total_passed": 67,
+  "source_sha256": {
+    "ios/BrushSDK/Core/Support/ImageDither/XTPhotoResampleCore.c": "f64751b9e5e5acb8eb12e890f0bdd27372447e476a0407521f2a823b35837d13",
+    "ios/BrushSDK/Core/Support/ImageDither/XTPhotoResampler.m": "c3494cf5298fccaca03e5672f57040d98e10d580cec15883e445e8dbe1b24735",
+    "ios/BrushSDK/Core/Support/ImageDither/XTInkPhotoCore.c": "4199d92b6ea88feb95ab8f9904d196dd2310e562bf7e3c0344d7e06a23e018c5",
+    "ios/BrushSDK/Core/Support/ImageDither/XTInkPhotoProcessor.m": "2d6e32d74560898d6e8fe98d0ccb3a314892ed2a11338246abe2f172d5654e15",
+    "ios/BrushSDK/Core/Support/ImageDither/XTImageDitherUtils.m": "48bccfe93d1d6c36ffc5e7056d2f8a1a3fda6804e94da5f9c3b2cb6f16270709",
+    "ios/BrushSDK/Core/Support/Device/XTScreenSpecConfig.m": "973bff6ff1b286d03830fbfde94935cb7f7aa8ba6a6e3affbfcaa4b466b46c47",
+    "ios/BrushSDK/MVC/Controller/MainViewController.m": "e3a62d4feeaecc573df7fb0c9e1266ce7bc7ba7bd3f123e11e8dafbc4c42b0b3",
+    "ios/BrushSDK/MVC/Controller/XTImageStorageViewController.m": "9aa1811589f8afa4e550b5fd1d11e61f4ec98c02c10809bf8e774ce3abf9fb4d",
+    "ios/BrushSDK/Supporting Flies/ThirdParty/SLImageClipController/SLImageClipController.m": "02f7b54fafdc2d22b5b08ed8d00c54ac3f5f493399a198e6899099c7d2f07f20"
+  },
+  "ios_built": false,
+  "uikit_runtime_tested": false,
+  "hardware_tested": false,
+  "git_push_performed": false,
+  "record_scope": "Validation before packaging; source hashes relative to ink-screen-app, subsequent Git delivery recorded in package docs"
+}

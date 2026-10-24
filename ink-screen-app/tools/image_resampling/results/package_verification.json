@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-24",
+  "platform": "Windows",
+  "scope": "Recompiled and executed C cores from the reorganised ink-screen-app directory",
+  "checks": {
+    "native_tests.json": 21,
+    "hink240/native_tests.json": 16,
+    "dpid240/native_tests.json": 22
+  },
+  "total_passed": 59,
+  "photo_checks_require_no_saved_reports": true,
+  "app_source_and_sdk_binaries_match_verified_local_version": true,
+  "ios_manifest_files_verified": 377,
+  "ios_built": false,
+  "uikit_runtime_tested": false,
+  "hardware_tested": false,
+  "online_photo_verification": "8 prior source-verified cases retained as records; online photos and generated image reports excluded",
+  "compiler": "Zig 0.13.0 via XT_ZIG"
+}

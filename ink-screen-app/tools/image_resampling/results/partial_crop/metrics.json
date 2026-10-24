@@ -1,0 +1,342 @@
+[
+  {
+    "image": "astronaut",
+    "source_size": [
+      307,
+      308
+    ],
+    "target": 200,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0.1,
+      0.2,
+      0.6,
+      0.6
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 25.5803
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 28.4582
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 29.4464
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 30.1413
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 31.7766
+      }
+    },
+    "max_detail_adjustment": 8
+  },
+  {
+    "image": "astronaut",
+    "source_size": [
+      307,
+      308
+    ],
+    "target": 400,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0.1,
+      0.2,
+      0.6,
+      0.6
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 22.2066
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 25.3916
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 26.7369
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 28.4291
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 28.4291
+      }
+    },
+    "max_detail_adjustment": 0
+  },
+  {
+    "image": "chelsea",
+    "source_size": [
+      180,
+      180
+    ],
+    "target": 200,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0.1,
+      0.2,
+      0.6,
+      0.6
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 14.4654
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 16.8149
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 17.9467
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 17.9657
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 17.9657
+      }
+    },
+    "max_detail_adjustment": 0
+  },
+  {
+    "image": "chelsea",
+    "source_size": [
+      180,
+      180
+    ],
+    "target": 400,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0.1,
+      0.2,
+      0.6,
+      0.6
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 11.9251
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 14.2279
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 15.2757
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 15.7991
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 15.7991
+      }
+    },
+    "max_detail_adjustment": 0
+  },
+  {
+    "image": "coffee",
+    "source_size": [
+      240,
+      240
+    ],
+    "target": 200,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0.1,
+      0.2,
+      0.6,
+      0.6
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 27.1002
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 29.8589
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 30.7123
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 30.7374
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 32.0504
+      }
+    },
+    "max_detail_adjustment": 8
+  },
+  {
+    "image": "coffee",
+    "source_size": [
+      240,
+      240
+    ],
+    "target": 400,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0.1,
+      0.2,
+      0.6,
+      0.6
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 22.4592
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 25.3211
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 26.4564
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 26.7097
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 26.7097
+      }
+    },
+    "max_detail_adjustment": 0
+  },
+  {
+    "image": "motorcycle_left",
+    "source_size": [
+      300,
+      300
+    ],
+    "target": 200,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0.1,
+      0.2,
+      0.6,
+      0.6
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 23.9808
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 27.1447
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 28.3195
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 28.4621
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 30.3248
+      }
+    },
+    "max_detail_adjustment": 8
+  },
+  {
+    "image": "motorcycle_left",
+    "source_size": [
+      300,
+      300
+    ],
+    "target": 400,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0.1,
+      0.2,
+      0.6,
+      0.6
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 20.6394
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 23.9534
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 25.4167
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 25.9393
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 25.9393
+      }
+    },
+    "max_detail_adjustment": 0
+  },
+  {
+    "image": "thin_lines",
+    "source_size": [
+      960,
+      960
+    ],
+    "target": 200,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0.1,
+      0.2,
+      0.6,
+      0.6
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 35.9864
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 40.3526
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 42.3929
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 42.3053
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 42.8423
+      }
+    },
+    "max_detail_adjustment": 8
+  },
+  {
+    "image": "thin_lines",
+    "source_size": [
+      960,
+      960
+    ],
+    "target": 400,
+    "legacy_view_width": 350,
+    "legacy_screen_scale": 2,
+    "crop": [
+      0.1,
+      0.2,
+      0.6,
+      0.6
+    ],
+    "metrics": {
+      "old_bilinear": {
+        "mean_edge_gradient": 39.8672
+      },
+      "old_bicubic": {
+        "mean_edge_gradient": 46.4147
+      },
+      "old_lanczos": {
+        "mean_edge_gradient": 50.0136
+      },
+      "direct_lanczos": {
+        "mean_edge_gradient": 50.481
+      },
+      "photo_detail": {
+        "mean_edge_gradient": 50.9462
+      }
+    },
+    "max_detail_adjustment": 8
+  }
+]

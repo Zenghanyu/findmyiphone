@@ -1,0 +1,80 @@
+[
+  {
+    "test": "python_native_preparation_0",
+    "passed": true,
+    "max_float_error": 7.105427357601002e-15
+  },
+  {
+    "test": "python_native_preparation_0.8",
+    "passed": true,
+    "max_float_error": 4.263256414560601e-14
+  },
+  {
+    "test": "python_native_preparation_1",
+    "passed": true,
+    "max_float_error": 4.973799150320701e-14
+  },
+  {
+    "test": "python_native_astronaut",
+    "passed": true,
+    "pixel_agreement": 1.0,
+    "desktop_seconds": 0.029102300002705306
+  },
+  {
+    "test": "python_native_chelsea",
+    "passed": true,
+    "pixel_agreement": 1.0,
+    "desktop_seconds": 0.028971599997021258
+  },
+  {
+    "test": "python_native_coffee",
+    "passed": true,
+    "pixel_agreement": 1.0,
+    "desktop_seconds": 0.02935669998987578
+  },
+  {
+    "test": "python_native_motorcycle_left",
+    "passed": true,
+    "pixel_agreement": 1.0,
+    "desktop_seconds": 0.03247959999134764
+  },
+  {
+    "test": "six_codes_marker_preview_and_all_payload_flips",
+    "passed": true
+  },
+  {
+    "test": "gamut_projection_vs_independent_scipy_constrained_optimisation",
+    "passed": true
+  },
+  {
+    "test": "source_black_white_are_panel_black_white",
+    "passed": true
+  },
+  {
+    "test": "neutral_ramp_has_no_coloured_speckles",
+    "passed": true
+  },
+  {
+    "test": "low_amplitude_neutral_noise_not_sharpened",
+    "passed": true
+  },
+  {
+    "test": "detail_is_bounded_2_Lstar_preserving_a_b",
+    "passed": true
+  },
+  {
+    "test": "colour_level_mode_is_single_quantisation_without_diffusion",
+    "passed": true
+  },
+  {
+    "test": "invalid_size_stride_nan_and_unknown_colour_are_rejected",
+    "passed": true
+  },
+  {
+    "test": "final_six_colour_subpixel_line_coverage_and_location",
+    "passed": true,
+    "diagonal_1px_coverage_before": 0.4166666666666667,
+    "diagonal_1px_coverage_after": 0.4318181818181818,
+    "note": "White background synthetic diagnostic; not a universal photo quality score"
+  }
+]

@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrushSDK iOS 集成说明</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --panel: #ffffff;
+      --text: #172033;
+      --sub: #667085;
+      --line: #e5e7eb;
+      --code: #111827;
+      --blue: #2f6bff;
+      --soft-blue: #eef4ff;
+      --warn-bg: #fff7ed;
+      --warn-line: #fed7aa;
+      --warn-text: #9a3412;
+      --ok-bg: #ecfdf3;
+      --ok-line: #bbf7d0;
+      --ok-text: #166534;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      line-height: 1.72;
+    }
+    .lang-toggle {
+      min-width: 76px;
+      height: 36px;
+      padding: 0 14px;
+      border: 1px solid var(--blue);
+      border-radius: 18px;
+      background: var(--blue);
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(47, 107, 255, 0.22);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .lang-toggle:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 28px 18px 56px;
+    }
+    .page-toolbar {
+      padding-bottom: 0;
+      padding-top: 18px;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: -44px;
+    }
+    .doc-en {
+      display: none;
+    }
+    body.lang-en .doc-zh {
+      display: none;
+    }
+    body.lang-en .doc-en {
+      display: block;
+    }
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-size: 21px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 20px 0 8px;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 8px 0 12px;
+    }
+    ul, ol {
+      margin: 8px 0 14px 22px;
+      padding: 0;
+    }
+    li {
+      margin: 6px 0;
+    }
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+    code {
+      background: var(--soft-blue);
+      color: #1d4ed8;
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: Menlo, Consolas, monospace;
+      font-size: 13px;
+    }
+    pre {
+      overflow-x: auto;
+      background: var(--code);
+      color: #e5e7eb;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.55;
+      margin: 10px 0 16px;
+    }
+    pre code {
+      color: inherit;
+      background: transparent;
+      padding: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f8fafc;
+      font-weight: 600;
+    }
+    .muted {
+      color: var(--sub);
+    }
+    .tags {
+      margin-top: 12px;
+    }
+    .tag {
+      display: inline-block;
+      margin: 4px 6px 0 0;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--soft-blue);
+      color: #1d4ed8;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .notice, .success {
+      border-radius: 8px;
+      padding: 12px;
+      margin: 12px 0;
+    }
+    .notice {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-line);
+      color: var(--warn-text);
+    }
+    .success {
+      background: var(--ok-bg);
+      border: 1px solid var(--ok-line);
+      color: var(--ok-text);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .mini {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfdff;
+    }
+    .mini strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+    @media (max-width: 760px) {
+      .page {
+        padding: 18px 12px 40px;
+      }
+      .page-toolbar {
+        padding-bottom: 0;
+      }
+      .toolbar {
+        margin-bottom: 8px;
+      }
+      .hero, .section {
+        padding: 16px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      table {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page page-toolbar">
+  <div class="toolbar">
+    <button class="lang-toggle" type="button" id="langToggle" aria-label="Switch to English">EN</button>
+  </div>
+</div>
+<div class="page doc doc-zh" lang="zh-CN">
+  <div class="hero">
+    <h1>BrushSDK iOS 集成说明</h1>
+    <p class="muted">本文面向 iOS 接入方，按模块说明 BrushSDK 的接入方式、关键对象、页面入口和底层 API 调用。当前 Demo 已拆分为绑定设备、设备详情、直接刷图、图片管理和轮播、OTA。</p>
+    <div class="tags">
+      <span class="tag">Objective-C</span>
+      <span class="tag">iOS 15+</span>
+      <span class="tag">BLE</span>
+      <span class="tag">NFC</span>
+      <span class="tag">XTDitherBleProtocol.xcframework</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>1. 交付内容</h2>
+    <table>
+      <tr><th>文件/目录</th><th>说明</th></tr>
+      <tr><td><code>README.html</code></td><td>当前集成说明文档。</td></tr>
+      <tr><td><code>BrushSDK 2026.8.21/BrushSDK.xcodeproj</code></td><td>可运行 Demo 工程。</td></tr>
+      <tr><td><code>BrushSDK 2026.8.21/BrushSDK/Core/</code></td><td>BLE、NFC、设备配置、图片转换等核心封装文件。</td></tr>
+      <tr><td><code>BrushSDK 2026.8.21/BrushSDK/MVC/Controller/</code></td><td>Demo 页面入口，包括绑定、刷图、图片管理、OTA。</td></tr>
+      <tr><td><code>BrushSDK 2026.8.21/BrushSDK/Core/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework</code></td><td>抖点算法和蓝牙协议动态库，客户工程实际需要链接该库。</td></tr>
+      <tr><td><code>BrushSDK 2026.8.21/BrushSDK/Core/Support/NFCCompress/libFMCompress.a</code></td><td>纯 NFC 设备使用的静态库。</td></tr>
+    </table>
+    <div class="notice">
+      以上文件为 SDK Demo 和接入依赖内容，请按本文档说明添加到客户工程。
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>2. 工程接入</h2>
+    <ol>
+      <li>将 <code>XTDitherBleProtocol.xcframework</code> 添加到客户 Xcode 工程。</li>
+      <li>在 Target 的 <code>Frameworks, Libraries, and Embedded Content</code> 中将该动态库设置为 <code>Embed &amp; Sign</code>。</li>
+      <li>如直接复用 Demo 封装，请把 <code>BrushSDK/Core</code> 下的 BLE、NFC、Support 相关文件加入客户工程。</li>
+      <li>如复用 Demo 页面，请把 <code>MVC/Controller</code> 中对应模块页面和依赖资源加入客户工程。</li>
+      <li>开启蓝牙、NFC、相册等系统能力和权限。</li>
+    </ol>
+
+    <h3>2.1 常用头文件</h3>
+    <pre><code>#import "XTDeviceConfig.h"
+#import "XTEnum.h"
+#import "XTTool.h"
+#import "NFCHelper.h"
+#import "XTBleWriteHelper.h"
+#import "XTImageDitherUtils.h"</code></pre>
+
+    <h3>2.2 权限配置</h3>
+    <p>根据实际功能配置 <code>Info.plist</code> 和 Entitlements。使用 NFC 时必须开启 NFC Capability。</p>
+    <pre><code>&lt;key&gt;NSBluetoothAlwaysUsageDescription&lt;/key&gt;
+&lt;string&gt;需要使用蓝牙连接设备&lt;/string&gt;
+&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;
+&lt;string&gt;需要访问相册选择刷图图片&lt;/string&gt;
+&lt;key&gt;NFCReaderUsageDescription&lt;/key&gt;
+&lt;string&gt;需要使用 NFC 读取设备信息&lt;/string&gt;</code></pre>
+    <pre><code>&lt;key&gt;com.apple.developer.nfc.readersession.iso7816.select-identifiers&lt;/key&gt;
+&lt;array&gt;
+  &lt;string&gt;D2760000850101&lt;/string&gt;
+&lt;/array&gt;</code></pre>
+
+    <h3>2.3 动态库架构</h3>
+    <p>当前 <code>XTDitherBleProtocol.xcframework</code> 包含真机和模拟器版本：</p>
+    <table>
+      <tr><th>LibraryIdentifier</th><th>平台</th><th>架构</th></tr>
+      <tr><td><code>ios-arm64</code></td><td>iPhone/iPad 真机</td><td><code>arm64</code></td></tr>
+      <tr><td><code>ios-arm64_x86_64-simulator</code></td><td>iOS Simulator</td><td><code>arm64</code>、<code>x86_64</code></td></tr>
+    </table>
+    <p>可用以下命令自行确认：</p>
+    <pre><code>plutil -p XTDitherBleProtocol.xcframework/Info.plist
+lipo -info XTDitherBleProtocol.xcframework/ios-arm64_x86_64-simulator/XTDitherBleProtocol.framework/XTDitherBleProtocol</code></pre>
+    <div class="notice">
+      <code>libFMCompress.a</code> 用于纯 NFC 设备相关流程。若客户工程启用纯 NFC 设备功能并链接该静态库，模拟器是否可编译取决于该静态库是否包含模拟器架构。
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>3. 核心对象</h2>
+    <h3>3.1 XTDeviceConfig</h3>
+    <p><code>XTDeviceConfig</code> 是所有模块共享的设备配置对象。绑定后必须保存，刷图、图片管理、OTA 都要传入同一个配置。</p>
+    <table>
+      <tr><th>字段</th><th>用途</th></tr>
+      <tr><td><code>brushType</code></td><td>通信方式：<code>brushWithBle</code>、<code>brushWithNfc</code>、<code>brushWithNfcAndBle</code>。</td></tr>
+      <tr><td><code>screenWidth</code> / <code>screenHeight</code></td><td>屏幕分辨率，图片需要按该尺寸裁剪或缩放。</td></tr>
+      <tr><td><code>screenColorCode</code> / <code>colorCount</code> / <code>colorDic</code></td><td>屏幕颜色能力和设备颜色值映射。</td></tr>
+      <tr><td><code>scanType</code></td><td>扫描方向：<code>HorizontalType</code> 横扫，<code>VerticalType</code> 竖扫。</td></tr>
+      <tr><td><code>screenSpecNumber</code></td><td>屏幕规格序号，对应 1-9 号屏幕。</td></tr>
+      <tr><td><code>imageDataProcessType</code></td><td>刷图数据处理类型。1.69 6色屏使用双芯片数据处理类型。</td></tr>
+      <tr><td><code>antiLostDevice</code> / <code>needsFindMyBrushModeSwitch</code></td><td>防丢器标记和刷图前模式切换标记。1.69 6色防丢器刷图前需要先切换到刷图模式。</td></tr>
+      <tr><td><code>appID</code> / <code>uuID</code></td><td>当前流程保存 MAC 地址。NFC 绑定和 BLE 绑定都只拿 MAC，后续由用户选择屏幕。</td></tr>
+      <tr><td><code>imageStorage</code> / <code>imageCount</code></td><td>是否支持图片管理、图片槽位数量。</td></tr>
+      <tr><td><code>writeImageCount</code></td><td>写图区数量。名片类设备可能使用双面写入接口。</td></tr>
+      <tr><td><code>supportCompress</code> / <code>compressAlgo</code></td><td>设备压缩能力，SDK 在生成和发送数据时使用。</td></tr>
+    </table>
+
+    <h3>3.2 本地保存和读取</h3>
+    <pre><code>[XTDeviceConfig saveLocalCfg:deviceConfig];
+
+XTDeviceConfig *deviceConfig = [XTDeviceConfig readLocalCfg];
+if (!deviceConfig) {
+    // 未绑定设备，请先进入绑定流程。
+}</code></pre>
+
+    <h3>3.3 通信方式判断</h3>
+    <pre><code>switch (deviceConfig.brushType) {
+    case brushWithBle:
+        // 蓝牙刷图、蓝牙 OTA、蓝牙图片管理
+        break;
+    case brushWithNfc:
+        // NFC 刷图；纯 NFC 不支持 OTA
+        break;
+    case brushWithNfcAndBle:
+        // NFC 前置流程 + BLE 传输
+        break;
+}</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>4. 屏幕选择</h2>
+    <p>绑定流程为：先通过 NFC 或 BLE 获取设备 MAC，再由用户选择 1-9 号屏幕。选择后按屏幕属性生成 <code>XTDeviceConfig</code>。</p>
+    <table>
+      <tr><th>序号</th><th>屏幕</th><th>分辨率</th><th>颜色</th><th>扫描方向</th></tr>
+      <tr><td>1</td><td>1.54 4色</td><td>200 x 200</td><td><code>BWRY</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>2</td><td>1.54 4色 防丢器</td><td>200 x 200</td><td><code>BWRY</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>3</td><td>1.54 6色</td><td>240 x 240</td><td><code>BWRYGB</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>4</td><td>1.54 6色 防丢器</td><td>240 x 240</td><td><code>BWRYGB</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>5</td><td>1.69 6色</td><td>400 x 400</td><td><code>BWRYGB</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>6</td><td>1.69 6色 防丢器</td><td>400 x 400</td><td><code>BWRYGB</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>7</td><td>3.7 6色</td><td>480 x 720</td><td><code>BWRYGB</code></td><td><code>VerticalType</code></td></tr>
+      <tr><td>8</td><td>5.89 6色</td><td>680 x 960</td><td><code>BWRYGB</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>9</td><td>4.0 4色</td><td>528 x 768</td><td><code>BWRY</code></td><td><code>VerticalType</code></td></tr>
+    </table>
+    <div class="notice">
+      3.7 6色和 4.0 4色为竖扫，其余屏幕为横扫。客户如果自行实现屏幕选择页，需要保持该字段一致。
+    </div>
+    <div class="notice">
+      1.69 6色和 1.69 6色防丢器都是 400 x 400 圆形屏。界面预览按圆形裁切显示，但实际刷图数据仍使用完整 400 x 400 图像，不要把下发图裁成圆形。
+    </div>
+    <div class="notice">
+      1.69 6色防丢器需要在刷图前先切换刷图模式。复用 Demo 的 <code>XTBleWriteHelper</code> 时会自动处理：首次连接发送模式切换指令，设备主动断开后重新扫描、重连，再继续删除 Flash 和发送图片数据。自定义 BLE 流程时也需要保留这一步，并且不要把这次预期断开当作刷图失败。
+    </div>
+
+    <h3>4.1 根据 MAC 和屏幕生成设备配置</h3>
+    <pre><code>NSString *mac = @"A1B2C3D4E5F6";
+NSInteger number = 8;
+NSInteger width = 680;
+NSInteger height = 960;
+NSString *color = @"BWRYGB";
+ScanType scanType = HorizontalType;
+
+XTDeviceConfig *config = [XTTool getBindDeviceDataWithDeviceNumber:number
+                                                               mac:mac
+                                                       screenWidth:width
+                                                      screenHeight:height
+                                                             color:color
+                                                  allowUnsupported:YES];
+if (!config) {
+    // 屏幕配置生成失败
+    return;
+}
+
+config.brushType = brushWithBle;
+config.appID = mac;
+config.uuID = mac;
+config.scanType = scanType;
+
+[XTDeviceConfig saveLocalCfg:config];</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>5. 模块一：绑定设备</h2>
+    <p>绑定模块只负责拿到 MAC 地址，然后弹出屏幕选择。屏幕选择完成后保存 <code>XTDeviceConfig</code>。</p>
+
+    <h3>5.1 NFC 绑定</h3>
+    <pre><code>@interface YourViewController () &lt;NFCHelperDelegate&gt;
+@end
+
+NFCHelper *nfc = [NFCHelper shareInstance];
+nfc.delegate = self;
+[nfc getDeviceConfig:@"请靠近设备" isNeedScanTip:YES];</code></pre>
+    <pre><code>- (void)NfcReadConfigComplete:(XTDeviceConfig *)config {
+    if (!config) {
+        return;
+    }
+
+    NSString *mac = config.uuID.length &gt; 0 ? config.uuID : config.appID;
+    // 当前版本：NFC 只使用 MAC，后续弹出 1-9 号屏幕选择。
+    [self showScreenPickerWithMac:mac brushType:config.brushType];
+}
+
+- (void)errCallBack:(NSString *)errMsg {
+    // NFC 读取失败，可提示 errMsg。
+}</code></pre>
+
+    <h3>5.2 BLE 绑定页面</h3>
+    <p>如复用 Demo 页面，直接 push <code>XTBleBindViewController</code>。该页面会扫描附近设备，按信号排序，并过滤异常 RSSI。</p>
+    <pre><code>@interface YourViewController () &lt;XTBleBindViewControllerDelegate&gt;
+@end
+
+XTBleBindViewController *vc = [[XTBleBindViewController alloc] init];
+vc.delegate = self;
+[self.navigationController pushViewController:vc animated:YES];</code></pre>
+    <pre><code>- (void)backBindMac:(NSString *)mac {
+    if (mac.length == 0) {
+        return;
+    }
+
+    // 当前版本：BLE 绑定页只返回 MAC，后续弹出 1-9 号屏幕选择。
+    [self showScreenPickerWithMac:mac brushType:brushWithBle];
+}</code></pre>
+
+    <h3>5.3 自定义 BLE 扫描列表</h3>
+    <pre><code>[[XTBleWriteHelper shareInstance] scanAvailableDevicesWithUpdate:^(XTBleScannedDevice *device) {
+    NSLog(@"mac=%@ name=%@ rssi=%@", device.mac, device.deviceName, device.rssi);
+    // device.supported 表示 SDK 是否识别该设备。
+    // 当前绑定业务仍建议只取 device.mac，然后让用户选择屏幕。
+} completion:^(NSArray&lt;XTBleScannedDevice *&gt; *devices, NSError *error) {
+    if (error) {
+        NSLog(@"scan error=%@", error.localizedDescription);
+        return;
+    }
+    // 扫描结束，可刷新最终列表。
+}];</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>6. 模块二：设备详情</h2>
+    <p>设备详情模块展示当前绑定配置。客户可按 <code>XTDeviceConfig</code> 字段展示。</p>
+    <pre><code>XTDeviceConfig *config = [XTDeviceConfig readLocalCfg];
+NSString *mac = config.uuID.length &gt; 0 ? config.uuID : config.appID;
+NSString *sizeText = [NSString stringWithFormat:@"%ld x %ld",
+                      (long)config.screenWidth,
+                      (long)config.screenHeight];
+NSString *colorCode = config.screenColorCode;
+ScanType scanType = config.scanType;</code></pre>
+
+    <h3>6.1 读取 BLE 电量、信号和固件版本</h3>
+    <pre><code>[[XTBleWriteHelper shareInstance] readPowerAndRssiWithDevice:config
+                                                     advData:^(NSString *RSSI,
+                                                               NSString *power,
+                                                               NSString *version) {
+    NSLog(@"RSSI=%@ power=%@ version=%@", RSSI, power, version);
+}];</code></pre>
+    <div class="notice">
+      设备详情和刷图、OTA、图片管理不要并发执行。进入新的设备任务前，建议先确保当前 BLE/NFC 操作已结束。
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>7. 模块三：直接刷图</h2>
+    <p>直接刷图模块包含图片预览、算法选择、导入按钮和悬浮日志。实际流程为：选择图片，裁剪/缩放到屏幕分辨率，调用图片转换，再按通信方式发送。</p>
+    <div class="notice">
+      重要提示：如果刷图失败，请先重新绑定设备并重新选择屏幕后再试，避免分辨率、颜色或扫描方向与当前屏幕不匹配。
+    </div>
+
+    <h3>7.1 复用 Demo 刷图页</h3>
+    <pre><code>BrushScreenController *vc = [[BrushScreenController alloc] init];
+vc.orignImage = inputImage;       // 已裁剪或缩放到设备分辨率
+vc.deviceConfig = deviceConfig;
+[self.navigationController pushViewController:vc animated:YES];</code></pre>
+
+    <h3>7.2 图片转换</h3>
+    <p><code>ALG_TYPE_DITHER</code> 为抖点算法，<code>ALG_TYPE_COLOR</code> 为色阶算法。SDK 会根据设备颜色和分辨率处理图片。</p>
+    <pre><code>UIImage *brushDataImage = nil;
+UIImage *displayImage = nil;
+NSData *nfcDirectData = [XTImageDitherUtils convertToUploadData:sourceImage
+                                                   previewImage:&amp;brushDataImage
+                                                 thresholdImage:&amp;displayImage
+                                                      deviceCfg:deviceConfig
+                                                        algType:ALG_TYPE_DITHER];
+
+if (!brushDataImage || !displayImage) {
+    // 转换结果不完整：检查图片尺寸、设备配置、颜色类型。
+    return;
+}</code></pre>
+    <div class="success">
+      <code>previewImage</code> 参数输出的是 RGB 取值图，必须用于后续生成 <code>picData</code>；<code>thresholdImage</code> 参数输出的是界面预览图，必须用于 UI 显示。两者不要互相兜底。<code>NSData</code> 主要用于纯 NFC 直接数据场景。
+    </div>
+    <div class="notice">
+      1.69 圆形屏有特殊处理：UI 显示仍使用正常转换得到的 <code>thresholdImage</code>，预览区域只做圆形遮罩；BLE 下发数据使用原图旋转 69.7 度后裁剪/缩放到 400 x 400，再按当前算法重新转换得到的 <code>previewImage</code>。也就是说显示图和下发取值图不是同一张图，但下发图仍必须保持 400 x 400 方图。
+    </div>
+
+    <h3>7.3 生成 BLE 上传数组</h3>
+    <pre><code>NSMutableArray *picData = [XTImageDitherUtils getUploadDataFromDitherImage:brushDataImage
+                                                                 deviceCfg:deviceConfig];
+if (picData.count == 0) {
+    // 上传数组生成失败
+    return;
+}</code></pre>
+
+    <h3>7.4 BLE 单面刷图</h3>
+    <pre><code>[[XTBleWriteHelper shareInstance] importImageDataToDeviceWithImageHexDataArr:picData
+                                                                deviceConfig:deviceConfig
+                                                                    sendSize:244
+                                                             writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    if (isSuccess) {
+        NSLog(@"刷图完成");
+    } else {
+        NSLog(@"刷图失败：%@", error);
+    }
+} advData:^(NSString *RSSI, NSString *power, NSString *version) {
+    NSLog(@"RSSI=%@ power=%@ version=%@", RSSI, power, version);
+}];</code></pre>
+
+    <h3>7.5 BLE 双面刷图</h3>
+    <p>名片类或双面板设备可使用双面接口。A 面和 B 面分别传入对应图片数组。</p>
+    <pre><code>[[XTBleWriteHelper shareInstance] importImageDataToDeviceWithImageHexDataArrA:picDataA
+                                                                  hexDataArrB:picDataB
+                                                                 deviceConfig:deviceConfig
+                                                                     sendSize:244
+                                                              writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    NSLog(@"双面刷图结果=%d error=%@", isSuccess, error);
+} advData:nil];</code></pre>
+
+    <h3>7.6 NFC 或 NFC+BLE 刷图</h3>
+    <pre><code>NFCHelper *nfc = [NFCHelper shareInstance];
+if (nfc.isReading) {
+    return;
+}
+
+NSString *response = [nfc importImageToDevice:@"请靠近设备"
+                                    imageData:imageData
+                                  imageDataXT:picData
+                                    screenCfg:deviceConfig
+                           imageSectionNumber:0
+                                          pin:nil
+                                     PageSize:244
+                                 IntervalTime:10];
+if (response.length &gt; 0) {
+    NSLog(@"NFC 提交失败：%@", response);
+}</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>8. 模块四：图片管理和轮播</h2>
+    <p>图片管理适用于支持图片存储能力的设备，入口包括图片选择、槽位写入、快速 NFC 发送、删除槽位和轮播设置。开发工程前需要确认设备固件是否支持该功能；固件不支持时接口不会成功。</p>
+
+    <h3>8.1 复用 Demo 图片管理页</h3>
+    <pre><code>if (deviceConfig.imageStorage == 0) {
+    // 当前设备不支持图片管理。
+    return;
+}
+
+XTImageStorageViewController *vc =
+    [[XTImageStorageViewController alloc] initWithDeviceConfig:deviceConfig];
+[self.navigationController pushViewController:vc animated:YES];</code></pre>
+
+    <h3>8.2 选择图片并转换</h3>
+    <pre><code>CGSize targetSize = CGSizeMake(deviceConfig.screenWidth, deviceConfig.screenHeight);
+UIImage *screenImage = [self scaledAspectFillImage:selectedImage toSize:targetSize];
+
+UIImage *brushDataImage = nil;
+UIImage *displayImage = nil;
+NSData *nfcDirectData = [XTImageDitherUtils convertToUploadData:screenImage
+                                                   previewImage:&amp;brushDataImage
+                                                 thresholdImage:&amp;displayImage
+                                                      deviceCfg:deviceConfig
+                                                        algType:ALG_TYPE_DITHER];
+
+if (!brushDataImage || !displayImage) {
+    return;
+}
+
+NSMutableArray *uploadData = [XTImageDitherUtils getUploadDataFromDitherImage:brushDataImage
+                                                                    deviceCfg:deviceConfig];</code></pre>
+
+    <h3>8.3 写入指定图片槽位</h3>
+    <p>图片槽位为 1-6。<code>XTImageStorageRefreshFlagSaveAndRefresh</code> 表示保存后立即刷新显示，<code>XTImageStorageRefreshFlagSaveOnly</code> 表示只保存不刷新。</p>
+    <pre><code>NSInteger imageIndex = 1;
+
+[[XTBleWriteHelper shareInstance] importImageStorageDataToDeviceWithImageHexDataArr:uploadData
+                                                                       deviceConfig:deviceConfig
+                                                                           sendSize:244
+                                                                         imageIndex:imageIndex
+                                                                        refreshFlag:XTImageStorageRefreshFlagSaveAndRefresh
+                                                                              param:0
+                                                                    writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    NSLog(@"图片槽位写入结果=%d error=%@", isSuccess, error);
+} advData:nil];</code></pre>
+
+    <h3>8.4 删除图片槽位</h3>
+    <pre><code>[[XTBleWriteHelper shareInstance] deleteImageStorageSlotsWithDeviceConfig:deviceConfig
+                                                             imageIndexes:@[@1, @2]
+                                                          writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    NSLog(@"删除结果=%d error=%@", isSuccess, error);
+} advData:nil];</code></pre>
+
+    <h3>8.5 开启或关闭轮播</h3>
+    <pre><code>// 从槽位 1 开始，每 10 分钟轮播一次。
+[[XTBleWriteHelper shareInstance] updateImageStorageCarouselWithDeviceConfig:deviceConfig
+                                                                  startIndex:1
+                                                             intervalMinutes:10
+                                                             writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    NSLog(@"轮播设置结果=%d error=%@", isSuccess, error);
+} advData:nil];
+
+// 关闭轮播：intervalMinutes 传 0。
+[[XTBleWriteHelper shareInstance] updateImageStorageCarouselWithDeviceConfig:deviceConfig
+                                                                  startIndex:1
+                                                             intervalMinutes:0
+                                                             writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    NSLog(@"轮播关闭结果=%d error=%@", isSuccess, error);
+} advData:nil];</code></pre>
+
+    <h3>8.6 快速 NFC 发送</h3>
+    <p>快速 NFC 发送用于 BLE 设备的图片管理场景：先通过 NFC 触发设备快速广播，再延迟调用原 BLE 图片槽位写入接口。</p>
+    <pre><code>@interface YourViewController () &lt;NFCHelperDelegate&gt;
+@property (nonatomic, assign) BOOL pendingFastNFCWrite;
+@property (nonatomic, strong) NSMutableArray *preparedUploadData;
+@property (nonatomic, assign) NSInteger selectedIndex;
+@end
+
+- (void)fastNFCSendSelectedImage {
+    if (deviceConfig.brushType != brushWithBle) {
+        return;
+    }
+
+    NFCHelper *nfc = [NFCHelper shareInstance];
+    if (nfc.isReading) {
+        return;
+    }
+
+    self.pendingFastNFCWrite = YES;
+    nfc.delegate = self;
+    [nfc getDeviceConfig:@"请靠近设备" isNeedScanTip:NO];
+}
+
+- (void)NfcReadConfigComplete:(XTDeviceConfig *)config {
+    if (!self.pendingFastNFCWrite) {
+        return;
+    }
+    self.pendingFastNFCWrite = NO;
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        [self writeImageData:self.preparedUploadData imageIndex:self.selectedIndex];
+    });
+}</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>9. 模块五：OTA</h2>
+    <p>OTA 模块用于选择 <code>.bin</code> 固件并下发。纯 BLE 设备走 <code>XTBleWriteHelper</code>，NFC+BLE 设备走 <code>NFCHelper</code>，纯 NFC 设备不支持 OTA。</p>
+
+    <h3>9.1 复用 Demo OTA 页</h3>
+    <pre><code>XTOTAViewController *vc = [[XTOTAViewController alloc] initWithDeviceConfig:deviceConfig];
+[self.navigationController pushViewController:vc animated:YES];</code></pre>
+
+    <h3>9.2 准备 OTA 数据</h3>
+    <pre><code>NSData *fileData = [NSData dataWithContentsOfURL:fileURL];
+if (fileData.length == 0) {
+    return;
+}
+
+NSMutableArray *otaData = [NSMutableArray arrayWithCapacity:fileData.length];
+const unsigned char *bytes = fileData.bytes;
+for (NSUInteger i = 0; i &lt; fileData.length; i++) {
+    [otaData addObject:@(bytes[i])];
+}</code></pre>
+
+    <h3>9.3 BLE OTA</h3>
+    <pre><code>if (deviceConfig.brushType == brushWithBle) {
+    [[XTBleWriteHelper shareInstance] importOTADataToDeviceWithOtaHexData:otaData
+                                                             deviceConfig:deviceConfig
+                                                                 sendSize:244];
+}</code></pre>
+
+    <h3>9.4 NFC+BLE OTA</h3>
+    <pre><code>if (deviceConfig.brushType == brushWithNfcAndBle) {
+    [[NFCHelper shareInstance] importOTAToDevice:@"OTA"
+                                      imageData:fileData
+                                    imageDataXT:otaData
+                                      screenCfg:deviceConfig
+                             imageSectionNumber:0
+                                            pin:nil
+                                       PageSize:10
+                                   IntervalTime:10];
+}</code></pre>
+
+    <div class="notice">
+      OTA 过程中请保持设备供电稳定，不要退出页面、关闭蓝牙或同时执行其他设备任务。
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>10. API 速查</h2>
+    <table>
+      <tr><th>模块</th><th>入口/API</th><th>用途</th></tr>
+      <tr><td>绑定</td><td><code>[NFCHelper getDeviceConfig:isNeedScanTip:]</code></td><td>NFC 读取设备，当前主要用于获取 MAC。</td></tr>
+      <tr><td>绑定</td><td><code>XTBleBindViewController</code></td><td>Demo BLE 绑定页，选择设备后回调 MAC。</td></tr>
+      <tr><td>绑定</td><td><code>[XTBleWriteHelper scanAvailableDevicesWithUpdate:completion:]</code></td><td>自定义 BLE 扫描列表。</td></tr>
+      <tr><td>配置</td><td><code>[XTTool getBindDeviceDataWithDeviceNumber:mac:screenWidth:screenHeight:color:allowUnsupported:]</code></td><td>根据 MAC 和屏幕规格生成 <code>XTDeviceConfig</code>。</td></tr>
+      <tr><td>配置</td><td><code>[XTDeviceConfig saveLocalCfg:]</code> / <code>[XTDeviceConfig readLocalCfg]</code></td><td>保存和读取当前绑定设备。</td></tr>
+      <tr><td>设备详情</td><td><code>[XTBleWriteHelper readPowerAndRssiWithDevice:advData:]</code></td><td>读取 BLE 设备广播信息、电量、版本。</td></tr>
+      <tr><td>刷图</td><td><code>[XTImageDitherUtils convertToUploadData:previewImage:thresholdImage:deviceCfg:algType:]</code></td><td>图片转换，输出 NFC 直接数据、RGB 取值图和界面预览图；两张图必须按用途分别使用。</td></tr>
+      <tr><td>刷图</td><td><code>[XTImageDitherUtils getUploadDataFromDitherImage:deviceCfg:]</code></td><td>由取数据图生成 BLE 上传数组。</td></tr>
+      <tr><td>刷图</td><td><code>[XTBleWriteHelper importImageDataToDeviceWithImageHexDataArr:deviceConfig:sendSize:writeImageBlock:advData:]</code></td><td>BLE 单面刷图。</td></tr>
+      <tr><td>刷图</td><td><code>[XTBleWriteHelper importImageDataToDeviceWithImageHexDataArrA:hexDataArrB:deviceConfig:sendSize:writeImageBlock:advData:]</code></td><td>BLE 双面刷图。</td></tr>
+      <tr><td>刷图</td><td><code>[NFCHelper importImageToDevice:imageData:imageDataXT:screenCfg:imageSectionNumber:pin:PageSize:IntervalTime:]</code></td><td>NFC 或 NFC+BLE 刷图提交。</td></tr>
+      <tr><td>图片管理</td><td><code>XTImageStorageViewController</code></td><td>Demo 图片管理和轮播页面。</td></tr>
+      <tr><td>图片管理</td><td><code>[XTBleWriteHelper importImageStorageDataToDeviceWithImageHexDataArr:deviceConfig:sendSize:imageIndex:refreshFlag:param:writeImageBlock:advData:]</code></td><td>保存图片到指定槽位。</td></tr>
+      <tr><td>图片管理</td><td><code>[XTBleWriteHelper deleteImageStorageSlotsWithDeviceConfig:imageIndexes:writeImageBlock:advData:]</code></td><td>删除指定槽位图片。</td></tr>
+      <tr><td>图片管理</td><td><code>[XTBleWriteHelper updateImageStorageCarouselWithDeviceConfig:startIndex:intervalMinutes:writeImageBlock:advData:]</code></td><td>开启或关闭图片轮播。</td></tr>
+      <tr><td>OTA</td><td><code>XTOTAViewController</code></td><td>Demo OTA 页面。</td></tr>
+      <tr><td>OTA</td><td><code>[XTBleWriteHelper importOTADataToDeviceWithOtaHexData:deviceConfig:sendSize:]</code></td><td>BLE OTA。</td></tr>
+      <tr><td>OTA</td><td><code>[NFCHelper importOTAToDevice:imageData:imageDataXT:screenCfg:imageSectionNumber:pin:PageSize:IntervalTime:]</code></td><td>NFC+BLE OTA。</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>11. 接入注意事项</h2>
+    <ul>
+      <li>绑定后请统一保存 <code>XTDeviceConfig</code>，后续模块不要重新拼接分辨率、颜色和 MAC。</li>
+      <li>NFC 绑定和 BLE 绑定获取 MAC 后，屏幕属性来自用户选择的 1-9 号屏幕。</li>
+      <li>如刷图失败，请先重新绑定设备并重新选择屏幕后再试。</li>
+      <li>刷图前必须把图片处理到设备分辨率，否则转换数据和设备显示可能不一致。</li>
+      <li><code>previewImage</code> 是 RGB 取值图，必须作为 BLE 取数据图；<code>thresholdImage</code> 是界面预览图。不要互相兜底或反用。</li>
+      <li>图片管理需要固件支持，开发工程前需要确认设备固件是否支持该功能。</li>
+      <li>纯 NFC 设备不支持 OTA。</li>
+      <li>同一时间只执行一个设备任务，避免 BLE 扫描、刷图、图片管理、OTA 并发。</li>
+      <li>传输过程中如需中断，可调用 <code>[[XTBleWriteHelper shareInstance] disconnectCurrentPeripherals]</code> 断开当前 BLE 外设。</li>
+      <li>如客户需要自定义 UI，可以只复用 <code>Core</code> 层 API；如需要快速验证，可以直接复用 Demo 中对应控制器。</li>
+    </ul>
+  </div>
+</div>
+
+<div class="page doc doc-en" lang="en">
+  <div class="hero">
+    <h1>BrushSDK iOS Integration Guide</h1>
+    <p class="muted">This document describes how to integrate BrushSDK by module, including required configuration, core objects, screen binding, direct image brushing, image storage and carousel, and OTA.</p>
+    <div class="tags">
+      <span class="tag">Objective-C</span>
+      <span class="tag">iOS 15+</span>
+      <span class="tag">BLE</span>
+      <span class="tag">NFC</span>
+      <span class="tag">XTDitherBleProtocol.xcframework</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>1. Package Contents</h2>
+    <table>
+      <tr><th>File / Directory</th><th>Description</th></tr>
+      <tr><td><code>README.html</code></td><td>Integration guide.</td></tr>
+      <tr><td><code>BrushSDK 2026.8.21/BrushSDK.xcodeproj</code></td><td>Runnable demo project.</td></tr>
+      <tr><td><code>BrushSDK 2026.8.21/BrushSDK/Core/</code></td><td>BLE, NFC, device configuration, and image conversion wrappers.</td></tr>
+      <tr><td><code>BrushSDK 2026.8.21/BrushSDK/MVC/Controller/</code></td><td>Demo page entries, including bind, brush, image management, and OTA.</td></tr>
+      <tr><td><code>BrushSDK 2026.8.21/BrushSDK/Core/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework</code></td><td>Dynamic framework for dithering and BLE protocol processing.</td></tr>
+      <tr><td><code>BrushSDK 2026.8.21/BrushSDK/Core/Support/NFCCompress/libFMCompress.a</code></td><td>Static library used by pure NFC devices.</td></tr>
+    </table>
+    <div class="notice">
+      Add the SDK demo files and required dependencies to the client project as described below.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>2. Project Integration</h2>
+    <ol>
+      <li>Add <code>XTDitherBleProtocol.xcframework</code> to the Xcode project.</li>
+      <li>Set the framework to <code>Embed &amp; Sign</code> in <code>Frameworks, Libraries, and Embedded Content</code>.</li>
+      <li>To reuse the demo wrappers, add the BLE, NFC, and Support files under <code>BrushSDK/Core</code>.</li>
+      <li>To reuse demo pages, add the required controllers and resources under <code>MVC/Controller</code>.</li>
+      <li>Enable Bluetooth, NFC, and photo library permissions according to the enabled features.</li>
+    </ol>
+
+    <h3>2.1 Common Headers</h3>
+    <pre><code>#import "XTDeviceConfig.h"
+#import "XTEnum.h"
+#import "XTTool.h"
+#import "NFCHelper.h"
+#import "XTBleWriteHelper.h"
+#import "XTImageDitherUtils.h"</code></pre>
+
+    <h3>2.2 Permissions</h3>
+    <p>Configure <code>Info.plist</code> and entitlements according to the features used by the app. NFC requires the NFC Capability.</p>
+    <pre><code>&lt;key&gt;NSBluetoothAlwaysUsageDescription&lt;/key&gt;
+&lt;string&gt;Bluetooth is required to connect to the device&lt;/string&gt;
+&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;
+&lt;string&gt;Photo library access is required to select images&lt;/string&gt;
+&lt;key&gt;NFCReaderUsageDescription&lt;/key&gt;
+&lt;string&gt;NFC is required to read device information&lt;/string&gt;</code></pre>
+    <pre><code>&lt;key&gt;com.apple.developer.nfc.readersession.iso7816.select-identifiers&lt;/key&gt;
+&lt;array&gt;
+  &lt;string&gt;D2760000850101&lt;/string&gt;
+&lt;/array&gt;</code></pre>
+
+    <h3>2.3 Framework Architectures</h3>
+    <p><code>XTDitherBleProtocol.xcframework</code> includes both device and simulator binaries:</p>
+    <table>
+      <tr><th>LibraryIdentifier</th><th>Platform</th><th>Architectures</th></tr>
+      <tr><td><code>ios-arm64</code></td><td>iPhone / iPad devices</td><td><code>arm64</code></td></tr>
+      <tr><td><code>ios-arm64_x86_64-simulator</code></td><td>iOS Simulator</td><td><code>arm64</code>, <code>x86_64</code></td></tr>
+    </table>
+    <pre><code>plutil -p XTDitherBleProtocol.xcframework/Info.plist
+lipo -info XTDitherBleProtocol.xcframework/ios-arm64_x86_64-simulator/XTDitherBleProtocol.framework/XTDitherBleProtocol</code></pre>
+    <div class="notice">
+      <code>libFMCompress.a</code> is used by pure NFC device flows. If pure NFC device support is enabled and this static library is linked, simulator compilation depends on whether that static library contains simulator architectures.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>3. Core Object</h2>
+    <h3>3.1 XTDeviceConfig</h3>
+    <p><code>XTDeviceConfig</code> is the shared device configuration object. Save it after binding and pass the same object to brushing, image storage, and OTA modules.</p>
+    <table>
+      <tr><th>Field</th><th>Usage</th></tr>
+      <tr><td><code>brushType</code></td><td>Transfer type: <code>brushWithBle</code>, <code>brushWithNfc</code>, or <code>brushWithNfcAndBle</code>.</td></tr>
+      <tr><td><code>screenWidth</code> / <code>screenHeight</code></td><td>Screen resolution. Images must be cropped or scaled to this size.</td></tr>
+      <tr><td><code>screenColorCode</code> / <code>colorCount</code> / <code>colorDic</code></td><td>Screen color capability and device color mapping.</td></tr>
+      <tr><td><code>scanType</code></td><td>Scan direction: <code>HorizontalType</code> or <code>VerticalType</code>.</td></tr>
+      <tr><td><code>screenSpecNumber</code></td><td>Screen option number, matching the 1-9 screen list.</td></tr>
+      <tr><td><code>imageDataProcessType</code></td><td>Image payload processing type. The 1.69 6-color screen uses the dual-chip data processing type.</td></tr>
+      <tr><td><code>antiLostDevice</code> / <code>needsFindMyBrushModeSwitch</code></td><td>Anti-lost marker and pre-brush mode-switch marker. The 1.69 6-color anti-lost screen must switch to brush mode before image upload.</td></tr>
+      <tr><td><code>appID</code> / <code>uuID</code></td><td>Stores the MAC address used by the current flow.</td></tr>
+      <tr><td><code>imageStorage</code> / <code>imageCount</code></td><td>Whether image storage is supported and the available image count.</td></tr>
+      <tr><td><code>writeImageCount</code></td><td>Number of write areas. Some devices may use the double-sided write API.</td></tr>
+      <tr><td><code>supportCompress</code> / <code>compressAlgo</code></td><td>Device compression capability used during data generation and transfer.</td></tr>
+    </table>
+
+    <h3>3.2 Save and Read Local Config</h3>
+    <pre><code>[XTDeviceConfig saveLocalCfg:deviceConfig];
+
+XTDeviceConfig *deviceConfig = [XTDeviceConfig readLocalCfg];
+if (!deviceConfig) {
+    // No device has been bound.
+}</code></pre>
+
+    <h3>3.3 Transfer Type</h3>
+    <pre><code>switch (deviceConfig.brushType) {
+    case brushWithBle:
+        // BLE brushing, BLE OTA, BLE image storage
+        break;
+    case brushWithNfc:
+        // NFC brushing; pure NFC devices do not support OTA
+        break;
+    case brushWithNfcAndBle:
+        // NFC pre-flow + BLE transfer
+        break;
+}</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>4. Screen Selection</h2>
+    <p>The binding flow first obtains the device MAC through NFC or BLE, then asks the user to select one of the 1-9 screen options. After selection, build <code>XTDeviceConfig</code> from the selected screen attributes.</p>
+    <table>
+      <tr><th>No.</th><th>Screen</th><th>Resolution</th><th>Color</th><th>Scan Direction</th></tr>
+      <tr><td>1</td><td>1.54 4-color</td><td>200 x 200</td><td><code>BWRY</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>2</td><td>1.54 4-color anti-lost</td><td>200 x 200</td><td><code>BWRY</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>3</td><td>1.54 6-color</td><td>240 x 240</td><td><code>BWRYGB</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>4</td><td>1.54 6-color anti-lost</td><td>240 x 240</td><td><code>BWRYGB</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>5</td><td>1.69 6-color</td><td>400 x 400</td><td><code>BWRYGB</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>6</td><td>1.69 6-color anti-lost</td><td>400 x 400</td><td><code>BWRYGB</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>7</td><td>3.7 6-color</td><td>480 x 720</td><td><code>BWRYGB</code></td><td><code>VerticalType</code></td></tr>
+      <tr><td>8</td><td>5.89 6-color</td><td>680 x 960</td><td><code>BWRYGB</code></td><td><code>HorizontalType</code></td></tr>
+      <tr><td>9</td><td>4.0 4-color</td><td>528 x 768</td><td><code>BWRY</code></td><td><code>VerticalType</code></td></tr>
+    </table>
+    <div class="notice">
+      The 3.7 6-color screen and the 4.0 4-color screen use vertical scan. All other listed screens use horizontal scan.
+    </div>
+    <div class="notice">
+      The 1.69 6-color and 1.69 6-color anti-lost screens are 400 x 400 round screens. The UI preview is clipped with a circular mask, but the upload payload still uses the full 400 x 400 square image. Do not crop the upload image into a circle.
+    </div>
+    <div class="notice">
+      The 1.69 6-color anti-lost screen must switch to brush mode before image upload. When the Demo <code>XTBleWriteHelper</code> is reused, this is handled automatically: the first connection sends the mode-switch command, the device disconnects as expected, then the SDK scans and reconnects before deleting Flash and sending image data. If you implement a custom BLE flow, keep this step and do not treat the expected disconnect as a brushing failure.
+    </div>
+
+    <h3>4.1 Build Device Config</h3>
+    <pre><code>NSString *mac = @"A1B2C3D4E5F6";
+NSInteger number = 8;
+NSInteger width = 680;
+NSInteger height = 960;
+NSString *color = @"BWRYGB";
+ScanType scanType = HorizontalType;
+
+XTDeviceConfig *config = [XTTool getBindDeviceDataWithDeviceNumber:number
+                                                               mac:mac
+                                                       screenWidth:width
+                                                      screenHeight:height
+                                                             color:color
+                                                  allowUnsupported:YES];
+if (!config) {
+    return;
+}
+
+config.brushType = brushWithBle;
+config.appID = mac;
+config.uuID = mac;
+config.scanType = scanType;
+
+[XTDeviceConfig saveLocalCfg:config];</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>5. Module 1: Device Binding</h2>
+    <p>The binding module obtains the MAC address first, then opens screen selection. Save <code>XTDeviceConfig</code> after the screen is selected.</p>
+
+    <h3>5.1 NFC Binding</h3>
+    <pre><code>@interface YourViewController () &lt;NFCHelperDelegate&gt;
+@end
+
+NFCHelper *nfc = [NFCHelper shareInstance];
+nfc.delegate = self;
+[nfc getDeviceConfig:@"Move close to the device" isNeedScanTip:YES];</code></pre>
+    <pre><code>- (void)NfcReadConfigComplete:(XTDeviceConfig *)config {
+    if (!config) {
+        return;
+    }
+
+    NSString *mac = config.uuID.length &gt; 0 ? config.uuID : config.appID;
+    [self showScreenPickerWithMac:mac brushType:config.brushType];
+}
+
+- (void)errCallBack:(NSString *)errMsg {
+    // NFC read failed. Show errMsg if needed.
+}</code></pre>
+
+    <h3>5.2 BLE Binding Page</h3>
+    <pre><code>@interface YourViewController () &lt;XTBleBindViewControllerDelegate&gt;
+@end
+
+XTBleBindViewController *vc = [[XTBleBindViewController alloc] init];
+vc.delegate = self;
+[self.navigationController pushViewController:vc animated:YES];</code></pre>
+    <pre><code>- (void)backBindMac:(NSString *)mac {
+    if (mac.length == 0) {
+        return;
+    }
+
+    [self showScreenPickerWithMac:mac brushType:brushWithBle];
+}</code></pre>
+
+    <h3>5.3 Custom BLE Scan List</h3>
+    <pre><code>[[XTBleWriteHelper shareInstance] scanAvailableDevicesWithUpdate:^(XTBleScannedDevice *device) {
+    NSLog(@"mac=%@ name=%@ rssi=%@", device.mac, device.deviceName, device.rssi);
+} completion:^(NSArray&lt;XTBleScannedDevice *&gt; *devices, NSError *error) {
+    if (error) {
+        NSLog(@"scan error=%@", error.localizedDescription);
+        return;
+    }
+}];</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>6. Module 2: Device Details</h2>
+    <p>The device details module displays the current bound configuration. Clients can display fields from <code>XTDeviceConfig</code>.</p>
+    <pre><code>XTDeviceConfig *config = [XTDeviceConfig readLocalCfg];
+NSString *mac = config.uuID.length &gt; 0 ? config.uuID : config.appID;
+NSString *sizeText = [NSString stringWithFormat:@"%ld x %ld",
+                      (long)config.screenWidth,
+                      (long)config.screenHeight];
+NSString *colorCode = config.screenColorCode;
+ScanType scanType = config.scanType;</code></pre>
+
+    <h3>6.1 Read BLE Power, RSSI, and Firmware Version</h3>
+    <pre><code>[[XTBleWriteHelper shareInstance] readPowerAndRssiWithDevice:config
+                                                     advData:^(NSString *RSSI,
+                                                               NSString *power,
+                                                               NSString *version) {
+    NSLog(@"RSSI=%@ power=%@ version=%@", RSSI, power, version);
+}];</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>7. Module 3: Direct Image Brushing</h2>
+    <p>The direct brushing module includes image preview, algorithm selection, import actions, and floating logs. The flow is: select an image, crop or scale it to the screen resolution, convert the image, then send data according to the transfer type.</p>
+    <div class="notice">
+      Important: If brushing fails, rebind the device, select the screen again, and retry to avoid resolution, color, or scan-direction mismatch.
+    </div>
+
+    <h3>7.1 Reuse the Demo Brush Page</h3>
+    <pre><code>BrushScreenController *vc = [[BrushScreenController alloc] init];
+vc.orignImage = inputImage;       // Cropped or scaled to the device resolution
+vc.deviceConfig = deviceConfig;
+[self.navigationController pushViewController:vc animated:YES];</code></pre>
+
+    <h3>7.2 Image Conversion</h3>
+    <p><code>ALG_TYPE_DITHER</code> is the dithering algorithm. <code>ALG_TYPE_COLOR</code> is the color-level algorithm.</p>
+    <pre><code>UIImage *brushDataImage = nil;
+UIImage *displayImage = nil;
+NSData *nfcDirectData = [XTImageDitherUtils convertToUploadData:sourceImage
+                                                   previewImage:&amp;brushDataImage
+                                                 thresholdImage:&amp;displayImage
+                                                      deviceCfg:deviceConfig
+                                                        algType:ALG_TYPE_DITHER];
+
+if (!brushDataImage || !displayImage) {
+    return;
+}</code></pre>
+    <div class="success">
+      The <code>previewImage</code> output is the RGB data image and must be used for building <code>picData</code>. The <code>thresholdImage</code> output is the UI preview image and must be used for display. Do not use one as a fallback for the other. The returned <code>NSData</code> is mainly for pure NFC direct-data flows.
+    </div>
+    <div class="notice">
+      The 1.69 round screen has special handling: the UI still displays the normal converted <code>thresholdImage</code> and applies only a circular preview mask; the BLE upload data uses the original image rotated by 69.7 degrees, then cropped/scaled to 400 x 400 and converted again with the current algorithm to produce the upload <code>previewImage</code>. The display image and upload data image are therefore different, while the upload image must remain a 400 x 400 square image.
+    </div>
+
+    <h3>7.3 Generate BLE Upload Array</h3>
+    <pre><code>NSMutableArray *picData = [XTImageDitherUtils getUploadDataFromDitherImage:brushDataImage
+                                                                 deviceCfg:deviceConfig];</code></pre>
+
+    <h3>7.4 BLE Single-sided Brushing</h3>
+    <pre><code>[[XTBleWriteHelper shareInstance] importImageDataToDeviceWithImageHexDataArr:picData
+                                                                deviceConfig:deviceConfig
+                                                                    sendSize:244
+                                                             writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    NSLog(@"brush result=%d error=%@", isSuccess, error);
+} advData:^(NSString *RSSI, NSString *power, NSString *version) {
+    NSLog(@"RSSI=%@ power=%@ version=%@", RSSI, power, version);
+}];</code></pre>
+
+    <h3>7.5 BLE Double-sided Brushing</h3>
+    <pre><code>[[XTBleWriteHelper shareInstance] importImageDataToDeviceWithImageHexDataArrA:picDataA
+                                                                  hexDataArrB:picDataB
+                                                                 deviceConfig:deviceConfig
+                                                                     sendSize:244
+                                                              writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    NSLog(@"double-side result=%d error=%@", isSuccess, error);
+} advData:nil];</code></pre>
+
+    <h3>7.6 NFC or NFC+BLE Brushing</h3>
+    <pre><code>NFCHelper *nfc = [NFCHelper shareInstance];
+if (nfc.isReading) {
+    return;
+}
+
+NSString *response = [nfc importImageToDevice:@"Move close to the device"
+                                    imageData:imageData
+                                  imageDataXT:picData
+                                    screenCfg:deviceConfig
+                           imageSectionNumber:0
+                                          pin:nil
+                                     PageSize:244
+                                 IntervalTime:10];</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>8. Module 4: Image Storage and Carousel</h2>
+    <p>Image storage is available only for devices that support image storage. It includes image selection, slot writing, fast NFC sending, slot deletion, and carousel settings. Confirm whether the device firmware supports this feature before starting project development.</p>
+
+    <h3>8.1 Reuse the Demo Image Storage Page</h3>
+    <pre><code>if (deviceConfig.imageStorage == 0) {
+    return;
+}
+
+XTImageStorageViewController *vc =
+    [[XTImageStorageViewController alloc] initWithDeviceConfig:deviceConfig];
+[self.navigationController pushViewController:vc animated:YES];</code></pre>
+
+    <h3>8.2 Write to an Image Slot</h3>
+    <pre><code>NSInteger imageIndex = 1;
+
+[[XTBleWriteHelper shareInstance] importImageStorageDataToDeviceWithImageHexDataArr:uploadData
+                                                                       deviceConfig:deviceConfig
+                                                                           sendSize:244
+                                                                         imageIndex:imageIndex
+                                                                        refreshFlag:XTImageStorageRefreshFlagSaveAndRefresh
+                                                                              param:0
+                                                                    writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    NSLog(@"storage write result=%d error=%@", isSuccess, error);
+} advData:nil];</code></pre>
+
+    <h3>8.3 Delete Image Slots</h3>
+    <pre><code>[[XTBleWriteHelper shareInstance] deleteImageStorageSlotsWithDeviceConfig:deviceConfig
+                                                             imageIndexes:@[@1, @2]
+                                                          writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    NSLog(@"delete result=%d error=%@", isSuccess, error);
+} advData:nil];</code></pre>
+
+    <h3>8.4 Start or Stop Carousel</h3>
+    <pre><code>[[XTBleWriteHelper shareInstance] updateImageStorageCarouselWithDeviceConfig:deviceConfig
+                                                                  startIndex:1
+                                                             intervalMinutes:10
+                                                             writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    NSLog(@"carousel result=%d error=%@", isSuccess, error);
+} advData:nil];
+
+// Stop carousel by passing 0.
+[[XTBleWriteHelper shareInstance] updateImageStorageCarouselWithDeviceConfig:deviceConfig
+                                                                  startIndex:1
+                                                             intervalMinutes:0
+                                                             writeImageBlock:^(BOOL isSuccess, NSString *error) {
+    NSLog(@"stop carousel result=%d error=%@", isSuccess, error);
+} advData:nil];</code></pre>
+
+    <h3>8.5 Fast NFC Send</h3>
+    <p>Fast NFC send is used for BLE device image storage. NFC is used first to trigger fast advertising, then the normal BLE image slot write API is called.</p>
+    <pre><code>NFCHelper *nfc = [NFCHelper shareInstance];
+if (nfc.isReading) {
+    return;
+}
+
+self.pendingFastNFCWrite = YES;
+nfc.delegate = self;
+[nfc getDeviceConfig:@"Move close to the device" isNeedScanTip:NO];</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>9. Module 5: OTA</h2>
+    <p>The OTA module selects and transfers a <code>.bin</code> firmware file. Pure BLE devices use <code>XTBleWriteHelper</code>. NFC+BLE devices use <code>NFCHelper</code>. Pure NFC devices do not support OTA.</p>
+
+    <h3>9.1 Reuse the Demo OTA Page</h3>
+    <pre><code>XTOTAViewController *vc = [[XTOTAViewController alloc] initWithDeviceConfig:deviceConfig];
+[self.navigationController pushViewController:vc animated:YES];</code></pre>
+
+    <h3>9.2 Prepare OTA Data</h3>
+    <pre><code>NSData *fileData = [NSData dataWithContentsOfURL:fileURL];
+NSMutableArray *otaData = [NSMutableArray arrayWithCapacity:fileData.length];
+const unsigned char *bytes = fileData.bytes;
+for (NSUInteger i = 0; i &lt; fileData.length; i++) {
+    [otaData addObject:@(bytes[i])];
+}</code></pre>
+
+    <h3>9.3 BLE OTA</h3>
+    <pre><code>[[XTBleWriteHelper shareInstance] importOTADataToDeviceWithOtaHexData:otaData
+                                                         deviceConfig:deviceConfig
+                                                             sendSize:244];</code></pre>
+
+    <h3>9.4 NFC+BLE OTA</h3>
+    <pre><code>[[NFCHelper shareInstance] importOTAToDevice:@"OTA"
+                                  imageData:fileData
+                                imageDataXT:otaData
+                                  screenCfg:deviceConfig
+                         imageSectionNumber:0
+                                        pin:nil
+                                   PageSize:10
+                               IntervalTime:10];</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>10. API Quick Reference</h2>
+    <table>
+      <tr><th>Module</th><th>Entry / API</th><th>Purpose</th></tr>
+      <tr><td>Binding</td><td><code>[NFCHelper getDeviceConfig:isNeedScanTip:]</code></td><td>Read device through NFC, mainly to obtain MAC.</td></tr>
+      <tr><td>Binding</td><td><code>XTBleBindViewController</code></td><td>Demo BLE binding page.</td></tr>
+      <tr><td>Binding</td><td><code>[XTBleWriteHelper scanAvailableDevicesWithUpdate:completion:]</code></td><td>Custom BLE scan list.</td></tr>
+      <tr><td>Config</td><td><code>[XTTool getBindDeviceDataWithDeviceNumber:mac:screenWidth:screenHeight:color:allowUnsupported:]</code></td><td>Build <code>XTDeviceConfig</code> from MAC and screen attributes.</td></tr>
+      <tr><td>Config</td><td><code>[XTDeviceConfig saveLocalCfg:]</code> / <code>[XTDeviceConfig readLocalCfg]</code></td><td>Save and read the current bound device.</td></tr>
+      <tr><td>Device Details</td><td><code>[XTBleWriteHelper readPowerAndRssiWithDevice:advData:]</code></td><td>Read RSSI, power, and firmware version.</td></tr>
+      <tr><td>Brush</td><td><code>[XTImageDitherUtils convertToUploadData:previewImage:thresholdImage:deviceCfg:algType:]</code></td><td>Convert image and output NFC direct data, RGB data image, and UI preview image. Use both images strictly by purpose.</td></tr>
+      <tr><td>Brush</td><td><code>[XTImageDitherUtils getUploadDataFromDitherImage:deviceCfg:]</code></td><td>Generate BLE upload array from the data image.</td></tr>
+      <tr><td>Brush</td><td><code>[XTBleWriteHelper importImageDataToDeviceWithImageHexDataArr:deviceConfig:sendSize:writeImageBlock:advData:]</code></td><td>BLE single-sided brushing.</td></tr>
+      <tr><td>Brush</td><td><code>[XTBleWriteHelper importImageDataToDeviceWithImageHexDataArrA:hexDataArrB:deviceConfig:sendSize:writeImageBlock:advData:]</code></td><td>BLE double-sided brushing.</td></tr>
+      <tr><td>Brush</td><td><code>[NFCHelper importImageToDevice:imageData:imageDataXT:screenCfg:imageSectionNumber:pin:PageSize:IntervalTime:]</code></td><td>NFC or NFC+BLE brushing.</td></tr>
+      <tr><td>Image Storage</td><td><code>XTImageStorageViewController</code></td><td>Demo image storage and carousel page.</td></tr>
+      <tr><td>Image Storage</td><td><code>[XTBleWriteHelper importImageStorageDataToDeviceWithImageHexDataArr:deviceConfig:sendSize:imageIndex:refreshFlag:param:writeImageBlock:advData:]</code></td><td>Save image to a specified slot.</td></tr>
+      <tr><td>Image Storage</td><td><code>[XTBleWriteHelper deleteImageStorageSlotsWithDeviceConfig:imageIndexes:writeImageBlock:advData:]</code></td><td>Delete specified image slots.</td></tr>
+      <tr><td>Image Storage</td><td><code>[XTBleWriteHelper updateImageStorageCarouselWithDeviceConfig:startIndex:intervalMinutes:writeImageBlock:advData:]</code></td><td>Start or stop image carousel.</td></tr>
+      <tr><td>OTA</td><td><code>XTOTAViewController</code></td><td>Demo OTA page.</td></tr>
+      <tr><td>OTA</td><td><code>[XTBleWriteHelper importOTADataToDeviceWithOtaHexData:deviceConfig:sendSize:]</code></td><td>BLE OTA.</td></tr>
+      <tr><td>OTA</td><td><code>[NFCHelper importOTAToDevice:imageData:imageDataXT:screenCfg:imageSectionNumber:pin:PageSize:IntervalTime:]</code></td><td>NFC+BLE OTA.</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>11. Notes</h2>
+    <ul>
+      <li>Save <code>XTDeviceConfig</code> after binding and reuse it for all later modules.</li>
+      <li>After NFC or BLE binding obtains the MAC, screen attributes come from the selected 1-9 screen option.</li>
+      <li>If brushing fails, rebind the device, select the screen again, and retry.</li>
+      <li>Before brushing, process the image to match the device resolution.</li>
+      <li><code>previewImage</code> is the RGB data image and must be used as the BLE data image. <code>thresholdImage</code> is the UI preview image. Do not use either as a fallback for the other.</li>
+      <li>Image storage requires firmware support. Confirm firmware support before starting project development.</li>
+      <li>Pure NFC devices do not support OTA.</li>
+      <li>Run only one device task at a time. Avoid concurrent BLE scan, brushing, image storage, and OTA operations.</li>
+      <li>Call <code>[[XTBleWriteHelper shareInstance] disconnectCurrentPeripherals]</code> to disconnect the current BLE peripheral when needed.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var button = document.getElementById('langToggle');
+    if (!button) {
+      return;
+    }
+
+    function setLanguage(lang) {
+      var isEn = lang === 'en';
+      document.body.classList.toggle('lang-en', isEn);
+      document.documentElement.lang = isEn ? 'en' : 'zh-CN';
+      button.textContent = isEn ? '中文' : 'EN';
+      button.setAttribute('aria-label', isEn ? '切换到中文' : 'Switch to English');
+      try {
+        localStorage.setItem('brushsdk-readme-lang', lang);
+      } catch (e) {}
+    }
+
+    var current = '';
+    try {
+      current = localStorage.getItem('brushsdk-readme-lang') || '';
+    } catch (e) {}
+    if (!current) {
+      var browserLang = (navigator.language || navigator.userLanguage || 'zh').toLowerCase();
+      current = browserLang.indexOf('zh') === 0 ? 'zh' : 'en';
+    }
+    setLanguage(current === 'en' ? 'en' : 'zh');
+
+    button.addEventListener('click', function () {
+      setLanguage(document.body.classList.contains('lang-en') ? 'zh' : 'en');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+</script>
+</body>
+</html>
