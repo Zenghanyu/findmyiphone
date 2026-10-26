@@ -16,6 +16,8 @@ App 包含两个窗口：**查找**（原标签查找功能）与 **功能**（�
 
 ## 开发入口
 
+新版黑白 SwiftUI 前端原型位于 [`ios/EasyFindPrototype`](ios/EasyFindPrototype/README.md)，包含设备、墨水屏、提醒三个页面，以及按钮和开关交互优化。可独立运行预览；蓝牙、UWB、墨水屏传输和通知仍需接入。原硬件版工程入口如下。
+
 1. 打开 `ios/EasyFind/EasyFind.xcodeproj`，选择 `EasyFind` scheme。
 2. 真机运行时，在 Signing & Capabilities 选择自己的 Team 和可用的 Bundle Identifier；仓库中的值来自当前原型配置，不包含签名证书或私钥。
 3. 系统闹钟需要 iOS 26+；当前开发环境使用 Xcode 27。模拟器可用 `-uiMock -selfieDemo -phoneFindAuthorized -featureTestControls` 演示页面，模拟结果不代表真实蓝牙或系统闹钟。
