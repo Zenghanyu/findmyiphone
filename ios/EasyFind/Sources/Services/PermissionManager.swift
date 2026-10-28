@@ -79,7 +79,7 @@ final class PermissionManager {
     }
 
     static func checkUwbSupported() -> Bool {
-        NISession.isSupported
+        NISession.deviceCapabilities.supportsPreciseDistanceMeasurement
     }
 
     /// 检查系统就绪状态（蓝牙必须由调用方提供 poweredOn 状态）

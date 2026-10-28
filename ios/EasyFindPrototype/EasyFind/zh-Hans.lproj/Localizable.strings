@@ -1,0 +1,455 @@
+/*
+  Localizable.strings
+  NewTool
+
+  Created by XTMacMini on 2025/2/17.
+
+*/
+
+"XT_Basic_Info"                 = "设备信息";
+"XT_Cancel"                     = "取消";
+"XT_Resolution"                 = "分辨率";
+"XT_Color_Mode"                 = "颜色支持";
+
+"XT_Bind_Device"                = "绑定设备";
+"XT_Shoot_Import"               = "拍摄导入";
+"XT_Album_Import"               = "相册导入";
+"XT_Access_Photos"              = "访问相册";
+
+"XT_Not_Allowed_Photos"         = "您还没有打开相册权限";
+"XT_Revert"                     = "还原";
+"XT_Import_Preview"             = "导入预览";
+"XT_Please_Bind_Device"         = "请先绑定设备";
+"XT_Import_Image"               = "导入图像";
+
+"XT_Download_From_Icloud"       = "请先从iCloud下载图片";
+
+"XT_Tips"                       = "提示";
+"XT_Confirm"                    = "确定";
+"XT_Done"                       = "完成";
+
+//SDK
+"XT_Close_To_Equipment"         = "请靠近设备";
+"XT_Screen_Refreshing_image"    = "正在传输数据...";
+"XT_Invalid_Instructions"       = "无效指令";
+"XT_No_Empty_Data"              = "数据不能为空";
+"XT_Support_iOS"                = "仅支持iOS13以上系统";
+"XT_Support_iPhone"             = "该机型不支持NFC功能";
+
+//屏幕颜色
+"XT_C_BW"                       = "黑白";
+"XT_C_BWR"                      = "黑白红";
+"XT_C_BWY"                      = "黑白黄";
+"XT_C_BWRY"                     = "黑白红黄";
+"XT_C_BWRYGB"                   = "黑白红黄绿蓝";
+"XT_C_UNKOWN"                   = "未知";
+
+"XT_Type"                       = "类型";
+"XT_NFCisdoing"                 = "NFC正忙,请稍等...";
+"XT_unkonwState"                = "未知状态";
+"XT_resetState"                 = "重置状态";
+"XT_UnsupportedState"           = "不支持状态";
+"XT_UnauthorizedState"          = "未授权状态";
+"XT_ClosedState"                = "关闭状态";
+"XT_AvailableState"             = "可用状态";
+"XT_OtherState"                 = "其它状态";
+"XT_OtaNotAllow"                = "当前版本禁止OTA";
+"XT_tansFailed"                 = "传输数据失败";
+
+"XT_hScanning"                  = "水平扫描";
+"XT_vScanning"                  = "垂直扫描";
+
+"XT_AppName"                    = "智墨坊";
+"XT_Basic_Info:"                = "设备信息 :";
+"XT_MAC"                        = "MAC地址";
+"XT_OTA"                        = "OTA升级";
+
+"XT_notsupported"               = "暂不支持该设备,请重新绑定设备";
+"XT_nopermission"               = "请开启访问权限";
+"XT_settings"                   = "去设置";
+"XT_readotaerror"               = "读取OTA数据出错";
+"XT_filetypeerror"              = "不支持当前类型文件";
+"XT_bindsuccess"                = "绑定成功";
+"XT_deviceWriteError"           = "信息解析错误，请检查设备写入参数";
+"XT_shoot"                      = "拍摄";
+"XT_doudong"                    = "抖动算法";
+"XT_Colorlevel"                 = "色阶算法";
+"XT_Convert_Image_Fail"         = "图像转换失败";
+
+"XT_rotate"                     = "旋转";
+"XT_templatefailed"             = "模板图片下载失败,请稍后再试";
+"XT_dragdelete"                 = "拖动到此处删除";
+"XT_releaseDelete"              = "松手即可删除";
+
+"XT_diffusion"                  = "扩散:";
+"XT_brightness"                 = "亮度:";
+"XT_primaryColors"              = "基色:";
+
+"XT_BrushAnmationTitle"         = "请选择一个刷图动画";
+
+"XT_Synchronous"                = "同步刷新";
+"XT_S"                          = "S形刷新";
+"XT_N"                          = "N形刷新";
+"XT_Center"                     = "中心扩散";
+"XT_Fan_in"                     = "扇入";
+"XT_Clockwise"                  = "顺时针";
+
+"XT_unavailable"                = "NFC暂不可用";
+"XT_brushCompelte"              = "刷图成功";
+"XT_Nfc1Disconnected"           = "NFC 1已断开-刷图失败";
+"XT_doingota"                   = "正在OTA...";
+"XT_OtaSuccess"                 = "OTA成功";
+"XT_OtaFailed"                  = "升级OTA失败";
+"XT_readywritedata"             = "正在准备写入数据";
+"XT_readyOta"                   = "准备OTA";
+"XT_readinfo"                   = "正在读取参数";
+"XT_brushing"                   = "正在努力刷图";
+"XT_devicewarn"                 = "状态异常";
+"XT_readyBrushing"              = "正在准备刷图";
+"XT_NFCwarn"                    = "NFC状态异常";
+"XT_NFCMoreTag"                 = "存在多个标签";
+"XT_NFCConnectFailed"           = "连接NFC标签失败";
+"XT_queryNFCConnectFailed"      = "查询NFC标签状态失败";
+"XT_NFCNotNdef"                 = "标签不是NDEF格式";
+"XT_readNFCConnectFailed"       = "读取NFC标签失败";
+"XT_NFCBlank"                   = "NFC标签为空";
+"XT_WirteInfoSuccess"           = "配置参数写入成功";
+"XT_NFCdataWarn"                = "NDEF数据异常";
+"XT_NFCTimeout"                 = "NFC超时,请稍后再试";
+
+//厂商
+"XT_JIAXIAN"                    = "大连佳显";
+"XT_YUANTAI"                    = "台湾元太";
+"XT_AOYI"                       = "广州奥翼";
+"XT_WEIFENG"                    = "无锡威锋";
+"XT_PDI"                        = "PDI";
+"XT_JINGDONGFANG"               = "京东方";
+"XT_DKE"                        = "DKE";
+"XT_WEIXINNUO"                  = "维信诺";
+"XT_OTHER"                      = "其它";
+
+"XT_More_Tags"                  = "区域内存在多个标签";
+"XT_NFC_Connect_Fail"           = "NFC连接失败,请重试";
+"XT_NFC_Write_Fail_Data"        = "通讯失败:%@ 错误:%@";
+"XT_Read_Config_Fail"           = "读取配置失败,错误:%@";
+"XT_Read_Image_Info_Fail"       = "读取图像处理信息失败,错误:%@";
+"XT_NFC_Read_Fail"              = "通讯失败:%@ 错误:%@";
+"XT_Device_Check_Fail"          = "配置信息不匹配:%@ 请先绑定设备";
+"XT_NFC_Refresh_Screen_Fail"    = "刷屏失败:%@ 错误:%@";
+"XT_Verify_Pin_Fail"            = "pin码验证失败,错误:%@";
+"XT_Modify_Pin_Fail"            = "pin码修改失败,错误:%@";
+"XT_Device_Locked"              = "超过最大重试次数,设备已锁定";
+"XT_Verify_Pin_Fail_Count"      = "pin码验证失败,剩余重试次数:%lu";
+"XT_Modify_Pin_Fail_Count"      = "pin码修改失败,剩余重试次数:%lu";
+"XT_Verify_Pin"                 = "验证pin码";
+"XT_Image_Importing"            = "正在传输图像";
+"XT_Image_Import_Fail"          = "图像传输失败,错误:%@";
+"XT_Operation_Success"          = "操作成功";
+"XT_No_Set_Pin"                 = "设备无需设置pin码";
+"XT_Processing"                 = "处理中";
+"XT_Screen_Refreshing"          = "正在刷新屏幕";
+"XT_NFC_Read_Config_Fail"       = "读取设备信息失败,错误:%@";
+
+"XTBLE_Bind"                    = "蓝牙绑定设备";
+"XTNFC_Bind"                    = "NFC绑定设备";
+"XT_BindSectionTitle"           = "请选择一种绑定方式";
+"XT_Bleunavailable"             = "蓝牙暂不可用";
+"XT_BleDisconnected"            = "已断开-刷图失败";
+"XT_DitheringFailed"            = "图片抖点失败";
+
+"SearchingBT"                   = "正在搜索蓝牙";
+"ConnectingBT"                  = "正在连接蓝牙";
+"ScanningBTServices"            = "正在扫描蓝牙服务";
+"ScanBTServicesFailed"          = "扫描蓝牙服务失败";
+"EnterOrScanFirst"              = "请先输入或扫码";
+"AddrLengthErr"                 = "输入地址长度不对";
+"AddrFormatErr"                 = "输入地址格式不对";
+"StartBinding"                  = "开始绑定";
+"StoreDevInfoErr"               = "储存设备信息错误，请联系客服";
+"NoDeviceFound"                 = "未搜索到设备，请检查输入的MAC地址";
+"EnterMACAddr"                  = "请输入MAC地址";
+"ConfirmBinding"                = "确定绑定";
+"ScanQR"                        = "扫一扫";
+"PhotoAlbum"                    = "相册";
+"AllowAppAccessPhotos"          = "[前往：设置 - 隐私 - 照片 - %@] 允许应用访问";
+"Reminder"                      = "温馨提示";
+"OK"                            = "确定";
+"AccessAlbumFailed"             = "由于系统原因, 无法访问相册";
+"ScanQRInFrame"                 = "将二维码/条码放入框内, 即可自动扫描";
+"BindingFailed"                 = "绑定失败";
+"ScreenRefreshStart"            = "屏幕开始刷新";
+"Bluetooth Connection timed out" = "蓝牙连接超时";
+"The task has been completed"   = "任务执行完毕";
+
+"XT_Color_Level" = "色阶";
+"XT_Dither" = "抖点";
+
+"XT_Back" = "返回";
+"XT_Device_Manager" = "设备信息";
+"XT_MAC_Address" = "MAC地址";
+"XT_Device_Size" = "设备宽高";
+"XT_NFC_Bind_Device" = "NFC绑定设备";
+"XT_QRCode_Bluetooth_Bind" = "二维码/条码蓝牙绑定";
+"XT_Screen_Brush" = "刷图";
+"XT_Prism_Screen_Brush_64_128" = "刷 Prism 64/128";
+
+//Demo首页和绑定
+"XT_SDK_Module_Subtitle" = "按模块调用 SDK 功能";
+"XT_Function_Modules" = "功能模块";
+"XT_Current_Device" = "当前设备";
+"XT_Unbound" = "未绑定";
+"XT_Bound" = "已绑定";
+"XT_Anti_Lost_Device" = "防丢器";
+"XT_No_Device_Bound" = "未绑定设备";
+"XT_Tap_Bind_Device_Below" = "点击下方绑定设备";
+"XT_Bind_First_Then_Use_Modules" = "先绑定设备，再进入对应功能模块";
+"XT_Bind_Device_Select_NFC_BLE" = "进入绑定设备模块选择 NFC 或 BLE";
+"XT_Device_Bound_Use_Modules" = "当前设备已就绪，可直接进入功能模块";
+"XT_Device_Number_Format" = "设备编号 %@";
+"XT_Device_Meta_Format" = "%@ · %@ · %@ · 点击查看详情";
+"XT_BLE_Bind_Short" = "BLE 绑定";
+"XT_NFC_Bind_Short" = "NFC 绑定";
+"XT_Device_Detail" = "设备详情";
+"XT_Color" = "颜色";
+"XT_Communication_Method" = "通信方式";
+"XT_Support_Status" = "支持状态";
+"XT_Bindable" = "可绑定";
+"XT_Unsupported" = "暂不支持";
+"XT_Firmware_Version" = "固件版本";
+"XT_Battery" = "电量";
+"XT_Color_Count" = "颜色数量";
+"XT_Image_Capacity" = "图片容量";
+"XT_Write_Area_Count" = "写图区数量";
+"XT_Scan_Direction" = "扫描方向";
+"XT_Vertical" = "垂直";
+"XT_Horizontal" = "水平";
+"XT_NFC_Powered_BLE_Transfer" = "NFC供电 + BLE传输";
+"XT_Image_Storage_Carousel_Unsupported" = "当前设备不支持图片管理和轮播";
+"XT_Invalid_MAC" = "MAC 无效";
+"XT_No_Screen_Options" = "暂无可选屏幕";
+"XT_Select_Screen" = "选择屏幕";
+"XT_Screen_Config_Failed" = "屏幕配置生成失败";
+"XT_Screen" = "屏幕";
+"XT_Screen_Spec_Title_Format" = "%@  %@ x %@";
+"XT_Screen_Option_1" = "1号屏：1.54 4色";
+"XT_Screen_Option_2" = "2号屏：1.54 4色 防丢器";
+"XT_Screen_Option_3" = "3号屏：1.54 6色";
+"XT_Screen_Option_4" = "4号屏：1.54 6色 防丢器";
+"XT_Screen_Option_5" = "5号屏：1.69 6色";
+"XT_Screen_Option_6" = "6号屏：1.69 6色 防丢器";
+"XT_Screen_Option_7" = "7号屏：3.7 6色";
+"XT_Screen_Option_8" = "8号屏：5.89 6色";
+"XT_Screen_Option_9" = "9号屏：4 4色";
+"XT_Bind_Device_Subtitle" = "NFC / BLE 绑定屏幕";
+"XT_Direct_Brush" = "直接刷图";
+"XT_Direct_Brush_Subtitle" = "选择图片，转换后写入设备";
+"XT_Algorithm_Select" = "算法选择";
+"XT_Fast_Import_Image" = "快速导入";
+"XT_Brush_Screen_Subtitle_Format" = "%ld x %ld · %@";
+"XT_Image_Preview" = "图片预览";
+"XT_Waiting_To_Send" = "等待发送";
+"XT_Brush_Device_Info_Format" = "MAC: %@\n分辨率: %ld x %ld\n颜色: %@\n通信方式: %@";
+"XT_Generating_Brush_Data" = "正在生成刷图数据";
+"XT_Brush_Task_Started" = "开始刷图任务";
+"XT_Brush_Data_Generated" = "刷图数据已生成";
+"XT_Brush_Complete" = "刷图完成";
+"XT_Brush_Failed" = "刷图失败";
+"XT_BLE_Write_Complete" = "BLE 写屏完成";
+"XT_BLE_Write_Failed" = "BLE 写屏失败";
+"XT_Brush_RSSI_Log_Format" = "RSSI %@，电量 %@，版本 %@";
+"XT_Waiting_NFC_Device" = "等待 NFC 贴近设备";
+"XT_NFC_Task_Submitted" = "NFC 任务已提交";
+"XT_NFC_Write_Task_Submitted" = "NFC 写屏任务已提交";
+"XT_Waiting_NFC_Fast_Broadcast" = "等待 NFC 激活快速广播";
+"XT_Fast_Brush_Task_Started" = "开始快速刷图流程";
+"XT_Brush_Convert_Failed_Log_Format" = "转换失败：图片 %.0fx%.0f，颜色码 %@";
+"XT_Generating_Preview" = "正在生成预览";
+"XT_Switch_Algorithm_Log_Format" = "切换算法：%@";
+"XT_Preview_Updated" = "预览已更新";
+"XT_NFC_Activated_BLE_Write_Complete" = "NFC 激活后 BLE 写屏完成";
+"XT_NFC_Activated_BLE_Write_Failed" = "NFC 激活后 BLE 写屏失败";
+"XT_Data_Error" = "数据错误";
+"XT_Image_Manager_Carousel" = "图片管理和轮播";
+"XT_Image_Manager_Carousel_Subtitle" = "管理图片槽位和轮播参数";
+"XT_Image_Manager_Firmware_Warning" = "请先确认固件是否支持图片管理和轮播；固件不支持时，操作不会成功。";
+"XT_OTA_Subtitle" = "选择 .bin 固件升级";
+
+//蓝牙绑定
+"XT_Rescan" = "重新扫描";
+"XT_BLE_Bind_Page_Title" = "蓝牙绑定";
+"XT_BLE_Bind_Subtitle" = "先选择目标 MAC，再选择 1-9 号屏幕规格完成绑定";
+"XT_Scan_Status" = "扫描状态";
+"XT_MAC_List" = "MAC 列表";
+"XT_Scanning_MAC_Status" = "正在扫描附近设备 MAC，预计 20 秒";
+"XT_Scan_Failed" = "扫描失败";
+"XT_Scan_Result_Format" = "扫描完成，共发现 %ld 个 MAC";
+"XT_All" = "全部";
+"XT_Device_Number" = "设备编号";
+"XT_Filter_Value_Format" = "%@\n%@";
+"XT_No_Device" = "暂无设备";
+"XT_Pending_Screen" = "待选屏幕";
+"XT_Name" = "名称";
+"XT_Device_Cell_Detail_Format" = "名称：%@    RSSI：%@";
+"XT_Waiting_Scan" = "等待扫描";
+"XT_Clear_Filter" = "清空筛选";
+
+//OTA
+"XT_Firmware_Update" = "固件升级";
+"XT_Update_File" = "升级文件";
+"XT_Wait_Select_Bin_File" = "等待选择 .bin 文件";
+"XT_Log" = "日志";
+"XT_No_Operation" = "暂无操作";
+"XT_OTA_Device_Subtitle_Format" = "设备编号 %@ 的 OTA 升级";
+"XT_Device_Info_OTA_Format" = "MAC: %@\n分辨率: %ld x %ld\n颜色: %@\n通信方式: %@";
+"XT_File_Selected_Format" = "已选择：%@";
+"XT_Select_Bin_File_Tips" = "请选择 .bin 固件文件";
+"XT_NFC_Device_Unsupported_OTA" = "纯 NFC 设备不支持 OTA";
+"XT_Select_Bin_File_First" = "请先选择 .bin 文件";
+"XT_OTA_Started" = "OTA 已开始";
+"XT_OTA_Start_Log_Format" = "开始升级：%@，大小 %.2f KB";
+"XT_Transfer_Method_Format" = "传输方式：%@";
+"XT_File_Ready" = "文件已准备";
+"XT_File_Selected_Log_Format" = "已选择文件：%@";
+"XT_Select_Bin" = "选择 .bin";
+"XT_Start_OTA" = "开始 OTA";
+
+//图片管理
+"XT_Image_Manager" = "图片管理";
+"XT_Waiting_Operation" = "等待操作";
+"XT_Image_Position" = "图片位置";
+"XT_Carousel" = "轮播";
+"XT_Image_Storage_Device_Info_Format" = "设备编号: %ld\nMAC: %@\n分辨率: %ld x %ld\n颜色: %@";
+"XT_Position_Format" = "位置: %ld";
+"XT_Select_Image_Position" = "选择图片位置";
+"XT_Select_Image_First" = "请先选择图片";
+"XT_Image_Not_Ready" = "图片未处理完成";
+"XT_Dithering_Processing" = "正在抖点处理";
+"XT_Processing_Image" = "正在处理图片";
+"XT_Image_Process_Failed" = "图片处理失败";
+"XT_Dither_Complete_Sendable" = "抖点完成，可发送";
+"XT_Sending_To_Position_Format" = "正在发送到位置%ld";
+"XT_Send_Complete" = "发送完成";
+"XT_Send_Failed" = "发送失败";
+"XT_Carousel_Opening" = "正在开启轮播";
+"XT_Carousel_Closing" = "正在关闭轮播";
+"XT_Carousel_Opened" = "轮播已开启";
+"XT_Carousel_Closed" = "轮播已关闭";
+"XT_Carousel_Setting_Failed" = "轮播设置失败";
+"XT_Image_Manager_Unsupported" = "当前设备不支持图片管理";
+"XT_Tap_Select_Image" = "点击这里选择图片";
+"XT_Select_Image" = "选择图片";
+"XT_Send" = "发送";
+"XT_Fast_NFC_Send" = "快速 NFC 发送";
+"XT_Minutes" = "分钟";
+"XT_Start_Carousel" = "开启轮播";
+"XT_Stop_Carousel" = "关闭轮播";
+
+//通用提示和底层回调
+"XT_Target_MAC_Empty" = "目标MAC为空";
+"XT_Unsupported_Device" = "暂不支持该设备";
+"XT_Device_Empty" = "设备为空";
+"XT_Image_Data_Empty" = "图片数据为空";
+"XT_Processing_Image_Manager_Data" = "正在处理图片管理数据";
+"XT_Select_Delete_Image" = "请选择要删除的图片";
+"XT_Image_Manager_Command_Empty" = "图片管理命令为空";
+"XT_BLE_Service_Scan_Timeout" = "蓝牙服务扫描超时，请重试";
+"XT_BLE_Service_Discover_Failed" = "蓝牙服务发现失败";
+"XT_Write_Type_Error" = "写入类型错误";
+"XT_Sending_Image_Manager_Command" = "正在发送图片管理命令";
+"XT_Image_Manager_Command_Failed_Format" = "图片管理命令失败：%ld";
+"XT_Image_Manager_Command_Complete" = "图片管理命令已完成";
+"XT_Antilost_Switch_Brush_Mode_Failed" = "防丢模式切换到刷图模式失败";
+"XT_Saving_Image" = "正在保存图片";
+"XT_Brush_Data_Empty" = "刷图数据为空";
+"XT_Batch_Delete_Failed_Format" = "批次%d删除失败";
+"XT_Retry_Count_Format" = "重试第%d/5次";
+"XT_BLE_Transfer_Failed" = "设备蓝牙传输失败";
+"XT_Batch_Delete_Flash_Format" = "批次%ld删除Flash（长度：%ld）";
+"XT_Batch_Mode" = "批量模式";
+"XT_Non_Batch_Mode" = "非批量模式";
+"XT_Send_Batch_Format" = "%@ 发送批次%ld/%ld（共%ld个包）";
+"XT_Sending_Data" = "正在发送数据...";
+"XT_Batch_Need_Retransmit_Format" = "批次%ld需要补包";
+"XT_Retransmit_Packet_Format" = "补包 %ld（第%ld批）";
+"XT_Command_Need_Signature" = "需要签名认证";
+"XT_Command_Security_Failed" = "安全认证失败";
+"XT_Command_Execution_Failed" = "指令执行失败";
+"XT_Unknown_Error_Retry" = "未知错误，请重试";
+"XT_Command_Need_Signature_Format" = "需要签名认证 - %ld";
+"XT_Command_Security_Failed_Format" = "安全认证失败 - %ld";
+"XT_Command_Execution_Failed_Format" = "指令执行失败 - %ld";
+"XT_Delete_Flash_Unknown_Error_Format" = "删除Flash未知错误 - %ld";
+"XT_NFC_Error_Or_Low_Battery" = "NFC错误或者电池电量不足";
+"XT_Battery_Depleted_Replace" = "电池已没电，请更换电池";
+"XT_Refresh_Started_Move_Phone" = "刷屏已开始，请移开手机";
+"XT_Unsupported_Device_Binding" = "暂不支持该设备绑定";
+"XT_Color_Count_Unit_Format" = "%ld色";
+"XT_Color_Count_Mismatch_Format" = "%@颜色数量:%ld 与%@颜色数量:%ld 不匹配";
+"XT_Image_Capacity_Less_Than_Required_Format" = "图片容量:%ld 小于刷屏所需图片数量:%ld";
+"XT_Unknown_Color_Definition_Format" = "%@存在未知的颜色定义:%@";
+"XT_No_Camera_Permission_Use_Album" = "没有相机权限，可使用相册识别";
+"XT_No_Camera_Permission_Settings_Use_Album" = "没有相机权限，可在系统设置中开启或使用相册识别";
+"XT_No_Available_Camera_Use_Album" = "当前设备没有可用摄像头，可使用相册识别";
+"XT_Camera_Open_Failed_Use_Album" = "摄像头打开失败，可使用相册识别";
+"XT_Scan_Start_Failed_Use_Album" = "扫码识别启动失败，可使用相册识别";
+"XT_Color_Black" = "黑";
+"XT_Color_White" = "白";
+"XT_Color_Red" = "红";
+"XT_Color_Yellow" = "黄";
+"XT_Color_Orange" = "橙";
+"XT_Color_Green" = "绿";
+"XT_Color_Cyan" = "青";
+"XT_Color_Blue" = "蓝";
+"XT_Color_Purple" = "紫";
+
+//旧FM前缀兼容
+"FM_NFC_Connect_Fail" = "NFC连接失败,请重试";
+"FM_NFC_Write_Fail_Data" = "通讯失败:%@ 错误:%@";
+"FM_Read_Config_Fail" = "读取配置失败,错误:%@";
+"FM_NFC_Read_Fail" = "通讯失败:%@ 错误:%@";
+"FM_Device_Check_Fail" = "配置信息不匹配:%@ 请先绑定设备";
+"FM_NFC_Refresh_Screen_Fail" = "刷屏失败:%@ 错误:%@";
+"FM_Verify_Pin_Fail" = "pin码验证失败,错误:%@";
+"FM_Modify_Pin_Fail" = "pin码修改失败,错误:%@";
+"FM_Device_Locked" = "超过最大重试次数,设备已锁定";
+"FM_Verify_Pin_Fail_Count" = "pin码验证失败,剩余重试次数:%lu";
+"FM_Modify_Pin_Fail_Count" = "pin码修改失败,剩余重试次数:%lu";
+"FM_Verify_Pin" = "验证pin码";
+"FM_Image_Importing" = "正在传输图像";
+"FM_Image_Import_Fail" = "图像传输失败,错误:%@";
+"FM_Operation_Success" = "操作成功";
+"FM_No_Set_Pin" = "设备无需设置pin码";
+"FM_Processing" = "处理中";
+"FM_Screen_Refreshing" = "正在刷新屏幕";
+"FM_NFC_Read_Config_Fail" = "读取设备信息失败,错误:%@";
+"FM_Set_Pin" = "请设置pin码";
+
+//旧key兼容
+"TaskImageEmpty" = "图片数据为空";
+"ProcessingImage" = "正在处理图片";
+"data_check" = "正在校验数据";
+"设备蓝牙传输失败" = "设备蓝牙传输失败";
+"XT_ReadInfoSuccess" = "读取设备信息成功";
+"XT_NFC_Fast_Broadcast_Activated" = "已唤醒蓝牙快速广播";
+"XT_Prism_Title" = "Prism刷图";
+"XT_NFCInitFailed" = "NFC初始化失败";
+"XT_ErrUnsupportedFeature" = "不支持的功能";
+"XT_ErrSecurityViolation" = "安全认证失败";
+"XT_ErrInvalidParam" = "参数无效";
+"XT_ErrInvalidParamLen" = "参数长度无效";
+"XT_ErrParamOutOfBound" = "参数超出范围";
+"XT_ErrRadioDisabled" = "NFC未开启";
+"XT_ErrTagConnLost" = "NFC标签连接已断开";
+"XT_ErrSessionInvalidated" = "NFC会话已失效";
+"XT_ErrTagNotConnected" = "NFC标签未连接";
+"XT_ErrPacketTooLong" = "数据包过长";
+"XT_ErrRetryExceeded" = "重试次数已达上限";
+"XT_ErrTagResponseErr" = "NFC标签响应错误";
+"XT_ErrSessionTimeout" = "NFC会话超时";
+"XT_ErrSystemBusy" = "系统繁忙";
+"XT_ErrFirstNDEFTagInvalid" = "首个NDEF标签无效";
+"XT_ErrTagConfigInvalid" = "NFC标签配置无效";
+"XT_ErrNDEFTagNotWritable" = "NDEF标签不可写";
+"XT_ErrNDEFTagUpdateFail" = "NDEF标签更新失败";
+"XT_ErrNDEFTagSizeSmall" = "NDEF标签容量不足";
+"XT_ErrNDEFTagZeroMsg" = "NDEF标签消息为空";

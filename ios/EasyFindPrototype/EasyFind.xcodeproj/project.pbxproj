@@ -10,6 +10,7 @@
 		000000000000000000000001 /* EasyFind */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+                A1000000000000000000000F,
 			);
 			explicitFileTypes = {
 			};
@@ -34,8 +35,7 @@
 		000000000000000000000002 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
-			files = (
-			);
+			files = (A10000000000000000000007, A1000000000000000000000A, A1000000000000000000000B);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -45,6 +45,7 @@
 			isa = PBXGroup;
 			children = (
 				000000000000000000000001 /* EasyFind */,
+                A10000000000000000000001, A10000000000000000000003, A10000000000000000000008, A10000000000000000000009,
 				000000000000000000000004 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,13 +68,15 @@
 				000000000000000000000002 /* Frameworks */,
 				000000000000000000000008 /* Sources */,
 				000000000000000000000009 /* Resources */,
+                A1000000000000000000000E,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				000000000000000000000001 /* EasyFind */,
+			packageProductDependencies = (A10000000000000000000006);
+            fileSystemSynchronizedGroups = (
+                A10000000000000000000001, A10000000000000000000003,				000000000000000000000001 /* EasyFind */,
 			);
 			name = EasyFind;
 			productName = EasyFind;
@@ -107,7 +110,8 @@
 			minimizedProjectFileRepresentations = 1;
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 000000000000000000000004 /* Products */;
-			projectDirPath = "";
+			packageReferences = (A10000000000000000000005);
+            projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				000000000000000000000006 /* EasyFind */,
@@ -255,7 +259,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+                INFOPLIST_FILE = EasyFind/Info.plist;
+                SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/EasyFind/Infrastructure/EasyFind-Bridging-Header.h";
+                HEADER_SEARCH_PATHS = ("$(inherited)", "$(SRCROOT)/../Vendor/BrushSDK/**");
+                CLANG_ENABLE_OBJC_ARC = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -279,7 +287,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+                INFOPLIST_FILE = EasyFind/Info.plist;
+                SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/EasyFind/Infrastructure/EasyFind-Bridging-Header.h";
+                HEADER_SEARCH_PATHS = ("$(inherited)", "$(SRCROOT)/../Vendor/BrushSDK/**");
+                CLANG_ENABLE_OBJC_ARC = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -319,6 +331,22 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+        A10000000000000000000001 = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A10000000000000000000002); path = ../EasyFind/Sources; sourceTree = "<group>";};
+        A10000000000000000000002 = {isa = PBXFileSystemSynchronizedBuildFileExceptionSet; membershipExceptions = ("App/AppDelegate.swift", "App/EasyFindTabBarController.swift", "App/SceneDelegate.swift", "Home/TagResultsPanelView.swift", "Home/EasyFindHomeViewController.swift", "Ranging/WorldView.swift", "Ranging/PreciseFindingState.swift", "Ranging/SignalFilters.swift", "Ranging/MotoTagRangingView.swift", "Ranging/ParticleFieldView.swift", "SelfieStick/SelfieStickViewController.swift"); target = 000000000000000000000006;};
+        A10000000000000000000003 = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A10000000000000000000004); path = ../Vendor/BrushSDK; sourceTree = "<group>";};
+        A10000000000000000000004 = {isa = PBXFileSystemSynchronizedBuildFileExceptionSet; membershipExceptions = ("Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework", "Tests/image_core_test.c", "README.md"); target = 000000000000000000000006;};
+        A10000000000000000000005 = {isa = XCLocalSwiftPackageReference; relativePath = ../EasyFindCore;};
+        A10000000000000000000006 = {isa = XCSwiftPackageProductDependency; package = A10000000000000000000005; productName = EasyFindCore;};
+        A10000000000000000000007 = {isa = PBXBuildFile; productRef = A10000000000000000000006;};
+        A10000000000000000000008 = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ../FindMyTagKit.xcframework; sourceTree = "<group>";};
+        A10000000000000000000009 = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ../Vendor/BrushSDK/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework; sourceTree = "<group>";};
+        A1000000000000000000000A = {isa = PBXBuildFile; fileRef = A10000000000000000000008;};
+        A1000000000000000000000B = {isa = PBXBuildFile; fileRef = A10000000000000000000009;};
+        A1000000000000000000000C = {isa = PBXBuildFile; fileRef = A10000000000000000000008; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy);};};
+        A1000000000000000000000D = {isa = PBXBuildFile; fileRef = A10000000000000000000009; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy);};};
+        A1000000000000000000000E = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 10; files = (A1000000000000000000000C, A1000000000000000000000D); name = "Embed Frameworks"; runOnlyForDeploymentPostprocessing = 0;};
+        A1000000000000000000000F = {isa = PBXFileSystemSynchronizedBuildFileExceptionSet; membershipExceptions = (Info.plist, "Infrastructure/EasyFind-Bridging-Header.h"); target = 000000000000000000000006;};
 	};
 	rootObject = 00000000000000000000000A /* Project object */;
 }

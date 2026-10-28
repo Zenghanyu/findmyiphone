@@ -1,51 +1,41 @@
-# EasyFind SwiftUI 前端原型
+# EasyFind SwiftUI 集成入口
 
-独立的黑白风格 iPhone 前端，包含设备、墨水屏与提醒三个页面。设备操作入口使用统一卡片，设置页区分返回与保存，开关提供清晰的开关状态和滑动反馈。
+黑白风格 iPhone App，包含设备、墨水屏、提醒页面。界面与业务服务分离，后端 HTTP 服务独立运行。设计与验收范围见 [后端架构](../../docs/backend-architecture.md)。
 
-## 在 Xcode 查看
+## 运行与服务配置
 
-1. 打开本目录的 `EasyFind.xcodeproj`，选择 `EasyFind` scheme。
-2. 选择 iPhone 模拟器，按 **⌘R** 运行。最低系统版本为 iOS 17。
-3. 真机预览时，在 Signing & Capabilities 中选择自己的 Team，按需修改 Bundle Identifier。
+1. 打开本目录 `EasyFind.xcodeproj`，选择 `EasyFind` scheme，最低 iOS 17。
+2. 选择 iPhone 模拟器，按 ⌘R 运行；真机需选择自己的签名 Team/Bundle ID。当前 Bundle Identifier 为 `com.easyfind.companion`。FindMyTagKit 设备切片需 Xcode 27 或兼容工具链。
+3. 依赖为本地 `../EasyFindCore` 包、共享硬件源文件、FindMyTagKit 和 BrushSDK，已在工程中配置。
+4. AI 和反馈需按 [服务端说明](../../server/README.md) 启动 API，再于“设备 → 设置 → 后端服务设置”填写地址和客户端令牌。模拟器可用 `http://127.0.0.1:8000`，真机使用可访问的 HTTPS。
 
-工程无第三方依赖；设置和提醒保存在本机。当前 Bundle Identifier 为 `com.easyfind.companion`。
+正常运行时显示实际连接状态；没有配件时不能保存拍照配置或传输画面。相机在模拟器会提示不可用。仅 UI 测试显式使用 `-uiMock -selfieDemo -phoneFindAuthorized` 开启设备演示；这些参数不代表蓝牙、UWB 或实屏验收。
 
-## 本次交互设计
+## 功能与存储
 
-- 设备页与图片来源入口使用一致的卡片、图标、箭头及按压反馈。
-- 拍照延时点击“保存延时”后生效；直接返回会放弃草稿。找手机开关立即保存。
-- 提醒编辑页在顶部提供取消和保存，空标题会提示补充。
-- 开关使用 60 × 34 pt 胶囊，点击区域至少高 44 pt。开启时浅底黑滑块并显示“开”，关闭时深底灰滑块并显示“关”。
-- 滑块约 0.18 秒平滑移动，支持点按、向右开启和向左关闭；保留系统开关的辅助功能语义，并尊重“减弱动态效果”。
-- 上传演示显示“确认上传 → 正在上传… → 完成”，退出页面后取消演示任务。
+- 遥控拍照设置等待设备确认，找手机接入系统授权/停止和后台服务。设备需先在系统蓝牙配对。
+- UWB 扫描和真实测距由 FindMyTagKit 适配。标签与遥控器分别连接。
+- 相册和实际拍照均进入持久图片仓库，模板为本地绘制。墨水屏绑定支持 HINK-T0154A10-A2 240×240 六色普通 BLE 规格 3/4；刷新命令被接受后提示等待实屏刷新。
+- 选图后自动生成 240×240 六色效果，可切换原图对比；未连接墨水屏也能预览。上传直接复用预览对应的处理数据，未绑定设备时禁止发送。图片居中裁剪，预览使用标称面板色彩，实物效果需真屏核对。
+- 每天、工作日、具体日期的单次提醒，以及指定时段报时均由手机系统通知执行。需要允许通知，并受系统容量及送达策略约束。
+- 设置与规则原子写入 Application Support，兼容旧 UserDefaults 迁移；图片另存文件。访问令牌保存在 Keychain，模型密钥只放服务端。
 
-![开关状态对比](docs/easyfind-toggle-states.png)
+设备按键后台交付、UWB、墨水屏和通知实际送达需真机与配件验收。本次模拟器测试及无签名设备构建不代替该验收。
 
-[三个主要页面预览](docs/easyfind-buttons-preview.png)展示页面和按钮布局；其中开关外观以本页上方的最新状态图为准。
+## 构建和回归
 
-## 功能范围
-
-此工程用于前端评审：连接状态、查找距离、设备响铃、图片上传和 AI 生图均为演示；提醒仅保存本地数据。尚未接入蓝牙、UWB、实际墨水屏传输、系统通知或 AI 服务。
-
-仓库原有硬件版 App 位于 `../EasyFind`，可按根目录说明运行。
-
-## 构建与交互检查
-
-已用 Xcode 27.1 与 iOS 27.0 模拟器验证。命令在本目录执行，`SIMULATOR_ID` 为本机选定的模拟器 ID，可通过 `xcrun simctl list devices available` 查询。若系统默认开发工具不是 Xcode，先设置 `DEVELOPER_DIR`。
+在仓库根目录执行：
 
 ```sh
-export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
-export SIMULATOR_ID='<选定的模拟器 ID>'
-xcodebuild -project EasyFind.xcodeproj -scheme EasyFind \
-  -configuration Debug -sdk iphonesimulator \
-  -destination "id=$SIMULATOR_ID" -derivedDataPath /tmp/easyfind-prototype-build \
-  CODE_SIGNING_ALLOWED=NO build
-xcrun simctl bootstatus "$SIMULATOR_ID" -b
-xcrun simctl install "$SIMULATOR_ID" \
-  /tmp/easyfind-prototype-build/Build/Products/Debug-iphonesimulator/EasyFind.app
-xcodebuild -project UIReview/ButtonReview.xcodeproj -scheme ButtonReview \
-  -destination "id=$SIMULATOR_ID" -derivedDataPath /tmp/easyfind-prototype-ui-checks \
-  CODE_SIGNING_ALLOWED=NO test
+EASYFIND_TEST_PYTHON=/path/to/server-venv/bin/python scripts/test-backend.sh
 ```
 
-`UIReview` 是独立的 XCUITest 工程，通过 Bundle Identifier 启动上一步安装的 App。检查覆盖开关点击与连续点击、双向拖动、手机开关、拍照草稿与保存、上传演示、提醒表单校验和设置页导航。测试会操作本机演示数据；开关和拍照延时会恢复运行前的值。
+脚本构建/安装 App 并启动独立 XCUITest 工程。测试覆盖导航、开关、设置确认、未连接设备保护、未绑定设备的真实六色预览、原图切换与模板更换，以及真实回环 HTTP 生图、照片重启恢复后重新生成预览、反馈回执。测试中的图片处理走真实算法；仅 BLE 发送可以模拟，`-uiMock -inkUseBluetooth` 保留独立存储并使用真实发送可用性检查。HTTP fixture 使用临时数据库和 8001 端口，退出时清理；日志及 xcresult 在 `outputs/backend-tests-*`。
+
+单独编译可执行：
+
+```sh
+xcodebuild -project ios/EasyFindPrototype/EasyFind.xcodeproj -scheme EasyFind -destination 'generic/platform=iOS Simulator' -derivedDataPath /tmp/easyfind-build CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- build
+```
+
+原前端 [主页面预览](docs/easyfind-buttons-preview.png) 与 [开关状态](docs/easyfind-toggle-states.png) 保留为外观参考；设备与业务状态以当前运行结果为准。

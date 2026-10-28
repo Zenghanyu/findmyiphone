@@ -19,6 +19,12 @@ final class SelfieStickDemoTransport: SelfieStickTransport {
     private var countdown: Timer?
     private var deadline: TimeInterval?
     private var lastRemaining: Int?
+    private var reliableFind = false
+    private var pendingFind: SelfieStickProtocol.PhoneFindRequest?
+    private var lastFind: SelfieStickProtocol.PhoneFindRequest?
+    private var findCreatedAt: TimeInterval = 0
+    private var findRetry: Timer?
+    private var droppedFirstAck = false
 
     init() {
         if ProcessInfo.processInfo.arguments.contains("-selfieReset") {
@@ -28,7 +34,7 @@ final class SelfieStickDemoTransport: SelfieStickTransport {
         delay = UInt8(max(0, min(30, stored)))
     }
 
-    deinit { countdown?.invalidate() }
+    deinit { countdown?.invalidate(); findRetry?.invalidate() }
 
     /// 模拟设备默认已经在系统蓝牙中连接，页面打开后直接进入 ready。
     func start() { connectAutomatically() }
@@ -51,9 +57,25 @@ final class SelfieStickDemoTransport: SelfieStickTransport {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
             guard let self, self.connected, self.generation == token else { return }
             switch frame.opcode {
+            case .enableReliablePhoneFind:
+                guard frame.payload.isEmpty else { return }
+                self.reliableFind = true
+                self.deliverFind()
+            case .acknowledgePhoneFind:
+                guard frame.payload.count == 9, frame.payload[8] <= 2,
+                      let pending = self.pendingFind,
+                      Array(frame.payload.prefix(8)) == Array(pending.eventFrame().payload[2..<10]) else { return }
+                if ProcessInfo.processInfo.arguments.contains("-selfieDropFirstFindAck"), !self.droppedFirstAck {
+                    self.droppedFirstAck = true
+                    return
+                }
+                self.pendingFind = nil
+                self.findRetry?.invalidate()
+                self.findRetry = nil
             case .readConfiguration:
                 guard frame.payload.isEmpty else { return }
-                self.emit(.configuration, sequence: frame.sequence, payload: [0, self.delay, 30, 0x0F])
+                let status: UInt8 = ProcessInfo.processInfo.arguments.contains("-selfieConfigReadFailure") ? 3 : 0
+                self.emit(.configuration, sequence: frame.sequence, payload: [status, self.delay, 30, 0x1F])
             case .setDelay:
                 guard frame.payload.count == 1 else { return }
                 let requested = frame.payload[0]
@@ -77,6 +99,7 @@ final class SelfieStickDemoTransport: SelfieStickTransport {
         countdown?.invalidate()
         countdown = nil
         connected = false
+        reliableFind = false
         generation = UUID()
         onDisconnected?()
     }
@@ -93,7 +116,35 @@ final class SelfieStickDemoTransport: SelfieStickTransport {
 
     func pressFindPhoneButton() {
         guard connected else { return }
-        emitEvent(.phoneFindRequested, remaining: 0)
+        guard reliableFind else { emitEvent(.phoneFindRequested, remaining: 0); return }
+        guard pendingFind == nil else { return }
+        pendingFind = .init(id: UInt64.random(in: 1...UInt64.max), remainingSeconds: 30)
+        lastFind = pendingFind
+        findCreatedAt = ProcessInfo.processInfo.systemUptime
+        deliverFind()
+        findRetry?.invalidate()
+        findRetry = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in self?.deliverFind() }
+    }
+
+    private func deliverFind() {
+        guard let pending = pendingFind else { return }
+        let remaining = 30 - (ProcessInfo.processInfo.systemUptime - findCreatedAt)
+        guard remaining > 0 else {
+            pendingFind = nil; findRetry?.invalidate(); findRetry = nil
+            return
+        }
+        guard connected, reliableFind else { return }
+        let request = SelfieStickProtocol.PhoneFindRequest(id: pending.id, remainingSeconds: UInt8(ceil(remaining)))
+        let frame = request.eventFrame()
+        emit(frame.opcode, sequence: frame.sequence, payload: frame.payload)
+    }
+
+    func repeatLastFindPhoneRequest() {
+        guard let lastFind else { return }
+        let remaining = 30 - (ProcessInfo.processInfo.systemUptime - findCreatedAt)
+        guard remaining > 0 else { return }
+        let frame = SelfieStickProtocol.PhoneFindRequest(id: lastFind.id, remainingSeconds: UInt8(ceil(remaining))).eventFrame()
+        emit(frame.opcode, sequence: frame.sequence, payload: frame.payload)
     }
 
     func cancelCountdown() {
