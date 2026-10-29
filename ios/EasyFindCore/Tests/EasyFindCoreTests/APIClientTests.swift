@@ -59,4 +59,49 @@ final class APIClientTests: XCTestCase {
       } catch { XCTAssertEqual(error as? ServiceError, .invalidResponse) }
     }
   }
+
+  func testFeedbackEncodesAttachmentsAndReturnsServerReceipt() async throws {
+    let ident = UUID().uuidString
+    let attachment = Data([0, 1, 2, 255])
+    StubProtocol.handler = { request in
+      XCTAssertEqual(request.url?.path, "/v1/feedback")
+      XCTAssertEqual(request.httpMethod, "POST")
+      XCTAssertEqual(request.value(forHTTPHeaderField: "Authorization"), "Bearer client-token")
+      let stream = try XCTUnwrap(request.httpBodyStream)
+      stream.open()
+      defer { stream.close() }
+      var buffer = [UInt8](repeating: 0, count: 1024)
+      var body = Data()
+      while stream.hasBytesAvailable {
+        let count = stream.read(&buffer, maxLength: buffer.count)
+        if count <= 0 { break }
+        body.append(buffer, count: count)
+      }
+      let json = try XCTUnwrap(JSONSerialization.jsonObject(with: body) as? [String: Any])
+      XCTAssertEqual(json["details"] as? String, "A suggestion")
+      let images = try XCTUnwrap(json["attachments"] as? [[String: String]])
+      XCTAssertEqual(images, [["image_base64": attachment.base64EncodedString()]])
+      return (201, Data("{\"id\":\"\(ident)\"}".utf8))
+    }
+    let receipt = try await client().submitFeedback(
+      category: "建议", details: "A suggestion", contact: "", attachments: [attachment])
+    XCTAssertEqual(receipt.id, ident)
+  }
+
+  func testFeedbackRejectsInvalidAttachmentsBeforeNetworkRequest() async throws {
+    StubProtocol.handler = { _ in
+      XCTFail("Invalid attachments must not reach the server")
+      return (500, Data())
+    }
+    for attachments in [
+      [Data()], [Data(repeating: 1, count: 512 * 1024 + 1)],
+      Array(repeating: Data([1]), count: 11),
+    ] {
+      do {
+        _ = try await client().submitFeedback(
+          category: "建议", details: "A suggestion", contact: "", attachments: attachments)
+        XCTFail("Must reject invalid attachment")
+      } catch { XCTAssertEqual(error as? ServiceError, .invalidResponse) }
+    }
+  }
 }

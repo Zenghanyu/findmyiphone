@@ -144,6 +144,13 @@ final class ButtonReview: XCTestCase {
     XCTAssertTrue(save.waitForExistence(timeout: 5))
     XCTAssertFalse(save.isEnabled)
     shot("backend-device-unavailable")
+    back()
+    shot("device-normal")
+    app.buttons["墨水屏标签"].tap()
+    XCTAssertTrue(app.images["墨水屏效果预览"].waitForExistence(timeout: 15))
+    shot("display-normal")
+    app.buttons["提醒标签"].tap()
+    shot("reminders-normal")
   }
 
   func testInkPreviewBeforeUploadWithoutDevice() throws {
@@ -212,6 +219,7 @@ final class ButtonReview: XCTestCase {
     XCTAssertTrue(waitUntilHittable(app.buttons["墨水屏标签"]), app.debugDescription)
     app.buttons["墨水屏标签"].tap()
     app.swipeUp()
+    app.buttons["模板"].tap()
     app.buttons["AI 生图"].tap()
     let prompt = app.textFields["画面描述"]
     XCTAssertTrue(prompt.waitForExistence(timeout: 5))
@@ -231,8 +239,22 @@ final class ButtonReview: XCTestCase {
     shot("ink-imported-image-preview")
     app.segmentedControls.buttons["原图"].tap()
     XCTAssertTrue(app.images["所选图片预览"].waitForExistence(timeout: 5))
+    app.buttons["裁剪图片"].tap()
+    let crop = app.images["照片裁切区域"]
+    XCTAssertTrue(crop.waitForExistence(timeout: 5), app.debugDescription)
+    crop.pinch(withScale: 1.5, velocity: 1)
+    shot("photo-crop-new")
+    app.buttons["使用裁剪画面"].tap()
+    XCTAssertTrue(app.buttons["裁剪图片"].waitForExistence(timeout: 5))
+    app.segmentedControls.buttons["六色效果"].tap()
+    XCTAssertTrue(preview.waitForExistence(timeout: 15), app.debugDescription)
+    app.terminate()
+    app.launch()
+    app.buttons["墨水屏标签"].tap()
+    XCTAssertTrue(preview.waitForExistence(timeout: 15))
     app.buttons["设备标签"].tap()
     app.buttons["设备设置"].tap()
+    app.swipeUp()
     app.buttons["意见反馈"].tap()
     let details = app.textViews["反馈内容"]
     XCTAssertTrue(details.waitForExistence(timeout: 5))
@@ -240,9 +262,89 @@ final class ButtonReview: XCTestCase {
     details.typeText("Integration feedback")
     app.swipeUp()
     app.buttons["发送反馈"].tap()
+    app.alerts.buttons["跳过"].tap()
     XCTAssertTrue(
       app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "已收到反馈，编号：")).firstMatch
         .waitForExistence(timeout: 10))
     shot("backend-feedback-receipt")
+  }
+
+  func testAppearanceLanguageAndDeviceNamePersist() throws {
+    app.buttons["设备标签"].tap()
+    app.buttons["设备设置"].tap()
+    app.buttons["设备名称"].tap()
+    let name = app.textFields["设备名称输入框"]
+    XCTAssertTrue(name.waitForExistence(timeout: 5))
+    let oldName = name.value as? String ?? ""
+    name.tap()
+    name.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: oldName.count))
+    name.typeText("My EasyFind")
+    app.buttons["保存设备名称"].tap()
+    app.swipeUp()
+    app.segmentedControls["外观主题"].buttons["深色"].tap()
+    app.segmentedControls["语言切换"].buttons["En"].tap()
+    XCTAssertTrue(app.navigationBars["Device Settings"].exists)
+    shot("settings-dark-english")
+    app.terminate()
+    app.launch()
+    app.buttons["设备标签"].tap()
+    XCTAssertTrue(app.staticTexts["My EasyFind"].exists)
+    XCTAssertTrue(app.staticTexts["My Device"].exists)
+    shot("device-dark-english")
+    app.buttons["设备设置"].tap()
+    app.swipeUp()
+    XCTAssertTrue(app.segmentedControls["外观主题"].buttons["Dark"].isSelected)
+    app.segmentedControls["外观主题"].buttons["Light"].tap()
+    app.segmentedControls["语言切换"].buttons["中"].tap()
+    shot("settings-light-chinese")
+    app.segmentedControls["外观主题"].buttons["跟随系统"].tap()
+  }
+
+  func testReminderSwipeDeleteAndCameraAvailability() throws {
+    let itemTitle = "Swipe test " + UUID().uuidString.prefix(6)
+    app.buttons["提醒标签"].tap()
+    app.buttons["新增提醒"].tap()
+    let title = app.textFields["提醒事项"]
+    XCTAssertTrue(title.waitForExistence(timeout: 5), app.debugDescription)
+    title.tap()
+    title.typeText(itemTitle)
+    app.buttons["保存提醒"].tap()
+    let rowTitle = app.staticTexts[itemTitle]
+    XCTAssertTrue(rowTitle.waitForExistence(timeout: 5))
+    for _ in 0..<3 {
+      if rowTitle.frame.midY < app.frame.height - 180 { break }
+      app.swipeUp()
+    }
+    XCTAssertTrue(waitUntilHittable(rowTitle), app.debugDescription)
+    let toggle = app.switches["开启" + itemTitle + "提醒"].firstMatch
+    XCTAssertEqual(toggle.value as? String, "1")
+    toggle.tap()
+    XCTAssertEqual(toggle.value as? String, "0")
+    toggle.tap()
+    XCTAssertEqual(toggle.value as? String, "1")
+    rowTitle.swipeLeft()
+    let delete = app.buttons["删除" + itemTitle]
+    XCTAssertTrue(delete.waitForExistence(timeout: 3), app.debugDescription)
+    shot("reminder-swipe-revealed")
+    XCTAssertTrue(waitUntilHittable(delete), app.debugDescription)
+    delete.tap()
+    XCTAssertEqual(app.state, .runningForeground)
+    XCTAssertFalse(rowTitle.exists)
+    app.terminate()
+    app.launch()
+    app.buttons["提醒标签"].tap()
+    XCTAssertFalse(rowTitle.exists, "Deletion must survive restarting the app")
+    app.buttons["墨水屏标签"].tap()
+    app.buttons["拍照入口"].tap()
+    let closeCamera = app.buttons["DismissImagePickerButton"]
+    if closeCamera.waitForExistence(timeout: 5) {
+      shot("camera-system-picker")
+      closeCamera.tap()
+      XCTAssertTrue(waitUntilHittable(app.buttons["拍照入口"]))
+    } else {
+      XCTAssertTrue(
+        app.staticTexts["此设备无法使用相机"].waitForExistence(timeout: 5), app.debugDescription)
+      app.alerts.buttons["好"].tap()
+    }
   }
 }

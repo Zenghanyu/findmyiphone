@@ -17,7 +17,7 @@ final class NotificationScheduler {
   }
 
   /// Serializes complete reconciliation operations, including across suspension points.
-  func reconcile(reminders: [Reminder], hourly: HourlyRule) {
+  func reconcile(reminders: [Reminder], hourly: HourlyRule, hourlyTitle: String = "整点报时") {
     let previous = tail
     tail = Task { [weak self] in
       await previous?.value
@@ -37,7 +37,8 @@ final class NotificationScheduler {
         }
         let requests = plans.map { plan -> UNNotificationRequest in
           let content = UNMutableNotificationContent()
-          content.title = plan.title
+          content.title =
+            plan.id.hasPrefix(ReminderPlanner.prefix + "hourly") ? hourlyTitle : plan.title
           content.sound = .default
           return UNNotificationRequest(
             identifier: plan.id, content: content,

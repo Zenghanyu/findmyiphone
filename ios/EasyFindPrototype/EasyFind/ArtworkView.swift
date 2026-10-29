@@ -1,6 +1,35 @@
 import SwiftUI
 
+struct CurrentArtworkView: View {
+  @Environment(AppModel.self) private var model
+  var showText = true
+
+  var body: some View {
+    GeometryReader { proxy in
+      Group {
+        if let data = model.selectedPhotoData, let image = UIImage(data: data) {
+          Image(uiImage: image)
+            .resizable()
+            .scaledToFill()
+        } else {
+          ArtworkView(kind: model.artwork, showText: showText)
+        }
+      }
+      .frame(width: proxy.size.width, height: proxy.size.height)
+      .clipped()
+    }
+    .aspectRatio(1, contentMode: .fit)
+    .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
+    .accessibilityElement(children: .ignore)
+    .accessibilityLabel(
+      model.selectedPhotoData == nil
+        ? model.t(model.artwork.title, model.artwork.englishTitle)
+        : model.t("所选图片", "Selected photo"))
+  }
+}
+
 struct ArtworkView: View {
+  @Environment(AppModel.self) private var model
   let kind: ArtworkKind
   var showText = true
 
@@ -32,7 +61,7 @@ struct ArtworkView: View {
     .aspectRatio(1, contentMode: .fit)
     .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
     .accessibilityElement(children: .ignore)
-    .accessibilityLabel(kind.title)
+    .accessibilityLabel(model.t(kind.title, kind.englishTitle))
   }
 
   private var background: some View {

@@ -54,3 +54,20 @@ HTTP 场景通过实际回环请求完成创建、轮询、下载及反馈提交
 - [导入图片重启后的六色预览](../outputs/backend-tests-20261028-123923/ink-imported-image-preview.png)
 
 图片处理走真实本地算法；HTTP 生图仍使用确定性测试 provider，演示上传不作为 BLE 验收。标称面板色彩预览不代替实屏校色，物理传输与刷新仍需 HINK 设备验收。
+
+## 2026-10-29：新版前端接入
+
+在 `codex/frontend-refresh` 中将新版 EasyFind-Frontend 的布局接入现有 App 工程，保留生命周期、硬件适配、本地持久化与独立 HTTP 服务。设置新增中英文、外观和 App 设备显示名；旧快照可继续读取。相册和拍照新增源像素裁剪，再由原 DPID/六色流程生成预览及对应码流。AI 生图位于模板页工具栏。反馈附件通过真实 API 校验并持久化，成功页展示回执编号。
+
+主机验证为 API **23 项通过**、Swift 核心 **15 项通过**，覆盖附件鉴权/持久化、非法编码/格式/尺寸/大小/数量拒绝、客户端附件契约，以及横竖图、平移、缩放、越界和无效裁剪参数。既有 C/C++/Swift 协议及 C 图像处理检查继续通过。模拟器与 generic iOS 设备 SDK 编译通过，设备构建不签名、不安装。
+
+图片缩放后已核对模拟器仓库中的实际 JPEG，保存的是方形源像素裁剪结果，重启后重新生成 240×240 六色预览。界面截图检查了设备、显示、提醒、深色英文设置和裁剪页。截图中的 UI 演示连接状态不作为配件验收；物理配件、真实相机和通知实际送达沿用上文待验收范围。
+
+XCUITest 的 **7 个用例最终均通过**，包含页面导航/设置确认、主题/语言/名称持久化、真实 HTTP 生图/裁剪/反馈回执、无设备预览/禁止发送、提醒开关/左滑删除/重启保存、系统相机打开与取消、未连接设备禁止保存。修复了删除时读取已失效数组绑定而崩溃的问题，提醒行现在按稳定 ID 更新；另修复旧照片在设备卡片中超出边框。当前模拟器报告相机可用，因此实际验证的是系统取景器打开与取消，实拍仍待目标设备验收。
+
+产物在 [outputs/frontend-refresh](../outputs/frontend-refresh/)：主回归记录见 [outputs/backend-tests-20261029-000813](../outputs/backend-tests-20261029-000813/)，提醒/相机的最终定向回归为 `verified-ui.xcresult`（1 项通过），正常启动及图片边界复测为 `final-ui.xcresult` 中的 `testUnavailableDeviceCannotSaveSettings`（通过）。`build.log`、`device-build.log` 与 `checks.log` 保存编译及主机检查结果。Ruff、Swift Format、工程/Info.plist、shell 语法和 `git diff --check` 均通过。
+
+- [正常启动的新版三页预览](../outputs/frontend-refresh/preview.png)
+- [深色英文设置](../outputs/frontend-refresh/settings-dark-english.png)
+- [照片裁剪](../outputs/frontend-refresh/photo-crop-new.png)
+- [服务端反馈回执](../outputs/frontend-refresh/backend-feedback-receipt.png)

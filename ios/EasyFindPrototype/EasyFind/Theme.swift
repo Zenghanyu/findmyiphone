@@ -1,14 +1,14 @@
 import SwiftUI
 
 extension Color {
-  static let efBackground = Color(hex: "000000")
-  static let efPaper = Color(hex: "111113")
-  static let efText = Color(hex: "F5F5F7")
-  static let efSubtext = Color(hex: "8E8E93")
-  static let efLine = Color(hex: "2C2C2E")
-  static let efTint = Color(hex: "18181A")
-  static let efAccent = Color(hex: "F5F5F7")
-  static let efOnAccent = Color(hex: "000000")
+  static let efBackground = Color(light: "F5F5F7", dark: "000000")
+  static let efPaper = Color(light: "FFFFFF", dark: "111113")
+  static let efText = Color(light: "111113", dark: "F5F5F7")
+  static let efSubtext = Color(light: "6E6E73", dark: "8E8E93")
+  static let efLine = Color(light: "D8D8DD", dark: "2C2C2E")
+  static let efTint = Color(light: "EDEDF0", dark: "18181A")
+  static let efAccent = Color(light: "111113", dark: "F5F5F7")
+  static let efOnAccent = Color(light: "FFFFFF", dark: "000000")
 
   init(light: String, dark: String) {
     self.init(
@@ -79,10 +79,15 @@ struct DemoNote: View {
 
 struct ConnectedLabel: View {
   @Environment(AppModel.self) private var model
+
   var body: some View {
-    Label(model.devices.ready ? "已连接遥控器" : "遥控器未连接", systemImage: "dot.radiowaves.left.and.right")
-      .font(.caption.weight(.medium))
-      .foregroundStyle(Color.efText)
+    Label(
+      model.devices.ready
+        ? model.t("已连接遥控器", "Remote connected") : model.t("遥控器未连接", "Remote disconnected"),
+      systemImage: "dot.radiowaves.left.and.right"
+    )
+    .font(.caption.weight(.medium))
+    .foregroundStyle(Color.efText)
   }
 }
 
@@ -121,16 +126,10 @@ struct MonochromeToggleStyle: ToggleStyle {
         }
         ZStack {
           Capsule()
-            .fill(configuration.isOn ? Color.efText : Color(hex: "303034"))
-
-          Text(configuration.isOn ? "开" : "关")
-            .font(.system(size: 11, weight: .semibold))
-            .foregroundStyle(configuration.isOn ? Color.efOnAccent : Color(hex: "C7C7CC"))
-            .frame(width: 24)
-            .offset(x: configuration.isOn ? -13 : 13)
+            .fill(configuration.isOn ? Color.efText : Color(light: "D1D1D6", dark: "303034"))
 
           Circle()
-            .fill(configuration.isOn ? Color.efOnAccent : Color(hex: "9B9BA0"))
+            .fill(configuration.isOn ? Color.efOnAccent : Color(light: "8E8E93", dark: "9B9BA0"))
             .frame(width: 26, height: 26)
             .offset(x: configuration.isOn ? 13 : -13)
             .animation(
@@ -166,33 +165,28 @@ struct MonochromeToggleStyle: ToggleStyle {
   }
 }
 
-/// Shared navigation card: icon, short title, and a clear drill-down affordance.
+/// Shared navigation card with a compact icon and title.
 struct FeatureActionCard: View {
   let title: String
   let systemImage: String
   var detail: String?
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 14) {
-      HStack {
-        Image(systemName: systemImage)
-          .font(.system(size: 19, weight: .regular))
-          .frame(width: 36, height: 36)
-          .background(Color.efTint, in: RoundedRectangle(cornerRadius: 11))
-        Spacer(minLength: 8)
-        Image(systemName: "chevron.right")
-          .font(.system(size: 11, weight: .semibold))
-          .foregroundStyle(Color.efSubtext)
-      }
-      VStack(alignment: .leading, spacing: 4) {
-        Text(title).font(.system(size: 15, weight: .semibold))
+    VStack(alignment: .center, spacing: 14) {
+      Image(systemName: systemImage)
+        .font(.system(size: 39, weight: .regular))
+        .frame(width: 68, height: 68)
+        .background(Color.efTint, in: RoundedRectangle(cornerRadius: 18))
+      VStack(alignment: .center, spacing: 4) {
+        Text(title).font(.system(size: 14, weight: .medium))
         if let detail {
           Text(detail).font(.caption).foregroundStyle(Color.efSubtext)
         }
       }
+      .multilineTextAlignment(.center)
     }
     .foregroundStyle(Color.efText)
-    .frame(maxWidth: .infinity, minHeight: 96, alignment: .topLeading)
+    .frame(maxWidth: .infinity, minHeight: 142, alignment: .center)
     .padding(16)
     .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 18))
     .overlay(RoundedRectangle(cornerRadius: 18).stroke(Color.efLine.opacity(0.65)))

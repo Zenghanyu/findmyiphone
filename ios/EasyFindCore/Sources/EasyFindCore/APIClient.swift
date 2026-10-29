@@ -31,8 +31,18 @@ public protocol ArtworkAPI: Sendable {
   func artworkJob(id: String) async throws -> ArtworkJob
   func artworkImage(id: String) async throws -> Data
   func cancelArtwork(id: String) async throws
-  func submitFeedback(category: String, details: String, contact: String) async throws
+  func submitFeedback(category: String, details: String, contact: String, attachments: [Data])
+    async throws
     -> FeedbackReceipt
+}
+
+extension ArtworkAPI {
+  public func submitFeedback(category: String, details: String, contact: String) async throws
+    -> FeedbackReceipt
+  {
+    try await submitFeedback(
+      category: category, details: details, contact: contact, attachments: [])
+  }
 }
 
 /// Networking and DTOs have no dependency on SwiftUI, device SDKs or app state.
@@ -71,11 +81,18 @@ public struct APIClient: ArtworkAPI, Sendable {
   public func cancelArtwork(id: String) async throws {
     _ = try await send("v1/artwork-jobs/\(try safeID(id))", method: "DELETE")
   }
-  public func submitFeedback(category: String, details: String, contact: String) async throws
+  public func submitFeedback(
+    category: String, details: String, contact: String, attachments: [Data]
+  ) async throws
     -> FeedbackReceipt
   {
+    guard attachments.count <= 10, attachments.allSatisfy({ !$0.isEmpty && $0.count <= 512 * 1024 })
+    else {
+      throw ServiceError.invalidResponse
+    }
     let body = try JSONSerialization.data(withJSONObject: [
       "category": category, "details": details, "contact": contact,
+      "attachments": attachments.map { ["image_base64": $0.base64EncodedString()] },
     ])
     return try decode(await send("v1/feedback", method: "POST", body: body))
   }

@@ -1,5 +1,7 @@
 import asyncio
+import base64
 import io
+import json
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import replace
@@ -147,6 +149,53 @@ def test_feedback_rate_limit_and_persistence(setup):
         assert client.post("/v1/feedback", headers=headers("bob"), json=payload).status_code == 201
     with Repository(config.data_dir).connection() as db:
         assert db.execute("SELECT COUNT(*) FROM feedback").fetchone()[0] == 2
+
+
+def feedback_image(size=(32, 32), image_format="PNG"):
+    output = io.BytesIO()
+    Image.new("RGB", size, "blue").save(output, format=image_format)
+    return base64.b64encode(output.getvalue()).decode()
+
+
+def test_feedback_attachments_persist_with_receipt(setup):
+    config, provider = setup
+    images = [
+        {"image_base64": feedback_image()},
+        {"image_base64": feedback_image(image_format="JPEG")},
+    ]
+    payload = {"category": "建议", "details": "截图反馈", "attachments": images}
+    with TestClient(create_app(config, provider)) as client:
+        assert client.post("/v1/feedback", json=payload).status_code == 401
+        response = client.post("/v1/feedback", headers=headers(), json=payload)
+        assert response.status_code == 201
+        ident = response.json()["id"]
+    with Repository(config.data_dir).connection() as db:
+        row = db.execute("SELECT request FROM feedback WHERE id=?", (ident,)).fetchone()
+        assert json.loads(row["request"])["attachments"] == images
+
+
+@pytest.mark.parametrize(
+    "images",
+    [
+        [{"image_base64": "invalid base64!"}],
+        [{"image_base64": base64.b64encode(b"not an image").decode()}],
+        [{"image_base64": feedback_image((1281, 1))}],
+        [{"image_base64": feedback_image(image_format="GIF")}],
+        [{"image_base64": base64.b64encode(b"x" * (512 * 1024 + 1)).decode()}],
+        [{"image_base64": feedback_image()}] * 11,
+    ],
+)
+def test_feedback_rejects_invalid_attachments_without_persisting(setup, images):
+    config, provider = setup
+    with TestClient(create_app(config, provider)) as client:
+        response = client.post(
+            "/v1/feedback",
+            headers=headers(),
+            json={"category": "建议", "details": "截图反馈", "attachments": images},
+        )
+        assert response.status_code == 422
+    with Repository(config.data_dir).connection() as db:
+        assert db.execute("SELECT COUNT(*) FROM feedback").fetchone()[0] == 0
 
 
 def test_restart_recovery_keeps_job_identity(setup):

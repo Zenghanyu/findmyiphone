@@ -5,42 +5,49 @@ struct DeviceView: View {
 
   var body: some View {
     ScrollView {
-      VStack(spacing: 20) {
-        ScreenHeader(title: "我的设备", subtitle: "")
+      VStack(spacing: 12) {
+        ScreenHeader(title: model.t("我的设备", "My Device"), subtitle: "")
         deviceCard
-        sectionTitle("设备控制", detail: "")
         HStack(spacing: 12) {
           NavigationLink(value: DeviceRoute.phone) {
-            FeatureActionCard(title: "找手机", systemImage: "iphone")
+            FeatureActionCard(title: model.t("找手机", "Find Phone"), systemImage: "iphone")
           }
           .accessibilityIdentifier("找手机入口")
           NavigationLink(value: DeviceRoute.camera) {
-            FeatureActionCard(
-              title: "遥控拍照", systemImage: "camera", detail: "延时 \(model.photoDelaySeconds) 秒")
+            FeatureActionCard(title: model.t("遥控拍照", "Camera"), systemImage: "camera")
           }
           .accessibilityIdentifier("遥控拍照入口")
         }
         .buttonStyle(PressFeedbackStyle())
-        sectionTitle("屏幕画面", detail: "")
         Button {
           model.selectedTab = .ink
         } label: {
-          HStack(spacing: 14) {
-            ArtworkView(kind: model.artwork, showText: false)
-              .frame(width: 52, height: 52)
-            Text("更换画面").font(.headline)
+          HStack(spacing: 20) {
+            CurrentArtworkView(showText: false)
+              .frame(width: 88, height: 88)
             Spacer()
-            Image(systemName: "chevron.right").font(.caption.weight(.semibold))
+            VStack(spacing: 10) {
+              Image(systemName: "photo.on.rectangle.angled")
+                .font(.system(size: 24, weight: .regular))
+              Text(model.t("更换画面", "Change Image")).font(.subheadline.weight(.medium))
+            }
+            .frame(maxWidth: .infinity)
+            Spacer()
+              .frame(width: 0)
           }
           .padding(16)
-          .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-          .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.efLine))
+          .frame(minHeight: 120)
+          .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+          .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(Color.efLine))
           .foregroundStyle(Color.efText)
+          .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
+        .accessibilityIdentifier("更换画面入口")
         .buttonStyle(PressFeedbackStyle())
+        Spacer(minLength: 0)
       }
       .padding(.horizontal, 20)
-      .padding(.bottom, 28)
+      .padding(.bottom, 12)
     }
     .background(Color.efBackground.ignoresSafeArea())
     .navigationTitle("EasyFind")
@@ -50,7 +57,8 @@ struct DeviceView: View {
         NavigationLink(value: DeviceRoute.settings) {
           Image(systemName: "slider.horizontal.3")
         }
-        .accessibilityLabel("设备设置")
+        .accessibilityLabel(model.t("设备设置", "Device Settings"))
+        .accessibilityIdentifier("设备设置")
       }
     }
     .navigationDestination(for: DeviceRoute.self) { route in
@@ -64,47 +72,40 @@ struct DeviceView: View {
   }
 
   private var deviceCard: some View {
-    VStack(spacing: 16) {
+    VStack(spacing: 12) {
       HStack {
         ConnectedLabel()
         Spacer()
-        Label("电量未上报", systemImage: "battery.0")
+        Label(model.t("电量未上报", "Battery unavailable"), systemImage: "battery.0")
           .font(.caption.weight(.medium))
-          .foregroundStyle(Color.efText)
+          .foregroundStyle(Color.efSubtext)
       }
       VStack(spacing: 0) {
-        Circle().fill(Color(hex: "777777")).frame(width: 5, height: 5).offset(y: 8)
-        ArtworkView(kind: model.artwork, showText: false)
-          .frame(width: 128, height: 128)
-          .padding(9)
+        Circle().fill(Color(hex: "777777")).frame(width: 5, height: 5).offset(y: 7)
+        CurrentArtworkView(showText: false)
+          .frame(width: 136, height: 136)
+          .padding(7)
       }
-      .background(Color(hex: "18181A"), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-      .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(hex: "3A3A3C")))
-      .padding(.vertical, 12)
+      .background(Color.efTint, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+      .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.efLine))
+      .padding(.vertical, 6)
       HStack {
-        Text(model.devices.name).font(.headline)
+        Text(model.deviceName).font(.headline)
         Spacer()
         NavigationLink(value: DeviceRoute.find) {
           Image(systemName: "location")
             .font(.headline)
-            .frame(width: 42, height: 42)
+            .frame(width: 38, height: 38)
             .background(Color.efAccent, in: Circle())
             .foregroundStyle(Color.efOnAccent)
         }
         .buttonStyle(PressFeedbackStyle())
-        .accessibilityLabel("查找设备")
+        .accessibilityLabel(model.t("查找设备", "Find Device"))
       }
     }
-    .padding(18)
+    .padding(16)
     .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
     .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.efLine))
-  }
-
-  private func sectionTitle(_ title: String, detail: String) -> some View {
-    Text(title)
-      .font(.headline)
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(.top, 2)
   }
 
 }
@@ -117,26 +118,29 @@ struct CameraSettingsView: View {
   var body: some View {
     ScrollView {
       VStack(spacing: 18) {
-        ScreenHeader(title: "遥控拍照", subtitle: "选好延时，把合影也留给自己。")
+        ScreenHeader(title: model.t("遥控拍照", "Remote Camera"), subtitle: "")
         VStack(alignment: .leading, spacing: 20) {
           HStack {
-            Text("拍照延时").font(.headline)
+            Text(model.t("拍照延时", "Timer")).font(.headline)
             Spacer()
-            Text("\(delaySeconds) 秒").foregroundStyle(Color.efAccent).monospacedDigit()
+            Text(model.t("\(delaySeconds) 秒", "\(delaySeconds) s")).foregroundStyle(Color.efAccent)
+              .monospacedDigit()
           }
           HStack(spacing: 8) {
             ForEach([0, 3, 5, 10], id: \.self) { value in
-              Button(value == 0 ? "即拍" : "\(value) 秒") { delaySeconds = value }
-                .font(.subheadline.weight(.medium))
-                .frame(maxWidth: .infinity, minHeight: 42)
-                .background(
-                  delaySeconds == value ? Color.efAccent : Color.efBackground,
-                  in: RoundedRectangle(cornerRadius: 12)
-                )
-                .foregroundStyle(delaySeconds == value ? Color.efOnAccent : Color.efText)
-                .buttonStyle(PressFeedbackStyle())
-                .accessibilityAddTraits(delaySeconds == value ? .isSelected : [])
-                .accessibilityIdentifier("延时\(value)秒")
+              Button(value == 0 ? model.t("即拍", "Now") : model.t("\(value) 秒", "\(value) s")) {
+                delaySeconds = value
+              }
+              .font(.subheadline.weight(.medium))
+              .frame(maxWidth: .infinity, minHeight: 42)
+              .background(
+                delaySeconds == value ? Color.efAccent : Color.efBackground,
+                in: RoundedRectangle(cornerRadius: 12)
+              )
+              .foregroundStyle(delaySeconds == value ? Color.efOnAccent : Color.efText)
+              .buttonStyle(PressFeedbackStyle())
+              .accessibilityAddTraits(delaySeconds == value ? .isSelected : [])
+              .accessibilityIdentifier("延时\(value)秒")
             }
           }
           Slider(
@@ -145,13 +149,13 @@ struct CameraSettingsView: View {
             step: 1
           )
           .tint(Color.efAccent)
-          .accessibilityLabel("自定义拍照延时")
-          Text("自定义延时 · 0–30 秒").font(.caption).foregroundStyle(Color.efSubtext)
+          .accessibilityLabel(model.t("自定义拍照延时", "Custom timer"))
+          Text(model.t("0–30 秒", "0–30 seconds")).font(.caption).foregroundStyle(Color.efSubtext)
         }
         .padding(20)
         .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         PrimaryButton(
-          title: model.devices.saving ? "正在保存…" : "保存延时",
+          title: model.devices.saving ? model.t("正在保存…", "Saving…") : model.t("保存", "Save"),
           isDisabled: !model.devices.ready || model.devices.saving
         ) {
           Task {
@@ -162,12 +166,12 @@ struct CameraSettingsView: View {
             } catch { model.errorMessage = error.localizedDescription }
           }
         }
-        DemoNote(text: "设备确认保存后生效。拍照时请先打开系统相机，再按设备按钮。")
+        .accessibilityIdentifier("保存延时")
       }
       .padding(22)
     }
     .background(Color.efBackground.ignoresSafeArea())
-    .navigationTitle("设备控制")
+    .navigationTitle(model.t("设备控制", "Device Controls"))
     .navigationBarTitleDisplayMode(.inline)
     .onAppear { delaySeconds = model.devices.delay ?? model.photoDelaySeconds }
   }
@@ -178,29 +182,27 @@ struct FindDeviceView: View {
   var body: some View {
     ScrollView {
       VStack(spacing: 20) {
-        ScreenHeader(title: "查找设备", subtitle: "")
-        WaveFinderView()
-        if let angle = model.ranging.azimuth {
-          Image(systemName: "arrow.up").font(.title)
-            .rotationEffect(.radians(Double(angle)))
-        }
-        Text(model.ranging.distance.map { String(format: "%.1f 米", $0) } ?? "—")
-          .font(.system(size: 30, design: .rounded))
+        Label(
+          model.t("UWB 精确查找", "UWB Precision Finding"), systemImage: "dot.radiowaves.up.forward"
+        )
+        .font(.subheadline.weight(.medium)).foregroundStyle(Color.efSubtext)
+        WaveFinderView(
+          distance: model.ranging.distance.map(Double.init),
+          direction: model.ranging.azimuth.map { .radians(Double($0) - .pi / 2) })
         Text(model.ranging.status).font(.subheadline).foregroundStyle(Color.efSubtext)
         ForEach(model.ranging.tags, id: \.address) { tag in
           Button(tag.name) { model.ranging.select(tag) }.buttonStyle(.bordered)
         }
         PrimaryButton(
-          title: model.ranging.sounding ? "停止发声" : "让设备发声", systemImage: "speaker.wave.2",
-          isDisabled: model.ranging.selected == nil
-        ) {
-          model.ranging.toggleSound()
-        }
-        Button("重新扫描") { model.ranging.start() }
+          title: model.ranging.sounding
+            ? model.t("停止发声", "Stop sound") : model.t("设备发声", "Play sound"),
+          systemImage: "speaker.wave.2", isDisabled: model.ranging.selected == nil
+        ) { model.ranging.toggleSound() }
+        Button(model.t("重新扫描", "Scan again")) { model.ranging.start() }
       }.padding(22)
     }
     .background(Color.efBackground.ignoresSafeArea())
-    .navigationTitle("查找设备").navigationBarTitleDisplayMode(.inline)
+    .navigationTitle(model.t("查找设备", "Find Device")).navigationBarTitleDisplayMode(.inline)
     .onAppear { model.ranging.start() }
     .onDisappear { model.ranging.stop() }
   }
@@ -208,49 +210,41 @@ struct FindDeviceView: View {
 
 struct PhoneLookupView: View {
   @Environment(AppModel.self) private var model
-  @Environment(\.dismiss) private var dismiss
 
   var body: some View {
     @Bindable var model = model
     ScrollView {
       VStack(spacing: 20) {
-        ScreenHeader(title: "反向找手机", subtitle: "找不到手机时，按一下随身设备。")
+        ScreenHeader(title: model.t("反向找手机", "Find Phone"), subtitle: "")
         VStack(spacing: 12) {
           Image(systemName: "iphone.radiowaves.left.and.right").font(.largeTitle).foregroundStyle(
             Color.efAccent)
-          Text(
-            model.devices.ready && model.devices.phoneAuthorized && model.phoneLookupEnabled
-              ? "随时待命" : "尚未就绪"
-          ).font(.title3.weight(.semibold))
           ConnectedLabel()
         }
         .frame(width: 215, height: 215)
         .background(Color.efTint, in: Circle())
-        Toggle(isOn: $model.phoneLookupEnabled) {
-          VStack(alignment: .leading, spacing: 4) {
-            Text("允许手机响铃").font(.headline)
-            Text("长按设备按钮即可触发").font(.caption).foregroundStyle(Color.efSubtext)
+        Toggle(model.t("允许手机响铃", "Allow phone to ring"), isOn: $model.phoneLookupEnabled)
+          .font(.headline)
+          .toggleStyle(MonochromeToggleStyle())
+          .accessibilityIdentifier("手机响铃开关")
+          .padding(20)
+          .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        if !model.devices.phoneAuthorized {
+          PrimaryButton(title: model.t("允许系统响铃", "Allow system alarm")) {
+            model.devices.authorizePhone()
           }
         }
-        .toggleStyle(MonochromeToggleStyle())
-        .accessibilityIdentifier("手机响铃开关")
-        .padding(20)
-        .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-        if !model.devices.phoneAuthorized {
-          PrimaryButton(title: "允许系统响铃") { model.devices.authorizePhone() }
-        }
         if model.devices.alerting {
-          PrimaryButton(title: "停止响铃") { model.devices.stopPhone() }
+          PrimaryButton(title: model.t("停止响铃", "Stop ringing")) { model.devices.stopPhone() }
         }
         Text(model.devices.error ?? model.devices.status).font(.caption).foregroundStyle(
           Color.efSubtext)
-        Button("重新检测遥控器") { model.devices.retry() }
-        DemoNote(text: "需先完成系统蓝牙配对，并允许系统闹钟。上划强退 App 后需重新打开。")
+        Button(model.t("重新检测遥控器", "Reconnect remote")) { model.devices.retry() }
       }
       .padding(22)
     }
     .background(Color.efBackground.ignoresSafeArea())
-    .navigationTitle("反向找手机")
+    .navigationTitle(model.t("反向找手机", "Find Phone"))
     .navigationBarTitleDisplayMode(.inline)
   }
 }
@@ -258,35 +252,70 @@ struct PhoneLookupView: View {
 struct DeviceSettingsView: View {
   @Environment(AppModel.self) private var model
   @State private var showFeedback = false
+  @State private var showNameEditor = false
+  @State private var draftName = ""
+  @FocusState private var nameFieldFocused: Bool
+
+  private var trimmedName: String {
+    draftName.trimmingCharacters(in: .whitespacesAndNewlines)
+  }
 
   var body: some View {
     List {
       Section {
-        Label(model.devices.status, systemImage: "dot.radiowaves.left.and.right")
-        LabeledContent("遥控器", value: model.devices.name)
-        LabeledContent("电量", value: "设备暂未上报")
-        LabeledContent("固件版本", value: "设备暂未上报")
+        Button {
+          draftName = model.deviceName
+          showNameEditor = true
+        } label: {
+          LabeledContent(model.t("设备名称", "Device name"), value: model.deviceName)
+        }
+        .accessibilityIdentifier("设备名称")
+        LabeledContent(model.t("设备电量", "Battery")) {
+          Text(model.t("设备暂未上报", "Not reported"))
+            .foregroundStyle(Color.efSubtext)
+        }
+        LabeledContent(model.t("固件版本", "Firmware"), value: model.t("设备暂未上报", "Not reported"))
+        LabeledContent(
+          model.t("软件版本", "App version"),
+          value: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—")
+        LabeledContent(model.t("遥控器", "Remote"), value: model.devices.name)
       }
       .foregroundStyle(Color.efText)
       Section {
-        NavigationLink("选择墨水屏") { InkBindingView() }
-        NavigationLink("后端服务设置") { ServiceSettingsView() }
-        Button("重新检测遥控器") { model.devices.retry() }
+        NavigationLink(model.t("选择墨水屏", "Select ink display")) { InkBindingView() }
+          .accessibilityIdentifier("选择墨水屏")
+        NavigationLink(model.t("后端服务设置", "Backend settings")) { ServiceSettingsView() }
+          .accessibilityIdentifier("后端服务设置")
+        Button(model.t("重新检测遥控器", "Reconnect remote")) { model.devices.retry() }
+      }
+      Section(model.t("语言", "Language")) {
+        Picker(
+          model.t("语言", "Language"),
+          selection: Binding(get: { model.language }, set: { model.language = $0 })
+        ) {
+          Text("中").tag(AppLanguage.chinese)
+          Text("En").tag(AppLanguage.english)
+        }
+        .pickerStyle(.segmented)
+        .accessibilityIdentifier("语言切换")
+      }
+      Section(model.t("外观", "Appearance")) {
+        Picker(
+          model.t("主题", "Theme"),
+          selection: Binding(get: { model.appearance }, set: { model.appearance = $0 })
+        ) {
+          ForEach(AppAppearance.allCases) { appearance in
+            Text(model.t(appearance.title, appearance.englishTitle)).tag(appearance)
+          }
+        }
+        .pickerStyle(.segmented)
+        .accessibilityIdentifier("外观主题")
       }
       Section {
-        Text("遥控器、UWB 标签与墨水屏按各自协议连接。")
-          .font(.footnote)
-          .foregroundStyle(Color.efSubtext)
         Button {
           showFeedback = true
         } label: {
-          HStack {
-            Label("意见反馈", systemImage: "text.bubble")
-            Spacer()
-            Image(systemName: "chevron.right")
-              .font(.caption.weight(.semibold))
-              .foregroundStyle(Color.efSubtext)
-          }
+          Label(model.t("意见反馈", "Feedback"), systemImage: "text.bubble")
         }
         .foregroundStyle(Color.efText)
         .accessibilityIdentifier("意见反馈")
@@ -294,11 +323,44 @@ struct DeviceSettingsView: View {
     }
     .scrollContentBackground(.hidden)
     .background(Color.efBackground)
-    .navigationTitle("设备设置")
+    .navigationTitle(model.t("设备设置", "Device Settings"))
     .navigationBarTitleDisplayMode(.inline)
     .sheet(isPresented: $showFeedback) {
       FeedbackView()
         .presentationDetents([.large])
+    }
+    .sheet(isPresented: $showNameEditor) {
+      NavigationStack {
+        VStack(spacing: 16) {
+          TextField(model.t("设备名称", "Device name"), text: $draftName)
+            .textFieldStyle(.roundedBorder)
+            .focused($nameFieldFocused)
+            .accessibilityIdentifier("设备名称输入框")
+          Text(model.t("仅更改此 App 中的显示名称。", "Changes the display name in this app only."))
+            .font(.footnote).foregroundStyle(Color.efSubtext)
+          Spacer()
+        }
+        .padding(20)
+        .background(Color.efBackground)
+        .navigationTitle(model.t("修改设备名称", "Rename Device"))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+          ToolbarItem(placement: .cancellationAction) {
+            Button(model.t("取消", "Cancel")) { showNameEditor = false }
+          }
+          ToolbarItem(placement: .confirmationAction) {
+            Button(model.t("保存", "Save")) {
+              guard !trimmedName.isEmpty, trimmedName.count <= 40 else { return }
+              model.deviceName = trimmedName
+              showNameEditor = false
+            }
+            .disabled(trimmedName.isEmpty || trimmedName.count > 40)
+            .accessibilityIdentifier("保存设备名称")
+          }
+        }
+        .onAppear { nameFieldFocused = true }
+      }
+      .presentationDetents([.medium])
     }
   }
 }

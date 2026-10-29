@@ -16,25 +16,27 @@ struct ContentView: View {
     .toolbar(.hidden, for: .tabBar)
     .safeAreaInset(edge: .bottom, spacing: 0) {
       HStack(spacing: 0) {
-        tabButton(.device, title: "设备", systemImage: "viewfinder")
-        tabButton(.ink, title: "墨水屏", systemImage: "photo")
-        tabButton(.reminders, title: "提醒", systemImage: "bell")
+        tabButton(.device, title: model.t("设备", "Device"), systemImage: "iphone")
+        tabButton(.ink, title: model.t("显示", "Display"), systemImage: "photo")
+        tabButton(.reminders, title: model.t("提醒", "Reminders"), systemImage: "bell")
       }
       .padding(.top, 6)
-      .background(Color.black)
+      .background(Color.efBackground)
       .overlay(alignment: .top) {
         Rectangle().fill(Color.efLine).frame(height: 0.5)
       }
     }
     .tint(Color.efAccent)
-    .preferredColorScheme(.dark)
+    .preferredColorScheme(model.appearance.colorScheme)
     .environment(model)
+    .environment(\.locale, Locale(identifier: model.language == .chinese ? "zh-Hans" : "en"))
     .alert(
-      "操作未完成",
+      model.t("操作未完成", "Unable to complete"),
       isPresented: Binding(
-        get: { model.errorMessage != nil }, set: { if !$0 { model.errorMessage = nil } })
+        get: { model.errorMessage != nil }, set: { if !$0 { model.errorMessage = nil } }
+      )
     ) {
-      Button("好") { model.errorMessage = nil }
+      Button(model.t("好", "OK")) { model.errorMessage = nil }
     } message: {
       Text(model.errorMessage ?? "")
     }
@@ -71,7 +73,7 @@ struct ContentView: View {
     .buttonStyle(PressFeedbackStyle())
     .foregroundStyle(model.selectedTab == tab ? Color.efText : Color.efSubtext)
     .accessibilityLabel(title)
-    .accessibilityIdentifier("\(title)标签")
+    .accessibilityIdentifier(tab == .device ? "设备标签" : tab == .ink ? "墨水屏标签" : "提醒标签")
     .accessibilityAddTraits(model.selectedTab == tab ? .isSelected : [])
   }
 }

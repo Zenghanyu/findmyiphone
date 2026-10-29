@@ -8,29 +8,35 @@ struct ServiceSettingsView: View {
   @State private var error: String?
   var body: some View {
     Form {
-      Section("HTTP 服务") {
+      Section(model.t("HTTP 服务", "HTTP service")) {
         TextField("https://api.example.com", text: $address)
           .keyboardType(.URL)
           .textInputAutocapitalization(.never).autocorrectionDisabled()
           .accessibilityIdentifier("后端服务地址")
-        SecureField("访问令牌（留空保留原值）", text: $token)
-          // Provisioned API tokens do not use Password AutoFill.
-          .textContentType(UITextContentType(rawValue: ""))
-          .keyboardType(.asciiCapable)
-          .textInputAutocapitalization(.never).autocorrectionDisabled()
-          .accessibilityIdentifier("后端访问令牌")
-        Text("访问令牌保存在系统钥匙串。模型服务密钥仅配置在服务器上。")
-          .font(.footnote).foregroundStyle(Color.efSubtext)
+        SecureField(
+          model.t("访问令牌（留空保留原值）", "Access token (leave blank to keep current)"), text: $token
+        )
+        // Provisioned API tokens do not use Password AutoFill.
+        .textContentType(UITextContentType(rawValue: ""))
+        .keyboardType(.asciiCapable)
+        .textInputAutocapitalization(.never).autocorrectionDisabled()
+        .accessibilityIdentifier("后端访问令牌")
+        Text(
+          model.t(
+            "访问令牌保存在系统钥匙串。模型服务密钥仅配置在服务器上。",
+            "Your access token is stored in Keychain. Model provider keys stay on the server.")
+        )
+        .font(.footnote).foregroundStyle(Color.efSubtext)
       }
       if let error { Text(error).foregroundStyle(.red) }
-      Button("保存服务设置") {
+      Button(model.t("保存服务设置", "Save service settings")) {
         do {
           try model.backend.save(address: address, token: token)
           dismiss()
         } catch { self.error = error.localizedDescription }
-      }
+      }.accessibilityIdentifier("保存服务设置")
     }
-    .navigationTitle("后端服务设置")
+    .navigationTitle(model.t("后端服务设置", "Backend settings"))
     .onAppear { address = model.backend.address }
   }
 }
@@ -40,19 +46,25 @@ struct InkBindingView: View {
   @State private var antiLost = false
   var body: some View {
     List {
-      Section("屏幕型号") {
-        Text("HINK-T0154A10-A2 · 240×240 · 六色")
-        Toggle("带防丢功能（规格 4）", isOn: $antiLost)
-        Text("请核对实物型号。此配置只适用于 BrushSDK 普通 BLE 六色屏。")
-          .font(.footnote).foregroundStyle(Color.efSubtext)
+      Section(model.t("屏幕型号", "Display model")) {
+        Text(model.t("HINK-T0154A10-A2 · 240×240 · 六色", "HINK-T0154A10-A2 · 240×240 · Six colors"))
+        Toggle(model.t("带防丢功能（规格 4）", "Anti-loss model (specification 4)"), isOn: $antiLost)
+        Text(
+          model.t(
+            "请核对实物型号。此配置只适用于 BrushSDK 普通 BLE 六色屏。",
+            "Check your model. This configuration supports BrushSDK BLE six-color displays.")
+        )
+        .font(.footnote).foregroundStyle(Color.efSubtext)
       }
       Section {
         Text(model.ink.message)
-        if let id = model.ink.selectedID { LabeledContent("已选择", value: id) }
-        Button(model.ink.scanning ? "正在扫描…" : "扫描墨水屏") { model.ink.scan() }
-          .disabled(model.ink.scanning || model.ink.busy)
+        if let id = model.ink.selectedID { LabeledContent(model.t("已选择", "Selected"), value: id) }
+        Button(
+          model.ink.scanning ? model.t("正在扫描…", "Scanning…") : model.t("扫描墨水屏", "Scan displays")
+        ) { model.ink.scan() }
+        .disabled(model.ink.scanning || model.ink.busy)
       }
-      Section("附近设备") {
+      Section(model.t("附近设备", "Nearby devices")) {
         ForEach(model.ink.devices) { device in
           Button {
             if !model.ink.bind(device.id, antiLost: antiLost) {
@@ -66,7 +78,7 @@ struct InkBindingView: View {
           }
         }
       }
-    }.navigationTitle("选择墨水屏")
+    }.navigationTitle(model.t("选择墨水屏", "Select ink display"))
       .onAppear { antiLost = model.ink.antiLost }
       .onDisappear { if model.ink.scanning { model.ink.cancel() } }
   }

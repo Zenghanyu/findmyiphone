@@ -12,6 +12,14 @@ final class AppModel {
   let generator = ArtworkGenerator()
   let ink = InkTransferController()
   let inkArtwork = InkArtworkController()
+  var deviceName = "我的随身屏" { didSet { save() } }
+  var appearance: AppAppearance = .system { didSet { save() } }
+  var language: AppLanguage = .chinese {
+    didSet {
+      save()
+      schedule()
+    }
+  }
   private(set) var artworkRevision = UUID()
   var errorMessage: String?
   var selectedTab: AppTab = .device { didSet { save() } }
@@ -83,6 +91,9 @@ final class AppModel {
         if let saved { try store.save(saved) }
       }
       if let saved {
+        deviceName = saved.deviceName ?? "我的随身屏"
+        appearance = saved.appearance ?? .system
+        language = saved.language ?? .chinese
         selectedTab = saved.selectedTab
         artwork = saved.artwork
         photoDelaySeconds = min(30, max(0, saved.photoDelaySeconds))
@@ -116,6 +127,7 @@ final class AppModel {
     do {
       try store.save(
         Snapshot(
+          deviceName: deviceName, appearance: appearance, language: language,
           selectedTab: selectedTab, artwork: artwork,
           photoDelaySeconds: photoDelaySeconds, phoneLookupEnabled: phoneLookupEnabled,
           hourlyReminderEnabled: hourlyReminderEnabled, hourlyStart: hourlyStart,
@@ -136,7 +148,8 @@ final class AppModel {
       let hourly = try HourlyRule(
         enabled: hourlyReminderEnabled, start: LocalTime(hourlyStart),
         end: LocalTime(hourlyEnd), intervalHours: hourlyInterval == "每两小时" ? 2 : 1)
-      notifications.reconcile(reminders: items, hourly: hourly)
+      notifications.reconcile(
+        reminders: items, hourly: hourly, hourlyTitle: t("整点报时", "Hourly chime"))
     } catch { errorMessage = error.localizedDescription }
   }
   func authorizeReminders() async {
@@ -161,13 +174,24 @@ final class AppModel {
     artworkRevision = UUID()
     inkArtwork.invalidate()
   }
+  func t(_ chinese: String, _ english: String) -> String {
+    language == .chinese ? chinese : english
+  }
+  func repeatText(_ rule: String) -> String {
+    switch rule {
+    case "每天": t("每天", "Every day")
+    case "工作日": t("工作日", "Weekdays")
+    case "仅一次": t("仅一次", "Once")
+    default: rule
+    }
+  }
   func prepareInkArtwork() {
     let image: UIImage?
     if let data = selectedPhotoData {
       image = UIImage(data: data)
     } else {
       let renderer = ImageRenderer(
-        content: ArtworkView(kind: artwork).frame(width: 240, height: 240))
+        content: ArtworkView(kind: artwork).frame(width: 240, height: 240).environment(self))
       renderer.scale = 1
       image = renderer.uiImage
     }
@@ -179,9 +203,18 @@ final class AppModel {
       image, key: .init(revision: artworkRevision, antiLost: ink.antiLost))
   }
   func deleteReminder(_ reminder: ReminderItem) { reminders.removeAll { $0.id == reminder.id } }
+  func setReminderEnabled(id: UUID, enabled: Bool) {
+    guard let index = reminders.firstIndex(where: { $0.id == id }) else { return }
+    var updated = reminders
+    updated[index].isEnabled = enabled
+    reminders = updated
+  }
 }
 
 private struct Snapshot: Codable {
+  let deviceName: String?
+  let appearance: AppAppearance?
+  let language: AppLanguage?
   let selectedTab: AppTab
   let artwork: ArtworkKind
   let photoDelaySeconds: Int
@@ -191,6 +224,37 @@ private struct Snapshot: Codable {
   let hourlyEnd: String
   let hourlyInterval: String
   let reminders: [ReminderItem]
+}
+
+enum AppLanguage: String, Codable {
+  case chinese, english
+}
+
+enum AppAppearance: String, Codable, CaseIterable, Identifiable {
+  case system, light, dark
+
+  var id: String { rawValue }
+  var title: String {
+    switch self {
+    case .system: "跟随系统"
+    case .light: "浅色"
+    case .dark: "深色"
+    }
+  }
+  var englishTitle: String {
+    switch self {
+    case .system: "System"
+    case .light: "Light"
+    case .dark: "Dark"
+    }
+  }
+  var colorScheme: ColorScheme? {
+    switch self {
+    case .system: nil
+    case .light: .light
+    case .dark: .dark
+    }
+  }
 }
 
 enum AppTab: String, Codable {
@@ -208,11 +272,25 @@ enum ArtworkKind: String, Codable, CaseIterable, Identifiable {
     case .bloom: "花开时节"
     }
   }
+  var englishTitle: String {
+    switch self {
+    case .mountain: "Quiet Mountains"
+    case .city: "City Sunset"
+    case .bloom: "In Bloom"
+    }
+  }
   var shortTitle: String {
     switch self {
     case .mountain: "慢慢来"
     case .city: "城市日落"
     case .bloom: "花开时节"
+    }
+  }
+  var englishShortTitle: String {
+    switch self {
+    case .mountain: "Slow days"
+    case .city: "City sunset"
+    case .bloom: "In bloom"
     }
   }
   var heading: String {
