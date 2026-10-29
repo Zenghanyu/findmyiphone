@@ -1,0 +1,6 @@
+numpy>=1.26
+Pillow>=10
+scipy>=1.10
+scikit-image>=0.21
+numba>=0.60
+requests>=2.31

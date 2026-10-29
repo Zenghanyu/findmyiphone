@@ -1,0 +1,19 @@
+{
+  "conditions": "Windows desktop, deterministic 12MP random RGB, 240x240, same helpers and six-colour conversion; includes buffer preparation/copies; not iPhone performance",
+  "trials": {
+    "lanczos": [
+      0.27557830000296235,
+      0.26933320000534877,
+      0.2720651999989059
+    ],
+    "dpid_aggressive": [
+      0.9050004000018816,
+      0.8613376999855973,
+      0.8755205000052229
+    ]
+  },
+  "median_seconds": {
+    "lanczos": 0.2720651999989059,
+    "dpid_aggressive": 0.8755205000052229
+  }
+}

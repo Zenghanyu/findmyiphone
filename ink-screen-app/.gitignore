@@ -1,0 +1,22 @@
+# Local Python dependencies and generated reports
+.venv/
+.runtime/
+.build/
+__pycache__/
+*.pyc
+tools/image_resampling/web_sources/
+tools/image_resampling/results/**/*
+!tools/image_resampling/results/**/
+!tools/image_resampling/results/**/*.json
+
+# Xcode personal state and build products
+.DS_Store
+._*
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.xcarchive
+*.xcresult
+*.ipa
+*.dSYM/

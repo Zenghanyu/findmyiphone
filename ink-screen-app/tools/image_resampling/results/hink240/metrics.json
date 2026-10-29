@@ -1,0 +1,245 @@
+[
+  {
+    "case": "astronaut",
+    "variant": "理想RGB色板参考",
+    "diagnostic_mean_deltaE76_sigma1": 10.623145233620582,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "astronaut",
+    "variant": "普通扩散（标称色板）",
+    "diagnostic_mean_deltaE76_sigma1": 3.354553335572162,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "astronaut",
+    "variant": "面积采样＋边缘保护",
+    "diagnostic_mean_deltaE76_sigma1": 3.392187907174017,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "astronaut",
+    "variant": "轮廓增强＋边缘保护",
+    "diagnostic_mean_deltaE76_sigma1": 3.372731468359369,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "chelsea",
+    "variant": "理想RGB色板参考",
+    "diagnostic_mean_deltaE76_sigma1": 13.460559550211627,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      6
+    ]
+  },
+  {
+    "case": "chelsea",
+    "variant": "普通扩散（标称色板）",
+    "diagnostic_mean_deltaE76_sigma1": 3.915882688697267,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "chelsea",
+    "variant": "面积采样＋边缘保护",
+    "diagnostic_mean_deltaE76_sigma1": 3.9824966927149155,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "chelsea",
+    "variant": "轮廓增强＋边缘保护",
+    "diagnostic_mean_deltaE76_sigma1": 3.9393892832978037,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "coffee",
+    "variant": "理想RGB色板参考",
+    "diagnostic_mean_deltaE76_sigma1": 11.480934082091705,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "coffee",
+    "variant": "普通扩散（标称色板）",
+    "diagnostic_mean_deltaE76_sigma1": 5.105557104369915,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "coffee",
+    "variant": "面积采样＋边缘保护",
+    "diagnostic_mean_deltaE76_sigma1": 5.122023507968343,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "coffee",
+    "variant": "轮廓增强＋边缘保护",
+    "diagnostic_mean_deltaE76_sigma1": 5.107032717428194,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "motorcycle_left",
+    "variant": "理想RGB色板参考",
+    "diagnostic_mean_deltaE76_sigma1": 11.677093980704502,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "motorcycle_left",
+    "variant": "普通扩散（标称色板）",
+    "diagnostic_mean_deltaE76_sigma1": 3.9464612643601593,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "motorcycle_left",
+    "variant": "面积采样＋边缘保护",
+    "diagnostic_mean_deltaE76_sigma1": 4.02613563111886,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "motorcycle_left",
+    "variant": "轮廓增强＋边缘保护",
+    "diagnostic_mean_deltaE76_sigma1": 3.9783660813261736,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ]
+  },
+  {
+    "case": "thin_lines",
+    "variant": "理想RGB色板参考",
+    "diagnostic_mean_deltaE76_sigma1": 10.76612816281866,
+    "valid_codes": [
+      0,
+      1
+    ]
+  },
+  {
+    "case": "thin_lines",
+    "variant": "普通扩散（标称色板）",
+    "diagnostic_mean_deltaE76_sigma1": 1.0324912034053686,
+    "valid_codes": [
+      0,
+      1
+    ]
+  },
+  {
+    "case": "thin_lines",
+    "variant": "面积采样＋边缘保护",
+    "diagnostic_mean_deltaE76_sigma1": 1.1218450216281093,
+    "valid_codes": [
+      0,
+      1
+    ]
+  },
+  {
+    "case": "thin_lines",
+    "variant": "轮廓增强＋边缘保护",
+    "diagnostic_mean_deltaE76_sigma1": 1.102226920243611,
+    "valid_codes": [
+      0,
+      1
+    ]
+  }
+]

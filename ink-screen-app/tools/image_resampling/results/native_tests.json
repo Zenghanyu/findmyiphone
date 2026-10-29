@@ -1,0 +1,102 @@
+[
+  {
+    "test": "all_8_exif_orientations_times_4_user_rotations",
+    "passed": true,
+    "combinations": 32
+  },
+  {
+    "test": "python_native_97x83_to_29x31",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_19x23_to_41x53",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_33x35_to_33x35",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_47x29_to_1x1",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_1x31_to_7x11",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_41x1_to_13x5",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "python_native_71x59_to_71x19",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "identity_has_no_repeated_sharpening",
+    "passed": true
+  },
+  {
+    "test": "constant_colors_and_neutral_backgrounds_unchanged",
+    "passed": true
+  },
+  {
+    "test": "gray_step_has_no_lanczos_overshoot_or_new_extrema",
+    "passed": true
+  },
+  {
+    "test": "checkerboard_antialiasing",
+    "passed": true,
+    "std": 0.23748684174075835
+  },
+  {
+    "test": "detail_cap_and_equal_rgb_delta",
+    "passed": true,
+    "max_adjustment": 8
+  },
+  {
+    "test": "smooth_region_low_amplitude_noise_not_enhanced",
+    "passed": true
+  },
+  {
+    "test": "all_six_device_resolutions",
+    "passed": true
+  },
+  {
+    "test": "invalid_inputs_rejected",
+    "passed": true
+  },
+  {
+    "test": "photo_model_parity_astronaut",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "photo_model_parity_chelsea",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "photo_model_parity_coffee",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "photo_model_parity_motorcycle_left",
+    "passed": true,
+    "max_channel_error": 0
+  },
+  {
+    "test": "12mp_desktop_timing",
+    "passed": true,
+    "seconds": 0.235,
+    "note": "Windows desktop only; not an iPhone benchmark"
+  }
+]

@@ -1,0 +1,286 @@
+[
+  {
+    "case": "astronaut",
+    "variant": "area",
+    "max_change_vs_area": 0,
+    "mean_change_vs_area": 0.0,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "astronaut",
+    "variant": "lanczos",
+    "max_change_vs_area": 37,
+    "mean_change_vs_area": 1.2041261574074074,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0.8
+  },
+  {
+    "case": "astronaut",
+    "variant": "dpid_soft",
+    "max_change_vs_area": 30,
+    "mean_change_vs_area": 0.6436111111111111,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "astronaut",
+    "variant": "dpid_aggressive",
+    "max_change_vs_area": 87,
+    "mean_change_vs_area": 1.6603935185185186,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "chelsea",
+    "variant": "area",
+    "max_change_vs_area": 0,
+    "mean_change_vs_area": 0.0,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "chelsea",
+    "variant": "lanczos",
+    "max_change_vs_area": 19,
+    "mean_change_vs_area": 1.095445601851852,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0.8
+  },
+  {
+    "case": "chelsea",
+    "variant": "dpid_soft",
+    "max_change_vs_area": 21,
+    "mean_change_vs_area": 0.6577488425925926,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "chelsea",
+    "variant": "dpid_aggressive",
+    "max_change_vs_area": 47,
+    "mean_change_vs_area": 1.9127546296296296,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "coffee",
+    "variant": "area",
+    "max_change_vs_area": 0,
+    "mean_change_vs_area": 0.0,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "coffee",
+    "variant": "lanczos",
+    "max_change_vs_area": 32,
+    "mean_change_vs_area": 0.974837962962963,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0.8
+  },
+  {
+    "case": "coffee",
+    "variant": "dpid_soft",
+    "max_change_vs_area": 35,
+    "mean_change_vs_area": 0.5180381944444444,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "coffee",
+    "variant": "dpid_aggressive",
+    "max_change_vs_area": 95,
+    "mean_change_vs_area": 1.410625,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "motorcycle_left",
+    "variant": "area",
+    "max_change_vs_area": 0,
+    "mean_change_vs_area": 0.0,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "motorcycle_left",
+    "variant": "lanczos",
+    "max_change_vs_area": 25,
+    "mean_change_vs_area": 1.8063252314814815,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0.8
+  },
+  {
+    "case": "motorcycle_left",
+    "variant": "dpid_soft",
+    "max_change_vs_area": 26,
+    "mean_change_vs_area": 1.0786863425925926,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "motorcycle_left",
+    "variant": "dpid_aggressive",
+    "max_change_vs_area": 71,
+    "mean_change_vs_area": 2.7571932870370373,
+    "valid_codes": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "thin_lines",
+    "variant": "area",
+    "max_change_vs_area": 0,
+    "mean_change_vs_area": 0.0,
+    "valid_codes": [
+      0,
+      1
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "thin_lines",
+    "variant": "lanczos",
+    "max_change_vs_area": 39,
+    "mean_change_vs_area": 0.6944791666666666,
+    "valid_codes": [
+      0,
+      1
+    ],
+    "post_Lstar_strength": 0.8
+  },
+  {
+    "case": "thin_lines",
+    "variant": "dpid_soft",
+    "max_change_vs_area": 37,
+    "mean_change_vs_area": 1.3698263888888889,
+    "valid_codes": [
+      0,
+      1
+    ],
+    "post_Lstar_strength": 0
+  },
+  {
+    "case": "thin_lines",
+    "variant": "dpid_aggressive",
+    "max_change_vs_area": 103,
+    "mean_change_vs_area": 4.1608680555555555,
+    "valid_codes": [
+      0,
+      1
+    ],
+    "post_Lstar_strength": 0
+  }
+]

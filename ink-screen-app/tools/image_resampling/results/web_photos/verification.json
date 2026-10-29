@@ -1,0 +1,66 @@
+[
+  {
+    "id": "1025",
+    "passed": true,
+    "rgb_equal": true,
+    "indices_equal": true,
+    "nominal_preview_equal": true,
+    "upload_markers_equal": true
+  },
+  {
+    "id": "1005",
+    "passed": true,
+    "rgb_equal": true,
+    "indices_equal": true,
+    "nominal_preview_equal": true,
+    "upload_markers_equal": true
+  },
+  {
+    "id": "1011",
+    "passed": true,
+    "rgb_equal": true,
+    "indices_equal": true,
+    "nominal_preview_equal": true,
+    "upload_markers_equal": true
+  },
+  {
+    "id": "1015",
+    "passed": true,
+    "rgb_equal": true,
+    "indices_equal": true,
+    "nominal_preview_equal": true,
+    "upload_markers_equal": true
+  },
+  {
+    "id": "1039",
+    "passed": true,
+    "rgb_equal": true,
+    "indices_equal": true,
+    "nominal_preview_equal": true,
+    "upload_markers_equal": true
+  },
+  {
+    "id": "1043",
+    "passed": true,
+    "rgb_equal": true,
+    "indices_equal": true,
+    "nominal_preview_equal": true,
+    "upload_markers_equal": true
+  },
+  {
+    "id": "106",
+    "passed": true,
+    "rgb_equal": true,
+    "indices_equal": true,
+    "nominal_preview_equal": true,
+    "upload_markers_equal": true
+  },
+  {
+    "id": "164",
+    "passed": true,
+    "rgb_equal": true,
+    "indices_equal": true,
+    "nominal_preview_equal": true,
+    "upload_markers_equal": true
+  }
+]

@@ -1,0 +1,170 @@
+[
+  {
+    "id": "1025",
+    "title": "狗的毛发与轮廓",
+    "input_sha256": "a8158a9c1312dc71cb7743ce2f5ab63ba6323259f4dd67936a677163afb00d4c",
+    "strengths": [
+      0,
+      0.8
+    ],
+    "edge_protection": 0.55,
+    "dither": true,
+    "mean_abs_Lstar_delta": 0.7749414357654079,
+    "max_abs_Lstar_delta": 2.000000000000007,
+    "six_colour_index_changed_fraction": 0.45303819444444443,
+    "off_matches_current_app_comparison": true,
+    "roi": [
+      70,
+      20,
+      170,
+      120
+    ]
+  },
+  {
+    "id": "1005",
+    "title": "人像发丝与衣物",
+    "input_sha256": "220f5c1e445f7afc2b6633037dc73a22aaf84e8c8c246f98ba53092a3f603841",
+    "strengths": [
+      0,
+      0.8
+    ],
+    "edge_protection": 0.55,
+    "dither": true,
+    "mean_abs_Lstar_delta": 0.21171766916657023,
+    "max_abs_Lstar_delta": 2.000000000000007,
+    "six_colour_index_changed_fraction": 0.3413541666666667,
+    "off_matches_current_app_comparison": true,
+    "roi": [
+      80,
+      30,
+      180,
+      130
+    ]
+  },
+  {
+    "id": "1011",
+    "title": "人物与水面",
+    "input_sha256": "44312d255128a274bbb73d3cf9222973f4bb7ab5852f330bab317c4155dc9a6d",
+    "strengths": [
+      0,
+      0.8
+    ],
+    "edge_protection": 0.55,
+    "dither": true,
+    "mean_abs_Lstar_delta": 0.24210772074494652,
+    "max_abs_Lstar_delta": 2.000000000000007,
+    "six_colour_index_changed_fraction": 0.21081597222222223,
+    "off_matches_current_app_comparison": true,
+    "roi": [
+      80,
+      70,
+      180,
+      170
+    ]
+  },
+  {
+    "id": "1015",
+    "title": "山脊与峡湾",
+    "input_sha256": "344abcd12d109b6ebccdea34e4471a6e32fba0c2f722235422bcd018c7ddaba7",
+    "strengths": [
+      0,
+      0.8
+    ],
+    "edge_protection": 0.55,
+    "dither": true,
+    "mean_abs_Lstar_delta": 0.5750479008029769,
+    "max_abs_Lstar_delta": 2.000000000000007,
+    "six_colour_index_changed_fraction": 0.34098958333333335,
+    "off_matches_current_app_comparison": true,
+    "roi": [
+      10,
+      130,
+      110,
+      230
+    ]
+  },
+  {
+    "id": "1039",
+    "title": "瀑布与岩石",
+    "input_sha256": "fe99024127e16c2290dcdb950f7ebb800e44b4814b0819c3d7e4248b4806c014",
+    "strengths": [
+      0,
+      0.8
+    ],
+    "edge_protection": 0.55,
+    "dither": true,
+    "mean_abs_Lstar_delta": 1.0055657604142445,
+    "max_abs_Lstar_delta": 2.000000000000007,
+    "six_colour_index_changed_fraction": 0.3243229166666667,
+    "off_matches_current_app_comparison": true,
+    "roi": [
+      30,
+      10,
+      130,
+      110
+    ]
+  },
+  {
+    "id": "1043",
+    "title": "树林与山地",
+    "input_sha256": "4911a88898f9baedb79bb82b6dd7e7df18e1070a08c4f4a20c29623741921a3e",
+    "strengths": [
+      0,
+      0.8
+    ],
+    "edge_protection": 0.55,
+    "dither": true,
+    "mean_abs_Lstar_delta": 1.023380306419914,
+    "max_abs_Lstar_delta": 2.000000000000007,
+    "six_colour_index_changed_fraction": 0.4288888888888889,
+    "off_matches_current_app_comparison": true,
+    "roi": [
+      100,
+      40,
+      200,
+      140
+    ]
+  },
+  {
+    "id": "106",
+    "title": "花朵与草叶",
+    "input_sha256": "b4c902cc77377731f0cb86d7d97d3d24a59d3515975292bc1bd0e0296353707e",
+    "strengths": [
+      0,
+      0.8
+    ],
+    "edge_protection": 0.55,
+    "dither": true,
+    "mean_abs_Lstar_delta": 0.5520844721134164,
+    "max_abs_Lstar_delta": 2.000000000000007,
+    "six_colour_index_changed_fraction": 0.34229166666666666,
+    "off_matches_current_app_comparison": true,
+    "roi": [
+      65,
+      35,
+      165,
+      135
+    ]
+  },
+  {
+    "id": "164",
+    "title": "城市与建筑",
+    "input_sha256": "a28c9823b7bb15ac2c47e5e6d25ebbba4aded7fb8212e75b13fc4f1b48239017",
+    "strengths": [
+      0,
+      0.8
+    ],
+    "edge_protection": 0.55,
+    "dither": true,
+    "mean_abs_Lstar_delta": 1.0174418253936697,
+    "max_abs_Lstar_delta": 2.000000000000007,
+    "six_colour_index_changed_fraction": 0.4715972222222222,
+    "off_matches_current_app_comparison": true,
+    "roi": [
+      50,
+      25,
+      150,
+      125
+    ]
+  }
+]
