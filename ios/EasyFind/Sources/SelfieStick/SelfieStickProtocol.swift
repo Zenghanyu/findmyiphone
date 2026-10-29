@@ -1,6 +1,6 @@
 import Foundation
 
-/// v0.1 固件协议草案。UUID 和报文均为本项目新定义，尚未由真实硬件实现。
+/// 项目自定义配置协议，兼容 v0.1，并扩展可靠找手机投递。
 /// HID 快门由设备固件直接发送；本协议只配置设备，不让 App 代替设备计时。
 enum SelfieStickProtocol {
     static let serviceUUID = "AEBB1000-7F4A-4A38-8CF0-18D6BB28B273"
@@ -11,9 +11,46 @@ enum SelfieStickProtocol {
     enum Opcode: UInt8 {
         case readConfiguration = 0x01
         case setDelay = 0x02
+        case acknowledgePhoneFind = 0x03
+        case enableReliablePhoneFind = 0x04
         case configuration = 0x81
         case delaySaved = 0x82
         case event = 0xE0
+    }
+
+    enum PhoneFindDisposition: UInt8, Codable {
+        case accepted = 0
+        case disabled = 1
+        case unauthorized = 2
+    }
+
+    struct PhoneFindRequest: Equatable {
+        let id: UInt64
+        let remainingSeconds: UInt8
+
+        static func decode(_ frame: Frame) -> PhoneFindRequest? {
+            guard frame.opcode == .event, frame.sequence == 0,
+                  frame.payload.count == 11, frame.payload[0] == Event.phoneFindRequested.rawValue,
+                  frame.payload[1] == 0, (1...30).contains(frame.payload[10]) else { return nil }
+            let id = frame.payload[2..<10].enumerated().reduce(UInt64(0)) {
+                $0 | UInt64($1.element) << ($1.offset * 8)
+            }
+            guard id != 0 else { return nil }
+            return PhoneFindRequest(id: id, remainingSeconds: frame.payload[10])
+        }
+
+        func eventFrame() -> Frame {
+            Frame(opcode: .event, sequence: 0,
+                  payload: [Event.phoneFindRequested.rawValue, 0] + idBytes + [remainingSeconds])
+        }
+
+        func acknowledgement(sequence: UInt16, disposition: PhoneFindDisposition) -> Frame {
+            Frame(opcode: .acknowledgePhoneFind, sequence: sequence, payload: idBytes + [disposition.rawValue])
+        }
+
+        private var idBytes: [UInt8] {
+            (0..<8).map { UInt8(truncatingIfNeeded: id >> ($0 * 8)) }
+        }
     }
 
     enum Event: UInt8 {
@@ -77,11 +114,12 @@ enum SelfieStickProtocol {
     struct Configuration: Equatable {
         let delay: UInt8
         let maximumDelay: UInt8
-        /// bit 0: HID 音量增加键；bit 1: 非易失保存；bit 2: 设备端倒计时；bit 3: 找手机事件。
+        /// bit 0–3: 快门/保存/计时/找手机；bit 4: 请求编号、有效期和应用确认。
         let capabilities: UInt8
 
         var supportsOfflineShutter: Bool { capabilities & 0x07 == 0x07 }
         var supportsPhoneFind: Bool { capabilities & 0x08 == 0x08 }
+        var supportsReliablePhoneFind: Bool { capabilities & 0x18 == 0x18 }
 
         func replacingDelay(_ delay: UInt8) -> Configuration {
             Configuration(delay: delay, maximumDelay: maximumDelay, capabilities: capabilities)

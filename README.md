@@ -1,8 +1,8 @@
 # EasyFind / findmyiphone
 
-在 FindMyTag SDK v1.4.3 示例工程上开发的 iOS App 与 XIAO ESP32S3 测试固件。
+在 FindMyTag SDK v1.4.3 示例工程上开发的 iOS App、独立 HTTP 服务与 XIAO ESP32S3 测试固件。
 
-App 包含两个窗口：**查找**（原标签查找功能）与 **功能**（远程拍照、查找我的手机）。
+当前 SwiftUI 集成入口包含设备、墨水屏与提醒三个页面。旧硬件版 App 保留**查找**与**功能**两个窗口，其拍照和找手机功能如下：
 
 - **远程拍照**：App 将 0–30 秒延时保存到设备。设备按键触发倒计时，发送 BLE HID 音量键；系统相机需已打开，日常拍照不依赖 EasyFind 运行。
 - **查找我的手机**：长按设备 BOOT，App 后台接收 BLE 事件。iOS 26 起使用 AlarmKit，首次需允许系统闹钟，约 2 秒后由系统响铃，可从锁屏停止。旧系统保留通知方式。
@@ -15,6 +15,8 @@ App 包含两个窗口：**查找**（原标签查找功能）与 **功能**（�
 这不代表 Android、长时间锁屏、重启恢复、专注模式或原标签 UWB 功能均已完成真机验收。详见 [真机验证记录](docs/hardware-validation.md)。
 
 ## 开发入口
+
+当前集成入口位于 [`ios/EasyFindPrototype`](ios/EasyFindPrototype/README.md)：黑白 SwiftUI 界面已接入独立业务服务，涵盖遥控器、UWB、墨水屏、本地通知、照片存储及 HTTP 生图/反馈。云端服务单独位于 [`server`](server/README.md)，不参与本地设备控制。设计边界与真机待验收项见 [后端架构](docs/backend-architecture.md)。原硬件版工程入口如下。
 
 1. 打开 `ios/EasyFind/EasyFind.xcodeproj`，选择 `EasyFind` scheme。
 2. 真机运行时，在 Signing & Capabilities 选择自己的 Team 和可用的 Bundle Identifier；仓库中的值来自当前原型配置，不包含签名证书或私钥。
