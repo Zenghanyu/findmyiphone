@@ -3,39 +3,89 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 70;
 	objects = {
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		000000000000000000000001 /* EasyFind */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-                A1000000000000000000000F,
+/* Begin PBXBuildFile section */
+		A10000000000000000000007 /* EasyFindCore in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000006 /* EasyFindCore */; };
+		A1000000000000000000000A /* ../FindMyTagKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10000000000000000000008 /* ../FindMyTagKit.xcframework */; };
+		A1000000000000000000000B /* ../Vendor/BrushSDK/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10000000000000000000009 /* ../Vendor/BrushSDK/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework */; };
+		A1000000000000000000000C /* ../FindMyTagKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A10000000000000000000008 /* ../FindMyTagKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A1000000000000000000000D /* ../Vendor/BrushSDK/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A10000000000000000000009 /* ../Vendor/BrushSDK/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A1000000000000000000000E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A1000000000000000000000C /* ../FindMyTagKit.xcframework in Embed Frameworks */,
+				A1000000000000000000000D /* ../Vendor/BrushSDK/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework in Embed Frameworks */,
 			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = EasyFind;
-			sourceTree = "<group>";
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXFileSystemSynchronizedRootGroup section */
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		000000000000000000000005 /* EasyFind.app */ = {
-			isa = PBXFileReference;
-			explicitFileType = wrapper.application;
-			includeInIndex = 0;
-			path = EasyFind.app;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
+		000000000000000000000005 /* EasyFind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyFind.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000008 /* ../FindMyTagKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ../FindMyTagKit.xcframework; sourceTree = "<group>"; };
+		A10000000000000000000009 /* ../Vendor/BrushSDK/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ../Vendor/BrushSDK/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A10000000000000000000002 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/AppDelegate.swift,
+				App/EasyFindTabBarController.swift,
+				App/SceneDelegate.swift,
+				Home/EasyFindHomeViewController.swift,
+				Home/TagResultsPanelView.swift,
+				Ranging/MotoTagRangingView.swift,
+				Ranging/ParticleFieldView.swift,
+				Ranging/PreciseFindingState.swift,
+				Ranging/SignalFilters.swift,
+				Ranging/WorldView.swift,
+				SelfieStick/SelfieStickViewController.swift,
+			);
+			target = 000000000000000000000006 /* EasyFind */;
+		};
+		A10000000000000000000004 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				README.md,
+				Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework,
+				Tests/image_core_test.c,
+			);
+			target = 000000000000000000000006 /* EasyFind */;
+		};
+		A1000000000000000000000F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 000000000000000000000006 /* EasyFind */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		000000000000000000000001 /* EasyFind */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A1000000000000000000000F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = EasyFind; sourceTree = "<group>"; };
+		A10000000000000000000001 /* ../EasyFind/Sources */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A10000000000000000000002 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ../EasyFind/Sources; sourceTree = "<group>"; };
+		A10000000000000000000003 /* ../Vendor/BrushSDK */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A10000000000000000000004 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ../Vendor/BrushSDK; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		000000000000000000000002 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
-			files = (A10000000000000000000007, A1000000000000000000000A, A1000000000000000000000B);
+			files = (
+				A10000000000000000000007 /* EasyFindCore in Frameworks */,
+				A1000000000000000000000A /* ../FindMyTagKit.xcframework in Frameworks */,
+				A1000000000000000000000B /* ../Vendor/BrushSDK/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework in Frameworks */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -45,7 +95,10 @@
 			isa = PBXGroup;
 			children = (
 				000000000000000000000001 /* EasyFind */,
-                A10000000000000000000001, A10000000000000000000003, A10000000000000000000008, A10000000000000000000009,
+				A10000000000000000000001 /* ../EasyFind/Sources */,
+				A10000000000000000000003 /* ../Vendor/BrushSDK */,
+				A10000000000000000000008 /* ../FindMyTagKit.xcframework */,
+				A10000000000000000000009 /* ../Vendor/BrushSDK/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework */,
 				000000000000000000000004 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,17 +121,21 @@
 				000000000000000000000002 /* Frameworks */,
 				000000000000000000000008 /* Sources */,
 				000000000000000000000009 /* Resources */,
-                A1000000000000000000000E,
+				A1000000000000000000000E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			packageProductDependencies = (A10000000000000000000006);
-            fileSystemSynchronizedGroups = (
-                A10000000000000000000001, A10000000000000000000003,				000000000000000000000001 /* EasyFind */,
+			fileSystemSynchronizedGroups = (
+				000000000000000000000001 /* EasyFind */,
+				A10000000000000000000001 /* ../EasyFind/Sources */,
+				A10000000000000000000003 /* ../Vendor/BrushSDK */,
 			);
 			name = EasyFind;
+			packageProductDependencies = (
+				A10000000000000000000006 /* EasyFindCore */,
+			);
 			productName = EasyFind;
 			productReference = 000000000000000000000005 /* EasyFind.app */;
 			productType = "com.apple.product-type.application";
@@ -98,20 +155,21 @@
 					};
 				};
 			};
-			buildConfigurationList = 00000000000000000000000B /* Build configuration list for "Project" object */;
+			buildConfigurationList = 00000000000000000000000B /* Build configuration list for PBXProject "EasyFind" */;
 			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 000000000000000000000003;
-			minimizedProjectFileRepresentations = 1;
-			preferredProjectObjectVersion = 77;
+			packageReferences = (
+				A10000000000000000000005 /* XCLocalSwiftPackageReference "../EasyFindCore" */,
+			);
 			productRefGroup = 000000000000000000000004 /* Products */;
-			packageReferences = (A10000000000000000000005);
-            projectDirPath = "";
+			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				000000000000000000000006 /* EasyFind */,
@@ -256,17 +314,19 @@
 		00000000000000000000000E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GENERATE_INFOPLIST_FILE = NO;
-                INFOPLIST_FILE = EasyFind/Info.plist;
-                SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/EasyFind/Infrastructure/EasyFind-Bridging-Header.h";
-                HEADER_SEARCH_PATHS = ("$(inherited)", "$(SRCROOT)/../Vendor/BrushSDK/**");
-                CLANG_ENABLE_OBJC_ARC = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../Vendor/BrushSDK/**",
+				);
+				INFOPLIST_FILE = EasyFind/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -276,6 +336,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easyfind.companion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/EasyFind/Infrastructure/EasyFind-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -284,17 +345,19 @@
 		00000000000000000000000F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GENERATE_INFOPLIST_FILE = NO;
-                INFOPLIST_FILE = EasyFind/Info.plist;
-                SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/EasyFind/Infrastructure/EasyFind-Bridging-Header.h";
-                HEADER_SEARCH_PATHS = ("$(inherited)", "$(SRCROOT)/../Vendor/BrushSDK/**");
-                CLANG_ENABLE_OBJC_ARC = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../Vendor/BrushSDK/**",
+				);
+				INFOPLIST_FILE = EasyFind/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -304,6 +367,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easyfind.companion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/EasyFind/Infrastructure/EasyFind-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -312,15 +376,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00000000000000000000000B /* Build configuration list for "Project" object */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				00000000000000000000000C /* Debug */,
-				00000000000000000000000D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		000000000000000000000007 /* Build configuration list for PBXNativeTarget "EasyFind" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -330,23 +385,31 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		00000000000000000000000B /* Build configuration list for PBXProject "EasyFind" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00000000000000000000000C /* Debug */,
+				00000000000000000000000D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
-        A10000000000000000000001 = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A10000000000000000000002); path = ../EasyFind/Sources; sourceTree = "<group>";};
-        A10000000000000000000002 = {isa = PBXFileSystemSynchronizedBuildFileExceptionSet; membershipExceptions = ("App/AppDelegate.swift", "App/EasyFindTabBarController.swift", "App/SceneDelegate.swift", "Home/TagResultsPanelView.swift", "Home/EasyFindHomeViewController.swift", "Ranging/WorldView.swift", "Ranging/PreciseFindingState.swift", "Ranging/SignalFilters.swift", "Ranging/MotoTagRangingView.swift", "Ranging/ParticleFieldView.swift", "SelfieStick/SelfieStickViewController.swift"); target = 000000000000000000000006;};
-        A10000000000000000000003 = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A10000000000000000000004); path = ../Vendor/BrushSDK; sourceTree = "<group>";};
-        A10000000000000000000004 = {isa = PBXFileSystemSynchronizedBuildFileExceptionSet; membershipExceptions = ("Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework", "Tests/image_core_test.c", "README.md"); target = 000000000000000000000006;};
-        A10000000000000000000005 = {isa = XCLocalSwiftPackageReference; relativePath = ../EasyFindCore;};
-        A10000000000000000000006 = {isa = XCSwiftPackageProductDependency; package = A10000000000000000000005; productName = EasyFindCore;};
-        A10000000000000000000007 = {isa = PBXBuildFile; productRef = A10000000000000000000006;};
-        A10000000000000000000008 = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ../FindMyTagKit.xcframework; sourceTree = "<group>";};
-        A10000000000000000000009 = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ../Vendor/BrushSDK/Support/XTDitherBleProtocol/XTDitherBleProtocol.xcframework; sourceTree = "<group>";};
-        A1000000000000000000000A = {isa = PBXBuildFile; fileRef = A10000000000000000000008;};
-        A1000000000000000000000B = {isa = PBXBuildFile; fileRef = A10000000000000000000009;};
-        A1000000000000000000000C = {isa = PBXBuildFile; fileRef = A10000000000000000000008; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy);};};
-        A1000000000000000000000D = {isa = PBXBuildFile; fileRef = A10000000000000000000009; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy);};};
-        A1000000000000000000000E = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 10; files = (A1000000000000000000000C, A1000000000000000000000D); name = "Embed Frameworks"; runOnlyForDeploymentPostprocessing = 0;};
-        A1000000000000000000000F = {isa = PBXFileSystemSynchronizedBuildFileExceptionSet; membershipExceptions = (Info.plist, "Infrastructure/EasyFind-Bridging-Header.h"); target = 000000000000000000000006;};
+/* Begin XCLocalSwiftPackageReference section */
+		A10000000000000000000005 /* XCLocalSwiftPackageReference "../EasyFindCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../EasyFindCore;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A10000000000000000000006 /* EasyFindCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A10000000000000000000005 /* XCLocalSwiftPackageReference "../EasyFindCore" */;
+			productName = EasyFindCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 00000000000000000000000A /* Project object */;
 }

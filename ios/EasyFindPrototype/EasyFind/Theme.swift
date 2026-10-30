@@ -55,7 +55,7 @@ struct PrimaryButton: View {
       .font(.headline)
       .frame(maxWidth: .infinity)
       .frame(minHeight: 50)
-      .background(Color.efAccent, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+      .background(Color.efAccent, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
       .foregroundStyle(Color.efOnAccent)
     }
     .buttonStyle(PressFeedbackStyle())
@@ -176,7 +176,7 @@ struct FeatureActionCard: View {
       Image(systemName: systemImage)
         .font(.system(size: 39, weight: .regular))
         .frame(width: 68, height: 68)
-        .background(Color.efTint, in: RoundedRectangle(cornerRadius: 18))
+        .background(Color.efTint, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
       VStack(alignment: .center, spacing: 4) {
         Text(title).font(.system(size: 14, weight: .medium))
         if let detail {
@@ -188,8 +188,8 @@ struct FeatureActionCard: View {
     .foregroundStyle(Color.efText)
     .frame(maxWidth: .infinity, minHeight: 142, alignment: .center)
     .padding(16)
-    .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 18))
-    .overlay(RoundedRectangle(cornerRadius: 18).stroke(Color.efLine.opacity(0.65)))
-    .contentShape(RoundedRectangle(cornerRadius: 18))
+    .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efLine.opacity(0.5)))
+    .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
   }
 }

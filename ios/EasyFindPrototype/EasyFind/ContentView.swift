@@ -8,7 +8,7 @@ struct ContentView: View {
     TabView(selection: $model.selectedTab) {
       NavigationStack { DeviceView() }
         .tag(AppTab.device)
-      NavigationStack { InkView() }
+      InkView()
         .tag(AppTab.ink)
       NavigationStack { RemindersView() }
         .tag(AppTab.reminders)
@@ -65,7 +65,7 @@ struct ContentView: View {
       .padding(.vertical, 6)
       .background(
         model.selectedTab == tab ? Color.efTint : Color.clear,
-        in: RoundedRectangle(cornerRadius: 16)
+        in: RoundedRectangle(cornerRadius: 12, style: .continuous)
       )
       .frame(maxWidth: .infinity, minHeight: 50)
       .contentShape(Rectangle())

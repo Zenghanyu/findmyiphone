@@ -149,7 +149,11 @@ final class AppModel {
         enabled: hourlyReminderEnabled, start: LocalTime(hourlyStart),
         end: LocalTime(hourlyEnd), intervalHours: hourlyInterval == "每两小时" ? 2 : 1)
       notifications.reconcile(
-        reminders: items, hourly: hourly, hourlyTitle: t("整点报时", "Hourly chime"))
+        reminders: items, hourly: hourly, hourlyTitle: t("整点报时", "Hourly chime"),
+        authorizationMessage: t(
+          "请允许系统通知，提醒规则已保存，授权后会自动安排。",
+          "Please allow notifications. Your reminder settings are saved and will be scheduled once permission is granted."
+        ))
     } catch { errorMessage = error.localizedDescription }
   }
   func authorizeReminders() async {

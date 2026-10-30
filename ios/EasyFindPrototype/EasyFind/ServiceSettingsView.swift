@@ -47,12 +47,12 @@ struct InkBindingView: View {
   var body: some View {
     List {
       Section(model.t("屏幕型号", "Display model")) {
-        Text(model.t("HINK-T0154A10-A2 · 240×240 · 六色", "HINK-T0154A10-A2 · 240×240 · Six colors"))
+        Text(model.t("HINK-T0154A10-A2 · 240×240", "HINK-T0154A10-A2 · 240×240"))
         Toggle(model.t("带防丢功能（规格 4）", "Anti-loss model (specification 4)"), isOn: $antiLost)
         Text(
           model.t(
-            "请核对实物型号。此配置只适用于 BrushSDK 普通 BLE 六色屏。",
-            "Check your model. This configuration supports BrushSDK BLE six-color displays.")
+            "请核对实物型号。此配置只适用于 BrushSDK 普通 BLE 墨水屏。",
+            "Check your model. This configuration supports BrushSDK BLE ink displays.")
         )
         .font(.footnote).foregroundStyle(Color.efSubtext)
       }
