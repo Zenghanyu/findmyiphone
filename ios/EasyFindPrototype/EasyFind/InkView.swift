@@ -15,148 +15,149 @@ struct InkView: View {
 
   var body: some View {
     NavigationStack(path: $path) {
-    GeometryReader { proxy in
-      let imageSide = min(170, max(110, proxy.size.height * 0.22))
-      let photosTitle = model.t("相册", "Photos")
-      ScrollView {
-        VStack(spacing: 12) {
-          ScreenHeader(title: model.t("显示", "Display"), subtitle: "")
-          ScreenPreview(imageSide: imageSide)
-          VStack(spacing: 9) {
-            PhotosPicker(selection: $photoItem, matching: .images) {
-              DisplayActionRow(title: photosTitle, systemImage: "photo.on.rectangle")
+      GeometryReader { proxy in
+        let imageSide = min(170, max(110, proxy.size.height * 0.22))
+        let photosTitle = model.t("相册", "Photos")
+        ScrollView {
+          VStack(spacing: 12) {
+            ScreenHeader(title: model.t("显示", "Display"), subtitle: "")
+            ScreenPreview(imageSide: imageSide)
+            VStack(spacing: 9) {
+              PhotosPicker(selection: $photoItem, matching: .images) {
+                DisplayActionRow(title: photosTitle, systemImage: "photo.on.rectangle")
+              }
+              .buttonStyle(PressFeedbackStyle())
+              .accessibilityIdentifier("相册")
+              .disabled(loadingPhoto)
+              Button {
+                Task {
+                  guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+                    cameraError = true
+                    return
+                  }
+                  guard await AVCaptureDevice.requestAccess(for: .video) else {
+                    cameraError = true
+                    return
+                  }
+                  showCamera = true
+                }
+              } label: {
+                DisplayActionRow(title: model.t("拍照", "Camera"), systemImage: "camera")
+              }
+              .accessibilityIdentifier("拍照入口")
+              .disabled(loadingPhoto)
+              NavigationLink(value: InkRoute.templates) {
+                DisplayActionRow(title: model.t("模板", "Templates"), systemImage: "square.grid.2x2")
+              }
             }
             .buttonStyle(PressFeedbackStyle())
-            .accessibilityIdentifier("相册")
-            .disabled(loadingPhoto)
+            NavigationLink(value: InkRoute.upload) {
+              HStack {
+                Image(systemName: "arrow.up.from.line")
+                Text(model.t("上传画面", "Upload to display"))
+              }
+              .font(.headline)
+              .frame(maxWidth: .infinity, minHeight: 50)
+              .background(
+                Color.efAccent, in: RoundedRectangle(cornerRadius: 14, style: .continuous)
+              )
+              .foregroundStyle(Color.efOnAccent)
+            }
+            .buttonStyle(PressFeedbackStyle())
+            .accessibilityIdentifier("上传到墨水屏")
+            Spacer(minLength: 0)
+          }
+          .padding(.horizontal, 20)
+          .padding(.bottom, 10)
+          .frame(maxWidth: .infinity)
+        }
+      }
+      .background(Color.efBackground.ignoresSafeArea())
+      .navigationTitle("EasyFind")
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        if model.selectedPhotoData != nil {
+          ToolbarItem(placement: .topBarTrailing) {
             Button {
-              Task {
-                guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-                  cameraError = true
-                  return
-                }
-                guard await AVCaptureDevice.requestAccess(for: .video) else {
-                  cameraError = true
-                  return
-                }
-                showCamera = true
+              if let data = model.selectedPhotoData, let image = UIImage(data: data) {
+                cropImage = CropImage(image: image)
               }
             } label: {
-              DisplayActionRow(title: model.t("拍照", "Camera"), systemImage: "camera")
+              Image(systemName: "crop")
             }
-            .accessibilityIdentifier("拍照入口")
-            .disabled(loadingPhoto)
-            NavigationLink(value: InkRoute.templates) {
-              DisplayActionRow(title: model.t("模板", "Templates"), systemImage: "square.grid.2x2")
-            }
+            .accessibilityLabel(model.t("裁剪图片", "Crop image")).accessibilityIdentifier("裁剪图片")
           }
-          .buttonStyle(PressFeedbackStyle())
-          NavigationLink(value: InkRoute.upload) {
-            HStack {
-              Image(systemName: "arrow.up.from.line")
-              Text(model.t("上传画面", "Upload to display"))
-            }
-            .font(.headline)
-            .frame(maxWidth: .infinity, minHeight: 50)
-            .background(Color.efAccent, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-            .foregroundStyle(Color.efOnAccent)
+        }
+      }
+      .navigationDestination(for: InkRoute.self) { route in
+        switch route {
+        case .templates: TemplatePickerView(path: $path)
+        case .upload: UploadView()
+        case .capture: CameraCaptureScreen()
+        }
+      }
+      .onChange(of: photoItem) { _, newItem in
+        guard let newItem, !loadingPhoto else { return }
+        loadingPhoto = true
+        Task {
+          defer {
+            loadingPhoto = false
+            photoItem = nil
           }
-          .buttonStyle(PressFeedbackStyle())
-          .accessibilityIdentifier("上传到墨水屏")
-          Spacer(minLength: 0)
-        }
-        .padding(.horizontal, 20)
-        .padding(.bottom, 10)
-        .frame(maxWidth: .infinity)
-      }
-    }
-    .background(Color.efBackground.ignoresSafeArea())
-    .navigationTitle("EasyFind")
-    .navigationBarTitleDisplayMode(.inline)
-    .toolbar {
-      if model.selectedPhotoData != nil {
-        ToolbarItem(placement: .topBarTrailing) {
-          Button {
-            if let data = model.selectedPhotoData, let image = UIImage(data: data) {
-              cropImage = CropImage(image: image)
-            }
-          } label: {
-            Image(systemName: "crop")
+          if let data = try? await newItem.loadTransferable(type: Data.self),
+            let normalized = try? await PhotoRepository.normalized(data),
+            let image = UIImage(data: normalized)
+          {
+            cropImage = CropImage(image: image)
+          } else {
+            await MainActor.run { photoError = true }
           }
-          .accessibilityLabel(model.t("裁剪图片", "Crop image")).accessibilityIdentifier("裁剪图片")
         }
       }
-    }
-    .navigationDestination(for: InkRoute.self) { route in
-      switch route {
-      case .templates: TemplatePickerView(path: $path)
-      case .upload: UploadView()
-      case .ai: AIArtworkView()
-      case .capture: CameraCaptureScreen()
-      }
-    }
-    .onChange(of: photoItem) { _, newItem in
-      guard let newItem, !loadingPhoto else { return }
-      loadingPhoto = true
-      Task {
-        defer {
-          loadingPhoto = false
-          photoItem = nil
-        }
-        if let data = try? await newItem.loadTransferable(type: Data.self),
-          let normalized = try? await PhotoRepository.normalized(data),
-          let image = UIImage(data: normalized)
-        {
-          cropImage = CropImage(image: image)
-        } else {
-          await MainActor.run { photoError = true }
+      .onChange(of: showCamera) { _, isPresented in
+        guard !isPresented, let pendingCameraImage else { return }
+        self.pendingCameraImage = nil
+        Task {
+          do {
+            cropImage = CropImage(image: try await PhotoRepository.normalized(pendingCameraImage))
+          } catch { model.errorMessage = error.localizedDescription }
         }
       }
-    }
-    .onChange(of: showCamera) { _, isPresented in
-      guard !isPresented, let pendingCameraImage else { return }
-      self.pendingCameraImage = nil
-      Task {
-        do {
-          cropImage = CropImage(image: try await PhotoRepository.normalized(pendingCameraImage))
-        } catch { model.errorMessage = error.localizedDescription }
+      .fullScreenCover(isPresented: $showCamera) {
+        CameraCaptureView(
+          onImage: { image in
+            pendingCameraImage = image
+            showCamera = false
+          },
+          onCancel: { showCamera = false },
+          onUnavailable: {
+            showCamera = false
+            cameraError = true
+          }
+        )
+        .ignoresSafeArea()
       }
-    }
-    .fullScreenCover(isPresented: $showCamera) {
-      CameraCaptureView(
-        onImage: { image in
-          pendingCameraImage = image
-          showCamera = false
-        },
-        onCancel: { showCamera = false },
-        onUnavailable: {
-          showCamera = false
-          cameraError = true
-        }
-      )
-      .ignoresSafeArea()
-    }
-    .fullScreenCover(item: $cropImage) { source in
-      PhotoCropView(
-        image: source.image,
-        onCancel: { cropImage = nil },
-        onComplete: { data in
-          model.selectedPhotoData = data
-          cropImage = nil
-          path.append(InkRoute.upload)
-        }
-      )
-    }
-    .alert(
-      model.t("无法读取这张照片，请重新选择。", "This photo couldn’t be read. Please choose another."),
-      isPresented: $photoError
-    ) {
-      Button(model.t("好", "OK"), role: .cancel) {}
-    }
-    .alert(model.t("此设备无法使用相机", "Camera unavailable on this device"), isPresented: $cameraError) {
-      Button(model.t("好", "OK"), role: .cancel) {}
-    }
-    } // NavigationStack
+      .fullScreenCover(item: $cropImage) { source in
+        PhotoCropView(
+          image: source.image,
+          onCancel: { cropImage = nil },
+          onComplete: { data in
+            model.selectedPhotoData = data
+            cropImage = nil
+            path.append(InkRoute.upload)
+          }
+        )
+      }
+      .alert(
+        model.t("无法读取这张照片，请重新选择。", "This photo couldn’t be read. Please choose another."),
+        isPresented: $photoError
+      ) {
+        Button(model.t("好", "OK"), role: .cancel) {}
+      }
+      .alert(model.t("此设备无法使用相机", "Camera unavailable on this device"), isPresented: $cameraError) {
+        Button(model.t("好", "OK"), role: .cancel) {}
+      }
+    }  // NavigationStack
   }
 }
 
@@ -178,7 +179,9 @@ private struct DisplayActionRow: View {
     .padding(.horizontal, 16)
     .frame(maxWidth: .infinity, minHeight: 62)
     .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efLine.opacity(0.5)))
+    .overlay(
+      RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efLine.opacity(0.5))
+    )
     .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
   }
 }
@@ -238,7 +241,9 @@ struct ScreenPreview: View {
     }
     .padding(15)
     .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efLine.opacity(0.5)))
+    .overlay(
+      RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efLine.opacity(0.5))
+    )
     .task(
       id: InkArtworkController.Key(revision: model.artworkRevision, antiLost: model.ink.antiLost)
     ) {
@@ -286,12 +291,6 @@ struct TemplatePickerView: View {
     .background(Color.efBackground.ignoresSafeArea())
     .navigationTitle(model.t("模板图库", "Templates"))
     .navigationBarTitleDisplayMode(.inline)
-    .toolbar {
-      ToolbarItem(placement: .topBarTrailing) {
-        NavigationLink(model.t("AI 生图", "AI image"), value: InkRoute.ai).accessibilityIdentifier(
-          "AI 生图")
-      }
-    }
   }
 }
 
@@ -335,70 +334,5 @@ struct UploadView: View {
     .navigationTitle(model.t("更新屏幕", "Update display")).navigationBarTitleDisplayMode(.inline)
     .onAppear { model.ink.reset() }
     .onDisappear { if model.ink.busy { model.ink.cancel() } }
-  }
-}
-
-struct AIArtworkView: View {
-  @Environment(AppModel.self) private var model
-  @Environment(\.dismiss) private var dismiss
-  @State private var prompt = ""
-  @FocusState private var fieldFocused: Bool
-
-  var body: some View {
-    ScrollView {
-      VStack(spacing: 18) {
-        ScreenHeader(title: model.t("AI 生图", "AI Image"), subtitle: "")
-        VStack(alignment: .leading, spacing: 10) {
-          Text(model.t("画面描述", "Image description")).font(.caption).foregroundStyle(Color.efSubtext)
-          TextField(
-            model.t("例如：落日下的山野，安静的绿色", "e.g. Quiet green hills at sunset"), text: $prompt,
-            axis: .vertical
-          )
-          .lineLimit(3...5)
-          .textInputAutocapitalization(.never)
-          .focused($fieldFocused)
-          .padding(13)
-          .background(Color.efBackground, in: RoundedRectangle(cornerRadius: 12))
-          .accessibilityIdentifier("画面描述")
-          Text(
-            model.t("简洁插画 · 方形构图 · 适配屏幕", "Simple illustration · Square composition · Screen ready")
-          ).font(.caption).foregroundStyle(Color.efSubtext)
-        }
-        .padding(19)
-        .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-        PrimaryButton(
-          title: model.generator.running
-            ? model.t("正在生成…", "Generating…") : model.t("生成预览", "Generate preview"),
-          systemImage: "sparkles",
-          isDisabled: model.generator.running
-            || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        ) {
-          fieldFocused = false
-          do { model.generator.generate(prompt: prompt, api: try model.backend.client()) } catch {
-            model.errorMessage = error.localizedDescription
-          }
-        }
-        if model.generator.running {
-          Button(model.t("取消生成", "Cancel generation")) { model.generator.cancel() }
-        }
-        if let error = model.generator.error { Text(error).font(.footnote).foregroundStyle(.red) }
-        NavigationLink(model.t("配置后端服务", "Backend settings")) { ServiceSettingsView() }
-        if let data = model.generator.imageData, let image = UIImage(data: data) {
-          Image(uiImage: image).resizable().scaledToFit().frame(maxWidth: 235)
-          PrimaryButton(title: model.t("使用这张画面", "Use image")) {
-            Task {
-              await model.importPhoto(data)
-              dismiss()
-            }
-          }
-        }
-      }
-      .padding(22)
-    }
-    .scrollDismissesKeyboard(.interactively)
-    .background(Color.efBackground.ignoresSafeArea())
-    .navigationTitle(model.t("AI 生图", "AI Image"))
-    .navigationBarTitleDisplayMode(.inline)
-    .onDisappear { model.generator.cancel() }
   }
 }

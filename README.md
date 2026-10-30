@@ -16,7 +16,7 @@
 
 ## 开发入口
 
-当前集成入口位于 [`ios/EasyFindPrototype`](ios/EasyFindPrototype/README.md)：黑白 SwiftUI 界面已接入独立业务服务，涵盖遥控器、UWB、墨水屏、本地通知、照片存储及 HTTP 生图/反馈。云端服务单独位于 [`server`](server/README.md)，不参与本地设备控制。设计边界与真机待验收项见 [后端架构](docs/backend-architecture.md)。原硬件版工程入口如下。
+当前集成入口位于 [`ios/EasyFindPrototype`](ios/EasyFindPrototype/README.md)：黑白 SwiftUI 界面已接入独立业务服务，涵盖遥控器、UWB、墨水屏、本地通知、照片存储及 HTTP 反馈。前端不提供 AI 生图入口，服务端仍保留生成接口。云端服务单独位于 [`server`](server/README.md)，不参与本地设备控制。设计边界与真机待验收项见 [后端架构](docs/backend-architecture.md)。原硬件版工程入口如下。
 
 1. 打开 `ios/EasyFind/EasyFind.xcodeproj`，选择 `EasyFind` scheme。
 2. 真机运行时，在 Signing & Capabilities 选择自己的 Team 和可用的 Bundle Identifier；仓库中的值来自当前原型配置，不包含签名证书或私钥。

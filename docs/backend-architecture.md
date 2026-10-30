@@ -7,7 +7,7 @@
 | 层 | 目录 | 职责 |
 | --- | --- | --- |
 | 界面 | `ios/EasyFindPrototype/EasyFind/*View.swift` | 输入、展示及导航，调用服务，不拼装 BLE 帧或 SQL |
-| 应用服务 | `ios/EasyFindPrototype/EasyFind/Services/` | 可观察设备状态、通知调度、照片存储、API 配置、生成任务与上传状态 |
+| 应用服务 | `ios/EasyFindPrototype/EasyFind/Services/` | 可观察设备状态、通知调度、照片存储、API 配置与上传状态 |
 | 纯业务与网络契约 | `ios/EasyFindCore/` | 提醒规划、API 协议/DTO/错误、原子 JSON 存储，可独立运行 Swift Package 测试 |
 | 硬件适配 | 旧 `ios/EasyFind/Sources/` 及新 `Infrastructure/` | CoreBluetooth、AlarmKit、FindMyTagKit；Objective-C 门面隔离 BrushSDK |
 | HTTP 后端 | `server/app/` | FastAPI 路由/鉴权 → SQLite repository → worker → ImageProvider |
@@ -21,10 +21,10 @@ iOS 与 HTTP 服务分别构建、运行和测试，通过版本化 `/v1` 接口
 - **找手机**：App 生命周期启动蓝牙恢复服务，接入授权、开关、系统响铃状态与停止；复用可靠交付分支的请求 ID、有效期、重试、确认和持久去重。协议与固件需配套，详见 [可靠交付说明](phone-find-reliability.md)。
 - **标签查找**：真实扫描、选取、测距回调和发声/停止，未连接和不支持 UWB 时显示可用性。
 - **新版界面**：设备卡片、显示页纵向操作、提醒左滑删除、雷达、反馈附件及联系提示沿用新版 EasyFind-Frontend；外观（跟随系统/浅色/深色）、中英文和 App 设备显示名写入原子快照。新增快照字段可选，兼容现有数据。连接状态、电量可用性和业务结果来自原有服务。
-- **画面**：实际相册和相机输入，ImageIO 按方向缩略到最长边 2048，限制输入 20 MiB；可拖动/缩放裁剪，由 `PhotoCropGeometry` 将显示区域映射到源像素，再由照片仓库在后台裁图。保留裁剪后的源像素供后续 DPID 处理，不提前缩成 240×240；图片写入 Application Support，重启可恢复。模板经 ImageRenderer 输出统一图像，AI 入口位于模板页工具栏。
+- **画面**：实际相册和相机输入，ImageIO 按方向缩略到最长边 2048，限制输入 20 MiB；可拖动/缩放裁剪，由 `PhotoCropGeometry` 将显示区域映射到源像素，再由照片仓库在后台裁图。保留裁剪后的源像素供后续 DPID 处理，不提前缩成 240×240；图片写入 Application Support，重启可恢复。模板经 ImageRenderer 输出统一图像；前端已移除 AI 生图入口、路由和页面，服务端生成 API 与网络契约保留。
 - **墨水屏**：明确选择 HINK-T0154A10-A2 240×240 六色普通 BLE 设备，规格 3/4；选图后在后台执行居中裁剪、DPID 降采样和六色抖动，首页与上传确认页均可切换原图/六色效果，不依赖设备绑定或连接。`InkArtworkController` 缓存同一次处理生成的预览和不可变码流，换图或切换规格后重新处理，并丢弃迟到结果；`InkTransferController` 只在用户确认后传输缓存数据，不再二次量化。显示实际数据包进度，支持超时和取消。SDK 刷新命令被接受后展示“设备已接收，请等待屏幕刷新”，尚无实屏完成传感确认。预览使用面板标称色彩，不能代替实物校色。
 - **提醒与报时**：系统通知授权、每天/工作日/具体日期一次性提醒、开关和删除撤销、规则修改重排。归属前缀隔离其他通知，计算 iOS 64 条待处理容量，失败回滚。每天/工作日随本地时区，每个一次性提醒保存绝对日期。报时由手机通知执行。
-- **AI 与反馈**：配置独立服务地址与 Keychain 令牌；真实创建/轮询/下载/取消任务，创建重试复用幂等键；反馈等待持久化回执。反馈照片在照片仓库中压缩到最长边 1280 像素、每张最多 512 KiB，最多 10 张，API 再独立校验并与正文一起持久化到 SQLite。生成图片经校验后原子落盘。
+- **反馈与保留的生成服务**：App 配置独立服务地址与 Keychain 令牌，反馈等待持久化回执。服务端保留生成任务的创建、查询、下载与取消接口及幂等处理，App 不再提供生成操作。反馈照片在照片仓库中压缩到最长边 1280 像素、每张最多 512 KiB，最多 10 张，API 再独立校验并与正文一起持久化到 SQLite。生成图片经校验后原子落盘。
 
 ## 数据与扩展约束
 
@@ -46,7 +46,7 @@ SQLite 首版仅允许单服务进程。增加账号、多实例或多任务并�
 EASYFIND_TEST_PYTHON=/path/to/python scripts/test-backend.sh
 ```
 
-脚本包含 API/worker/鉴权/幂等/取消/恢复/限流/上游异常测试、Swift 提醒与 API 测试、C++ 固件协议与可靠交付测试、Swift 去重与持久化测试、C 图像码流测试，并构建安装 App、运行 XCUITest。端到端测试通过实际回环 HTTP 创建和下载图片、重启恢复照片及提交反馈；确定性 provider 只在测试工厂注入。UI 中的蓝牙演示也只在模拟器显式参数下启用。测试快照、照片、API 偏好和 Keychain 账号使用独立空间；模拟器 App 采用本地签名以验证真实 Keychain 写入，无需开发者证书。
+脚本包含 API/worker/鉴权/幂等/取消/恢复/限流/上游异常测试、Swift 提醒与 API 测试、C++ 固件协议与可靠交付测试、Swift 去重与持久化测试、C 图像码流测试，并构建安装 App、运行 XCUITest。App 端到端测试通过实际回环 HTTP 提交反馈，并验证中英文模板页不提供 AI 生图入口；生成服务由 API/provider/worker 和 Swift 网络契约测试覆盖，确定性 provider 只在测试工厂注入。UI 中的蓝牙演示也只在模拟器显式参数下启用。测试快照、照片、API 偏好和 Keychain 账号使用独立空间；模拟器 App 采用本地签名以验证真实 Keychain 写入，无需开发者证书。
 
 Xcode 的 `generic/platform=iOS` 无签名编译检查设备切片兼容性；它不替代设备安装与硬件联调。第三方 BrushSDK 仍有上游 Objective-C 隐式捕获 self 的编译警告，业务 Swift 代码不依赖关闭这些检查。
 
