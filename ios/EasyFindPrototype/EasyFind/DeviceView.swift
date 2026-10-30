@@ -22,25 +22,27 @@ struct DeviceView: View {
         Button {
           model.selectedTab = .ink
         } label: {
-          HStack(spacing: 20) {
+          HStack(spacing: 14) {
             CurrentArtworkView(showText: false)
-              .frame(width: 88, height: 88)
-            Spacer()
-            VStack(spacing: 10) {
-              Image(systemName: "photo.on.rectangle.angled")
-                .font(.system(size: 24, weight: .regular))
-              Text(model.t("更换画面", "Change Image")).font(.subheadline.weight(.medium))
+              .frame(width: 52, height: 52)
+              .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            VStack(alignment: .leading, spacing: 4) {
+              Text(model.t("更换画面", "Change Image")).font(.subheadline.weight(.semibold))
+              Text(model.t("相册、拍照或模板", "Photos, camera, or templates"))
+                .font(.caption)
+                .foregroundStyle(Color.efSubtext)
             }
-            .frame(maxWidth: .infinity)
-            Spacer()
-              .frame(width: 0)
+            Spacer(minLength: 0)
+            Image(systemName: "chevron.right")
+              .font(.caption.weight(.semibold))
+              .foregroundStyle(Color.efSubtext)
           }
-          .padding(16)
-          .frame(minHeight: 120)
-          .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-          .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(Color.efLine))
+          .padding(.horizontal, 14)
+          .padding(.vertical, 12)
+          .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+          .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efLine.opacity(0.5)))
           .foregroundStyle(Color.efText)
-          .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+          .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
         .accessibilityIdentifier("更换画面入口")
         .buttonStyle(PressFeedbackStyle())
@@ -87,7 +89,7 @@ struct DeviceView: View {
           .padding(7)
       }
       .background(Color.efTint, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-      .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.efLine))
+      .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.efLine.opacity(0.5)))
       .padding(.vertical, 6)
       HStack {
         Text(model.deviceName).font(.headline)
@@ -104,8 +106,8 @@ struct DeviceView: View {
       }
     }
     .padding(16)
-    .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-    .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.efLine))
+    .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efLine.opacity(0.5)))
   }
 
 }
@@ -143,17 +145,10 @@ struct CameraSettingsView: View {
               .accessibilityIdentifier("延时\(value)秒")
             }
           }
-          Slider(
-            value: Binding(
-              get: { Double(delaySeconds) }, set: { delaySeconds = Int($0.rounded()) }), in: 0...30,
-            step: 1
-          )
-          .tint(Color.efAccent)
-          .accessibilityLabel(model.t("自定义拍照延时", "Custom timer"))
-          Text(model.t("0–30 秒", "0–30 seconds")).font(.caption).foregroundStyle(Color.efSubtext)
         }
         .padding(20)
-        .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efLine.opacity(0.5)))
         PrimaryButton(
           title: model.devices.saving ? model.t("正在保存…", "Saving…") : model.t("保存", "Save"),
           isDisabled: !model.devices.ready || model.devices.saving
@@ -173,7 +168,11 @@ struct CameraSettingsView: View {
     .background(Color.efBackground.ignoresSafeArea())
     .navigationTitle(model.t("设备控制", "Device Controls"))
     .navigationBarTitleDisplayMode(.inline)
-    .onAppear { delaySeconds = model.devices.delay ?? model.photoDelaySeconds }
+    .onAppear {
+      let allowed = [0, 3, 5, 10]
+      let current = model.devices.delay ?? model.photoDelaySeconds
+      delaySeconds = allowed.min(by: { abs($0 - current) < abs($1 - current) }) ?? 5
+    }
   }
 }
 

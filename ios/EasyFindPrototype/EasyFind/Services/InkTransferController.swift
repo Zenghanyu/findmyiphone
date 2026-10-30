@@ -53,7 +53,7 @@ final class InkTransferController {
     guard !busy, !scanning, bridge.bind(id, antiLost: antiLost) else { return false }
     selectedID = id
     self.antiLost = antiLost
-    message = "已选择 HINK 240×240 六色屏"
+    message = "已选择 HINK 240×240 面板"
     AppEnvironment.preferences.set(id, forKey: "easyfind.ink.mac")
     AppEnvironment.preferences.set(antiLost, forKey: "easyfind.ink.antiLost")
     return true

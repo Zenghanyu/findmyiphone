@@ -161,12 +161,8 @@ final class ButtonReview: XCTestCase {
     app.buttons["墨水屏标签"].tap()
     let preview = app.images["墨水屏效果预览"]
     XCTAssertTrue(preview.waitForExistence(timeout: 15), app.debugDescription)
-    XCTAssertEqual(preview.value as? String, "240 × 240 像素，六色")
-    shot("ink-six-color-preview")
-    app.segmentedControls.buttons["原图"].tap()
-    XCTAssertFalse(preview.exists)
-    app.segmentedControls.buttons["六色效果"].tap()
-    XCTAssertTrue(preview.waitForExistence(timeout: 3))
+    XCTAssertEqual(preview.value as? String, "240 × 240 像素")
+    shot("ink-screen-preview")
 
     app.buttons["上传到墨水屏"].tap()
     XCTAssertTrue(preview.waitForExistence(timeout: 5))
@@ -180,9 +176,11 @@ final class ButtonReview: XCTestCase {
     app.buttons["模板"].tap()
     app.buttons["花开时节"].tap()
     app.buttons["使用这张模板"].tap()
+    XCTAssertTrue(app.buttons["确认上传"].waitForExistence(timeout: 5))
+    back()
     app.swipeDown()
     XCTAssertTrue(preview.waitForExistence(timeout: 15))
-    XCTAssertEqual(preview.value as? String, "240 × 240 像素，六色")
+    XCTAssertEqual(preview.value as? String, "240 × 240 像素")
     shot("ink-new-template-preview")
   }
 
@@ -235,18 +233,17 @@ final class ButtonReview: XCTestCase {
     app.buttons["墨水屏标签"].tap()
     let preview = app.images["墨水屏效果预览"]
     XCTAssertTrue(preview.waitForExistence(timeout: 15), app.debugDescription)
-    XCTAssertEqual(preview.value as? String, "240 × 240 像素，六色")
+    XCTAssertEqual(preview.value as? String, "240 × 240 像素")
     shot("ink-imported-image-preview")
-    app.segmentedControls.buttons["原图"].tap()
-    XCTAssertTrue(app.images["所选图片预览"].waitForExistence(timeout: 5))
     app.buttons["裁剪图片"].tap()
     let crop = app.images["照片裁切区域"]
     XCTAssertTrue(crop.waitForExistence(timeout: 5), app.debugDescription)
     crop.pinch(withScale: 1.5, velocity: 1)
     shot("photo-crop-new")
     app.buttons["使用裁剪画面"].tap()
+    XCTAssertTrue(app.buttons["确认上传"].waitForExistence(timeout: 5))
+    back()
     XCTAssertTrue(app.buttons["裁剪图片"].waitForExistence(timeout: 5))
-    app.segmentedControls.buttons["六色效果"].tap()
     XCTAssertTrue(preview.waitForExistence(timeout: 15), app.debugDescription)
     app.terminate()
     app.launch()
@@ -262,11 +259,42 @@ final class ButtonReview: XCTestCase {
     details.typeText("Integration feedback")
     app.swipeUp()
     app.buttons["发送反馈"].tap()
-    app.alerts.buttons["跳过"].tap()
     XCTAssertTrue(
       app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "已收到反馈，编号：")).firstMatch
         .waitForExistence(timeout: 10))
     shot("backend-feedback-receipt")
+  }
+
+  func testReminderAuthorizationHintFollowsLanguage() throws {
+    let chinese = "请允许系统通知，提醒规则已保存，授权后会自动安排。"
+    let english =
+      "Please allow notifications. Your reminder settings are saved and will be scheduled once permission is granted."
+    // Run on a simulator where notification permission has not been granted.
+    app.buttons["提醒标签"].tap()
+    XCTAssertTrue(app.staticTexts[chinese].waitForExistence(timeout: 5))
+
+    app.buttons["设备标签"].tap()
+    app.buttons["设备设置"].tap()
+    app.swipeUp()
+    app.segmentedControls["语言切换"].buttons["En"].tap()
+    app.buttons["提醒标签"].tap()
+    XCTAssertTrue(app.staticTexts[english].waitForExistence(timeout: 5))
+    XCTAssertFalse(app.staticTexts[chinese].exists)
+    shot("reminder-authorization-english")
+
+    app.terminate()
+    app.launch()
+    app.buttons["提醒标签"].tap()
+    XCTAssertTrue(app.staticTexts[english].waitForExistence(timeout: 5))
+
+    app.buttons["设备标签"].tap()
+    app.buttons["设备设置"].tap()
+    app.swipeUp()
+    app.segmentedControls["语言切换"].buttons["中"].tap()
+    app.buttons["提醒标签"].tap()
+    XCTAssertTrue(app.staticTexts[chinese].waitForExistence(timeout: 5))
+    XCTAssertFalse(app.staticTexts[english].exists)
+    shot("reminder-authorization-chinese")
   }
 
   func testAppearanceLanguageAndDeviceNamePersist() throws {

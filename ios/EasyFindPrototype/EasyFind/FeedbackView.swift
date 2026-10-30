@@ -8,9 +8,7 @@ struct FeedbackView: View {
   @State private var contact = ""
   @State private var photoItems: [PhotosPickerItem] = []
   @State private var attachments: [Data] = []
-  @State private var showContactPrompt = false
   @State private var showPhotoError = false
-  @State private var showContactEditor = false
   @State private var sent = false
   @State private var submitting = false
   @State private var loadingPhotos = false
@@ -43,21 +41,6 @@ struct FeedbackView: View {
           }
         }
       }
-      .alert(
-        model.t("能否留下您的联系方式？", "May we have your contact details?"), isPresented: $showContactPrompt
-      ) {
-        Button(model.t("跳过", "Skip")) { completeSend() }
-        Button(model.t("填写", "Add")) { showContactEditor = true }
-      } message: {
-        Text(model.t("联系方式选填，便于后续沟通。", "Contact details are optional and help us follow up."))
-      }
-      .sheet(isPresented: $showContactEditor) {
-        FeedbackContactView(
-          contact: $contact,
-          onCancel: { showContactEditor = false },
-          onSend: completeSend
-        )
-      }
       .alert(model.t("图片读取失败", "Couldn’t load one or more photos"), isPresented: $showPhotoError) {
         Button(model.t("好", "OK"), role: .cancel) {}
       }
@@ -81,7 +64,7 @@ struct FeedbackView: View {
         isDisabled: cleanDetails.isEmpty || submitting || loadingPhotos,
         action: {
           editing = false
-          showContactPrompt = true
+          completeSend()
         }
       ).accessibilityIdentifier("发送反馈")
         .padding(.horizontal, 20)
@@ -135,6 +118,13 @@ struct FeedbackView: View {
 
       Divider().background(Color.efLine)
 
+      TextField(model.t("联系方式（选填）", "Contact (optional)"), text: $contact)
+        .textInputAutocapitalization(.never)
+        .padding(.vertical, 10)
+        .accessibilityIdentifier("反馈联系方式")
+
+      Divider().background(Color.efLine)
+
       HStack {
         PhotosPicker(
           selection: $photoItems,
@@ -160,8 +150,8 @@ struct FeedbackView: View {
       .frame(height: 46)
     }
     .padding(16)
-    .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
-    .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.efLine.opacity(0.7)))
+    .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efLine.opacity(0.5)))
   }
 
   private func attachmentThumbnail(data: Data, index: Int) -> some View {
@@ -211,8 +201,6 @@ struct FeedbackView: View {
   }
 
   private func completeSend() {
-    showContactEditor = false
-    showContactPrompt = false
     guard !submitting else { return }
     editing = false
     submitting = true
@@ -229,38 +217,6 @@ struct FeedbackView: View {
   }
 }
 
-private struct FeedbackContactView: View {
-  @Environment(AppModel.self) private var model
-  @Binding var contact: String
-  let onCancel: () -> Void
-  let onSend: () -> Void
-
-  var body: some View {
-    NavigationStack {
-      VStack(spacing: 20) {
-        TextField(model.t("联系方式", "Contact details"), text: $contact)
-          .textInputAutocapitalization(.never)
-          .padding(16)
-          .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-          .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.efLine))
-          .accessibilityIdentifier("反馈联系方式")
-        SendFeedbackButton(
-          title: model.t("发送反馈", "Send feedback"), systemImage: "paperplane.fill", action: onSend)
-        Spacer()
-      }
-      .padding(20)
-      .background(Color.efBackground.ignoresSafeArea())
-      .navigationTitle(model.t("联系方式", "Contact details"))
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .cancellationAction) {
-          Button(model.t("取消", "Cancel"), action: onCancel)
-        }
-      }
-    }
-    .presentationDetents([.medium])
-  }
-}
 
 private struct FeedbackSuccessView: View {
   @Environment(AppModel.self) private var model
@@ -315,9 +271,9 @@ private struct SendFeedbackButton: View {
         LinearGradient(
           colors: [Color(light: "242426", dark: "FFFFFF"), Color(light: "000000", dark: "D9D9DE")],
           startPoint: .top, endPoint: .bottom),
-        in: RoundedRectangle(cornerRadius: 18, style: .continuous)
+        in: RoundedRectangle(cornerRadius: 14, style: .continuous)
       )
-      .overlay(RoundedRectangle(cornerRadius: 18).stroke(Color.efAccent.opacity(0.65)))
+      .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efAccent.opacity(0.65)))
       .shadow(color: Color.efAccent.opacity(0.12), radius: 14, y: 4)
     }
     .buttonStyle(PressFeedbackStyle())

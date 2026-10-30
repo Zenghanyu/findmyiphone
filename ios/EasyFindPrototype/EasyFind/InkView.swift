@@ -11,8 +11,10 @@ struct InkView: View {
   @State private var cropImage: CropImage?
   @State private var pendingCameraImage: UIImage?
   @State private var loadingPhoto = false
+  @State private var path = NavigationPath()
 
   var body: some View {
+    NavigationStack(path: $path) {
     GeometryReader { proxy in
       let imageSide = min(170, max(110, proxy.size.height * 0.22))
       let photosTitle = model.t("相册", "Photos")
@@ -56,7 +58,7 @@ struct InkView: View {
             }
             .font(.headline)
             .frame(maxWidth: .infinity, minHeight: 50)
-            .background(Color.efAccent, in: RoundedRectangle(cornerRadius: 16))
+            .background(Color.efAccent, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
             .foregroundStyle(Color.efOnAccent)
           }
           .buttonStyle(PressFeedbackStyle())
@@ -87,7 +89,7 @@ struct InkView: View {
     }
     .navigationDestination(for: InkRoute.self) { route in
       switch route {
-      case .templates: TemplatePickerView()
+      case .templates: TemplatePickerView(path: $path)
       case .upload: UploadView()
       case .ai: AIArtworkView()
       case .capture: CameraCaptureScreen()
@@ -141,6 +143,7 @@ struct InkView: View {
         onComplete: { data in
           model.selectedPhotoData = data
           cropImage = nil
+          path.append(InkRoute.upload)
         }
       )
     }
@@ -153,6 +156,7 @@ struct InkView: View {
     .alert(model.t("此设备无法使用相机", "Camera unavailable on this device"), isPresented: $cameraError) {
       Button(model.t("好", "OK"), role: .cancel) {}
     }
+    } // NavigationStack
   }
 }
 
@@ -165,7 +169,7 @@ private struct DisplayActionRow: View {
       Image(systemName: systemImage)
         .font(.system(size: 25, weight: .regular))
         .frame(width: 44, height: 44)
-        .background(Color.efTint, in: RoundedRectangle(cornerRadius: 13))
+        .background(Color.efTint, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
       Text(title)
         .font(.system(size: 16, weight: .medium))
       Spacer()
@@ -173,49 +177,34 @@ private struct DisplayActionRow: View {
     .foregroundStyle(Color.efText)
     .padding(.horizontal, 16)
     .frame(maxWidth: .infinity, minHeight: 62)
-    .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 17))
-    .overlay(RoundedRectangle(cornerRadius: 17).stroke(Color.efLine.opacity(0.65)))
-    .contentShape(RoundedRectangle(cornerRadius: 17))
+    .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efLine.opacity(0.5)))
+    .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
   }
 }
 
 struct ScreenPreview: View {
   @Environment(AppModel.self) private var model
-  @State private var showsOriginal = false
   var imageSide: CGFloat = 235
 
   var body: some View {
     VStack(spacing: 12) {
-      Picker(model.t("预览模式", "Preview mode"), selection: $showsOriginal) {
-        Text(model.t("六色效果", "Six colors")).tag(false)
-        Text(model.t("原图", "Original")).tag(true)
-      }
-      .pickerStyle(.segmented)
       Group {
-        if showsOriginal {
-          if let data = model.selectedPhotoData, let image = UIImage(data: data) {
-            Image(uiImage: image).resizable().scaledToFill()
-              .frame(width: imageSide, height: imageSide).clipped()
-              .accessibilityLabel(model.t("所选图片预览", "Selected photo preview"))
-              .accessibilityIdentifier("所选图片预览")
-          } else {
-            ArtworkView(kind: model.artwork).frame(width: imageSide, height: imageSide)
-          }
-        } else if let result = model.inkArtwork.prepared {
+        if let result = model.inkArtwork.prepared {
           Image(uiImage: result.preview).resizable().interpolation(.none).scaledToFit()
             .frame(width: imageSide, height: imageSide)
             .accessibilityLabel(model.t("墨水屏效果预览", "Ink display preview"))
             .accessibilityIdentifier("墨水屏效果预览")
             .accessibilityValue(
               model.t(
-                "\(result.preview.cgImage?.width ?? 0) × \(result.preview.cgImage?.height ?? 0) 像素，六色",
-                "\(result.preview.cgImage?.width ?? 0) × \(result.preview.cgImage?.height ?? 0) pixels, six colors"
+                "\(result.preview.cgImage?.width ?? 0) × \(result.preview.cgImage?.height ?? 0) 像素",
+                "\(result.preview.cgImage?.width ?? 0) × \(result.preview.cgImage?.height ?? 0) pixels"
               )
             )
         } else {
           VStack(spacing: 12) {
             if model.inkArtwork.processing {
-              ProgressView(model.t("正在生成六色效果…", "Preparing six-color preview…"))
+              ProgressView(model.t("正在生成预览…", "Preparing preview…"))
             } else if let error = model.inkArtwork.error {
               Text(error).font(.caption)
               Button(model.t("重新生成预览", "Retry preview")) {
@@ -231,12 +220,8 @@ struct ScreenPreview: View {
       }
       .padding(.top, 4)
       HStack {
-        Text(
-          showsOriginal
-            ? model.t("原图 · 居中裁剪", "Original · square crop")
-            : model.t("240 × 240 · 六色效果", "240 × 240 · Six colors")
-        )
-        .font(.caption).foregroundStyle(Color.efSubtext)
+        Text(model.t("预览即屏幕实际展示", "Preview matches the screen display"))
+          .font(.caption).foregroundStyle(Color.efSubtext)
         Spacer()
         HStack(spacing: 5) {
           ForEach(["111111", "DDDDDD", "C54038", "E5C94B", "4C784E", "3A5890"], id: \.self) { hex in
@@ -245,17 +230,15 @@ struct ScreenPreview: View {
           }
         }
         .accessibilityLabel(
-          model.t("黑白红黄绿蓝六色面板", "Black, white, red, yellow, green and blue panel"))
+          model.t("黑、白、红、黄、绿、蓝", "Black, white, red, yellow, green, blue"))
       }
-      if !showsOriginal {
-        Text(model.t("HINK 六色屏 · 实屏颜色以设备为准", "HINK six colors · Actual colors may vary"))
-          .font(.caption2).foregroundStyle(Color.efSubtext)
-          .frame(maxWidth: .infinity, alignment: .leading)
-      }
+      Text(model.t("HINK 面板 · 实屏颜色以设备为准", "HINK panel · Actual colors may vary"))
+        .font(.caption2).foregroundStyle(Color.efSubtext)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
     .padding(15)
-    .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-    .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.efLine))
+    .background(Color.efPaper, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.efLine.opacity(0.5)))
     .task(
       id: InkArtworkController.Key(revision: model.artworkRevision, antiLost: model.ink.antiLost)
     ) {
@@ -266,7 +249,7 @@ struct ScreenPreview: View {
 
 struct TemplatePickerView: View {
   @Environment(AppModel.self) private var model
-  @Environment(\.dismiss) private var dismiss
+  @Binding var path: NavigationPath
   @State private var selection: ArtworkKind?
 
   var body: some View {
@@ -294,7 +277,8 @@ struct TemplatePickerView: View {
         PrimaryButton(title: model.t("使用画面", "Use Image")) {
           model.artwork = selection ?? model.artwork
           model.selectedPhotoData = nil
-          dismiss()
+          path = NavigationPath()
+          path.append(InkRoute.upload)
         }.accessibilityIdentifier("使用这张模板")
       }
       .padding(22)
@@ -377,7 +361,7 @@ struct AIArtworkView: View {
           .background(Color.efBackground, in: RoundedRectangle(cornerRadius: 12))
           .accessibilityIdentifier("画面描述")
           Text(
-            model.t("简洁插画 · 方形构图 · 适配六色屏", "Simple illustration · Square composition · Six colors")
+            model.t("简洁插画 · 方形构图 · 适配屏幕", "Simple illustration · Square composition · Screen ready")
           ).font(.caption).foregroundStyle(Color.efSubtext)
         }
         .padding(19)

@@ -17,7 +17,10 @@ final class NotificationScheduler {
   }
 
   /// Serializes complete reconciliation operations, including across suspension points.
-  func reconcile(reminders: [Reminder], hourly: HourlyRule, hourlyTitle: String = "整点报时") {
+  func reconcile(
+    reminders: [Reminder], hourly: HourlyRule, hourlyTitle: String,
+    authorizationMessage: String
+  ) {
     let previous = tail
     tail = Task { [weak self] in
       await previous?.value
@@ -32,7 +35,7 @@ final class NotificationScheduler {
           reminders, hourly: hourly, capacity: max(0, 64 - unrelated))
         let owned = existing.filter { $0.identifier.hasPrefix(ReminderPlanner.prefix) }
         if !self.authorized, !plans.isEmpty {
-          self.error = "请允许系统通知，提醒规则已保存，授权后会自动安排。"
+          self.error = authorizationMessage
           return
         }
         let requests = plans.map { plan -> UNNotificationRequest in
