@@ -71,3 +71,15 @@ XCUITest 的 **7 个用例最终均通过**，包含页面导航/设置确认、
 - [深色英文设置](../outputs/frontend-refresh/settings-dark-english.png)
 - [照片裁剪](../outputs/frontend-refresh/photo-crop-new.png)
 - [服务端反馈回执](../outputs/frontend-refresh/backend-feedback-receipt.png)
+
+
+## 2026-10-30：移除前端 AI 生图入口
+
+基于远端 `main` 的 `e2ab72d`，删除模板页 AI 生图按钮、`InkRoute.ai`、`AIArtworkView` 和未再使用的前端生成状态。服务端生成 API、provider/worker 及 Swift 网络契约保留；服务设置继续用于反馈，界面文案同步调整。
+
+- API/provider/worker：23 项通过；Swift Core：15 项通过；既有设备协议与图像核心检查通过。
+- 模拟器编译通过，修改的 Swift 文件通过 Swift Format 严格检查。
+- `testHTTPFeedback` 通过真实回环 HTTP 验证反馈回执，记录位于 `outputs/backend-tests-20261030-144726/ui.xcresult`。
+- `testAppearanceLanguageAndDeviceNamePersist` 与 `testInkPreviewBeforeUploadWithoutDevice` 最终均通过，覆盖中英文模板页无 AI 入口、主题/语言持久化、模板切换、240×240 预览及未绑定设备禁止上传，记录位于 `outputs/remove-ai-entry-verified-ui.xcresult`。
+
+首次定向 UI 运行中，新增测试步骤在切回设备标签后重复点击已保留的设置页，导致该用例中断并使下一项继承英文状态；修正脚本导航并恢复独立 UI 测试空间的中文初始状态后，两项复测通过。本轮不再通过 AI 生成图片准备裁剪/照片重启场景，该历史 UI 用例覆盖已移除；源像素裁剪几何仍由 Swift Core 测试覆盖，照片导入与实拍验收边界不变。

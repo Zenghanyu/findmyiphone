@@ -9,7 +9,6 @@ final class AppModel {
   let ranging = RangingController()
   let notifications = NotificationScheduler()
   let backend = BackendConnection()
-  let generator = ArtworkGenerator()
   let ink = InkTransferController()
   let inkArtwork = InkArtworkController()
   var deviceName = "我的随身屏" { didSet { save() } }
@@ -325,5 +324,5 @@ enum DeviceRoute: Hashable {
 }
 
 enum InkRoute: Hashable {
-  case templates, capture, ai, upload
+  case templates, capture, upload
 }

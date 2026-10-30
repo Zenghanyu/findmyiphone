@@ -23,8 +23,8 @@ struct ServiceSettingsView: View {
         .accessibilityIdentifier("后端访问令牌")
         Text(
           model.t(
-            "访问令牌保存在系统钥匙串。模型服务密钥仅配置在服务器上。",
-            "Your access token is stored in Keychain. Model provider keys stay on the server.")
+            "反馈服务访问令牌保存在系统钥匙串。",
+            "Your feedback service access token is stored in Keychain.")
         )
         .font(.footnote).foregroundStyle(Color.efSubtext)
       }
